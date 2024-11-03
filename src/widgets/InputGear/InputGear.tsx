@@ -11,5 +11,5 @@ export const InputGear = ({ gear, speed }: InputGearProps) => {
         <div className="text-l">{speed}</div>
       </div>
     </div>
-  )
+  );
 };

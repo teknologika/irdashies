@@ -1,6 +1,6 @@
-import { InputBar } from "../InputBar/InputBar";
-import { InputGear } from "../InputGear/InputGear";
-import { InputTrace } from "../InputTrace/InputTrace";
+import { InputBar } from '../InputBar/InputBar';
+import { InputGear } from '../InputGear/InputGear';
+import { InputTrace } from '../InputTrace/InputTrace';
 
 export interface InputProps {
   brake: number;
@@ -18,4 +18,4 @@ export const Input = ({ brake, throttle, clutch, gear, speed }: InputProps) => {
       <InputGear gear={gear} speed={speed} />
     </div>
   );
-}
+};

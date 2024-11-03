@@ -1,6 +1,4 @@
-import { IrSdkBridge } from './irsdkBridge';
-
-interface IrSdkBridge {
+export interface IrSdkBridge {
   onTelemetry: (callback: (value: any) => void) => void;
   onSessionInfo: (callback: (value: any) => void) => void;
 }

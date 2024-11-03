@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import {InputGear} from './InputGear';
+import { InputGear } from './InputGear';
 
 export default {
   component: InputGear,

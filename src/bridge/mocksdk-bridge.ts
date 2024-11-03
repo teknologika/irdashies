@@ -1,4 +1,4 @@
-import { BrowserWindow } from "electron";
+import { BrowserWindow } from 'electron';
 
 export async function mockIRacingSDKEvents(window: BrowserWindow) {
   setInterval(() => {

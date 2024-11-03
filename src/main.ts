@@ -27,12 +27,14 @@ const createWindow = () => {
   });
 
   mainWindow.setAlwaysOnTop(true, 'floating', 1);
-  
+
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   } else {
-    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+    mainWindow.loadFile(
+      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
+    );
   }
 
   // loads data from iRacing SDK and publishes it to the renderer
@@ -40,11 +42,13 @@ const createWindow = () => {
     mockIRacingSDKEvents(mainWindow);
   } else {
     // Load the iRacing SDK bridge (only Windows)
-    import('./bridge/iracingsdk-bridge').then(async ({ publishIRacingSDKEvents }) => {
-      await publishIRacingSDKEvents(mainWindow);
-    }).catch(err => {
-      console.error('Failed to load iracingsdk-bridge:', err);
-    });
+    import('./bridge/iracingsdk-bridge')
+      .then(async ({ publishIRacingSDKEvents }) => {
+        await publishIRacingSDKEvents(mainWindow);
+      })
+      .catch((err) => {
+        console.error('Failed to load iracingsdk-bridge:', err);
+      });
   }
 };
 

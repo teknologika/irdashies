@@ -15,11 +15,11 @@ const Traces = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setThrottle((value) =>
-        Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05))
+        Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05)),
       );
 
       setBrake((value) =>
-        Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05))
+        Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05)),
       );
     }, 1000 / 60);
 
@@ -29,6 +29,6 @@ const Traces = () => {
 };
 
 export const Primary: Story = {
-  render: (args) => <Traces />,
+  render: () => <Traces />,
   args: {},
 };
