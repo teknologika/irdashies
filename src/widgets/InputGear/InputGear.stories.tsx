@@ -2,7 +2,6 @@ import { Meta, StoryObj } from '@storybook/react';
 import {InputGear} from './InputGear';
 
 export default {
-  title: 'InputGear',
   component: InputGear,
   argTypes: {
     gear: {
