@@ -14,11 +14,18 @@ const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 200,
+    transparent: true,
+    frame: false,
+    focusable: false,
     webPreferences: {
+      devTools: false,
       preload: path.join(__dirname, 'preload.js'),
+      transparent: true,
     },
   });
+
+  mainWindow.setAlwaysOnTop(true, 'floating', 1);
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {

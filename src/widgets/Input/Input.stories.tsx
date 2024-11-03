@@ -1,6 +1,13 @@
-import { createRoot } from 'react-dom/client';
-import { Input } from './Input/Input';
-import { useState, useEffect } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { Input } from './Input';
+import { useEffect, useState } from 'react';
+
+const meta: Meta<typeof Input> = {
+  component: Input,
+};
+export default meta;
+
+type Story = StoryObj<typeof Input>;
 
 const RandomTraces = () => {
   const [throttle, setThrottle] = useState(0);
@@ -28,7 +35,7 @@ const RandomTraces = () => {
   return <Input brake={brake} throttle={throttle} clutch={clutch} gear={gear} speed={speed} />;
 };
 
-const root = createRoot(document.body);
-root.render(
-  <RandomTraces />
-);
+export const Primary: Story = {
+  render: (args) => <RandomTraces />,
+  args: {},
+};
