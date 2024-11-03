@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
+import { publishIRacingSDKEvents } from './bridge/iracingsdk-bridge';
 
 // used for Hot Module Replacement
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
@@ -14,19 +15,19 @@ const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 600,
+    title: 'iRacing Dashies',
     height: 120,
     transparent: true,
     frame: false,
     focusable: false,
     webPreferences: {
-      devTools: false,
       preload: path.join(__dirname, 'preload.js'),
       transparent: true,
     },
   });
 
   mainWindow.setAlwaysOnTop(true, 'floating', 1);
-
+  
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
@@ -34,8 +35,8 @@ const createWindow = () => {
     mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
   }
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // loads data from iRacing SDK and publishes it to the renderer
+  publishIRacingSDKEvents(mainWindow);
 };
 
 // This method will be called when Electron has finished

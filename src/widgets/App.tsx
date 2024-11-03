@@ -2,6 +2,12 @@ import { createRoot } from 'react-dom/client';
 import { Input } from './Input/Input';
 import { useState, useEffect } from 'react';
 
+const bridge = window.irsdkBridge;
+
+bridge.onTelemetry((telemetry: any) => {
+  console.log(telemetry);
+});
+
 const RandomTraces = () => {
   const [throttle, setThrottle] = useState(0);
   const [brake, setBrake] = useState(0);
