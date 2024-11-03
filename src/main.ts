@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
-import { publishIRacingSDKEvents } from './bridge/iracingsdk-bridge';
+import { mockIRacingSDKEvents } from './bridge/mocksdk-bridge';
 
 // used for Hot Module Replacement
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
@@ -36,7 +36,16 @@ const createWindow = () => {
   }
 
   // loads data from iRacing SDK and publishes it to the renderer
-  publishIRacingSDKEvents(mainWindow);
+  if (process.platform === 'darwin') {
+    mockIRacingSDKEvents(mainWindow);
+  } else {
+    // Load the iRacing SDK bridge (only Windows)
+    import('./bridge/iracingsdk-bridge').then(async ({ publishIRacingSDKEvents }) => {
+      await publishIRacingSDKEvents(mainWindow);
+    }).catch(err => {
+      console.error('Failed to load iracingsdk-bridge:', err);
+    });
+  }
 };
 
 // This method will be called when Electron has finished
