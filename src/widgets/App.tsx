@@ -1,46 +1,31 @@
 import { createRoot } from 'react-dom/client';
 import { Input } from './Input/Input';
-import { useState, useEffect } from 'react';
+import {
+  TelemetryProvider,
+  useTelemetry,
+} from './TelemetryContext/TelemetryContext';
 
-const bridge = window.irsdkBridge;
-
-bridge.onTelemetry((telemetry: any) => {
-  console.log(telemetry);
-});
-
-const RandomTraces = () => {
-  const [throttle, setThrottle] = useState(0);
-  const [brake, setBrake] = useState(0);
-  const [clutch, setClutch] = useState(0);
-  const [gear] = useState(2);
-  const [speed] = useState(122);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setThrottle((value) =>
-        Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05)),
-      );
-
-      setBrake((value) =>
-        Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05)),
-      );
-
-      setClutch((value) =>
-        Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05)),
-      );
-    }, 1000 / 60);
-    return () => clearInterval(interval);
-  }, []);
+const App = () => {
+  const { telemetryData } = useTelemetry();
+  console.log(JSON.stringify(telemetryData?.Brake?.value?.[0]));
+  console.log(JSON.stringify(telemetryData?.Throttle?.value?.[0]));
+  console.log(JSON.stringify(telemetryData?.Clutch?.value?.[0]));
+  console.log(JSON.stringify(telemetryData?.Gear?.value?.[0]));
+  console.log(JSON.stringify(telemetryData?.Speed?.value?.[0]));
   return (
     <Input
-      brake={brake}
-      throttle={throttle}
-      clutch={clutch}
-      gear={gear}
-      speed={speed}
+      brake={telemetryData?.Brake?.value?.[0] ?? 0}
+      throttle={telemetryData?.Throttle.value?.[0] ?? 0}
+      clutch={telemetryData?.Clutch.value?.[0] ?? 0}
+      gear={telemetryData?.Gear.value?.[0] ?? 0}
+      speed={telemetryData?.Speed.value?.[0] ?? 0}
     />
   );
 };
 
 const root = createRoot(document.body);
-root.render(<RandomTraces />);
+root.render(
+  <TelemetryProvider>
+    <App />
+  </TelemetryProvider>,
+);
