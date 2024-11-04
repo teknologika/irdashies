@@ -7,11 +7,6 @@ import {
 
 const App = () => {
   const { telemetryData } = useTelemetry();
-  console.log(JSON.stringify(telemetryData?.Brake?.value?.[0]));
-  console.log(JSON.stringify(telemetryData?.Throttle?.value?.[0]));
-  console.log(JSON.stringify(telemetryData?.Clutch?.value?.[0]));
-  console.log(JSON.stringify(telemetryData?.Gear?.value?.[0]));
-  console.log(JSON.stringify(telemetryData?.Speed?.value?.[0]));
   return (
     <Input
       brake={telemetryData?.Brake?.value?.[0] ?? 0}

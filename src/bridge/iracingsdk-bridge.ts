@@ -16,8 +16,8 @@ export async function publishIRacingSDKEvents(window: BrowserWindow) {
       await sdk.ready();
 
       while (sdk.waitForData(TIMEOUT)) {
-        console.log('Data received');
         const telemetry = sdk.getTelemetry();
+        await new Promise((resolve) => setTimeout(resolve, 1000 / 60));
         window.webContents.send('telemetry', telemetry);
       }
 
