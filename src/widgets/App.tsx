@@ -30,6 +30,10 @@ root.render(
     <HashRouter>
       <Routes>
         <Route path="/input" element={<App />} />
+        <Route
+          path="/relative"
+          element={<div className="text-white text-lg">Relative</div>}
+        />
       </Routes>
     </HashRouter>
   </TelemetryProvider>
