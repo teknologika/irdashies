@@ -18,7 +18,12 @@ const App = () => {
   );
 };
 
-const root = createRoot(document.body);
+const el = document.getElementById('app');
+if (!el) {
+  throw new Error('No #app element found');
+}
+
+const root = createRoot(el);
 root.render(
   <TelemetryProvider>
     <App />
