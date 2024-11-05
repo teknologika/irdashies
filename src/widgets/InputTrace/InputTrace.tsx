@@ -5,11 +5,13 @@ import tailwindColors from 'tailwindcss/colors';
 const COLORS = [tailwindColors.red['500'], tailwindColors.green['500']];
 
 export interface InputTraceProps {
-  brake: number;
-  throttle: number;
+  input: {
+    brake: number;
+    throttle: number;
+  };
 }
 
-export const InputTrace = ({ brake, throttle }: InputTraceProps) => {
+export const InputTrace = ({ input }: InputTraceProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const [brakeArray, setBrakeArray] = useState<number[]>(
@@ -21,19 +23,9 @@ export const InputTrace = ({ brake, throttle }: InputTraceProps) => {
 
   useEffect(() => {
     // slice first value and append new value
-    setThrottleArray((v) => [...v.slice(1), throttle]);
-    setBrakeArray((v) => [...v.slice(1), brake]);
-  }, [brake, throttle]);
-
-  useEffect(() => {
-    // ensures that the graph is updated at 60fps even if the input is not updated
-    // by copying the last value to the end of the array
-    const interval = setInterval(() => {
-      setThrottleArray((v) => [...v.slice(1), v[v.length - 1]]);
-      setBrakeArray((v) => [...v.slice(1), v[v.length - 1]]);
-    }, 1000 / 60);
-    return () => clearInterval(interval);
-  });
+    setThrottleArray((v) => [...v.slice(1), input.throttle]);
+    setBrakeArray((v) => [...v.slice(1), input.brake]);
+  }, [input]);
 
   useEffect(() => {
     drawGraph(svgRef.current, [brakeArray, throttleArray]);

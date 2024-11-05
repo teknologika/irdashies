@@ -4,24 +4,6 @@ import { useEffect, useState } from 'react';
 
 const meta: Meta<typeof InputTrace> = {
   component: InputTrace,
-  argTypes: {
-    brake: {
-      control: {
-        type: 'range',
-        min: -2,
-        max: 2,
-        step: 0.01,
-      },
-    },
-    throttle: {
-      control: {
-        type: 'range',
-        min: -2,
-        max: 2,
-        step: 0.01,
-      },
-    },
-  },
 };
 export default meta;
 
@@ -43,7 +25,7 @@ const Traces = () => {
 
     return () => clearInterval(interval);
   }, []);
-  return <InputTrace brake={brake} throttle={throttle} />;
+  return <InputTrace input={{ brake, throttle }} />;
 };
 
 export const Primary: Story = {
@@ -52,8 +34,25 @@ export const Primary: Story = {
 };
 
 export const OutsideRange: Story = {
+  render: (args) => {
+    const [input, setInput] = useState({ brake: 2, throttle: -1 });
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setInput(() => ({
+          brake: args.input.brake,
+          throttle: args.input.throttle,
+        }));
+      }, 1000 / 60);
+
+      return () => clearInterval(interval);
+    }, []);
+
+    return <InputTrace input={input} />;
+  },
   args: {
-    throttle: -0.5,
-    brake: 1.5,
+    input: {
+      brake: 2,
+      throttle: -1,
+    },
   },
 };
