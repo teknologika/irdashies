@@ -1,4 +1,5 @@
 import { createRoot } from 'react-dom/client';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import { Input } from './Input/Input';
 import {
   TelemetryProvider,
@@ -26,6 +27,10 @@ if (!el) {
 const root = createRoot(el);
 root.render(
   <TelemetryProvider>
-    <App />
+    <HashRouter>
+      <Routes>
+        <Route path="/input" element={<App />} />
+      </Routes>
+    </HashRouter>
   </TelemetryProvider>
 );
