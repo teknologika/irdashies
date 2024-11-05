@@ -22,5 +22,5 @@ const root = createRoot(document.body);
 root.render(
   <TelemetryProvider>
     <App />
-  </TelemetryProvider>,
+  </TelemetryProvider>
 );

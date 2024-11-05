@@ -30,5 +30,5 @@ import './index.css';
 import './widgets/App';
 
 console.log(
-  '👋 This message is being logged by "renderer.ts", included via Vite',
+  '👋 This message is being logged by "renderer.ts", included via Vite'
 );

@@ -8,11 +8,11 @@ export async function mockIRacingSDKEvents(window: BrowserWindow) {
   setInterval(() => {
     telemetry['Brake'].value[0] = Math.max(
       0,
-      Math.min(1, telemetry['Brake'].value[0] + Math.random() * 0.1 - 0.05),
+      Math.min(1, telemetry['Brake'].value[0] + Math.random() * 0.1 - 0.05)
     );
     telemetry['Throttle'].value[0] = Math.max(
       0,
-      Math.min(1, telemetry['Throttle'].value[0] + Math.random() * 0.1 - 0.05),
+      Math.min(1, telemetry['Throttle'].value[0] + Math.random() * 0.1 - 0.05)
     );
 
     window.webContents.send('telemetry', telemetry);

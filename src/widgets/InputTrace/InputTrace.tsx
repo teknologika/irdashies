@@ -15,10 +15,10 @@ export const InputTrace = ({ input }: InputTraceProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const [brakeArray, setBrakeArray] = useState<number[]>(
-    Array.from({ length: 400 }, () => 0),
+    Array.from({ length: 400 }, () => 0)
   );
   const [throttleArray, setThrottleArray] = useState<number[]>(
-    Array.from({ length: 400 }, () => 0),
+    Array.from({ length: 400 }, () => 0)
   );
 
   useEffect(() => {
@@ -56,7 +56,7 @@ function drawGraph(svgElement: SVGSVGElement | null, valueArray: number[][]) {
 function drawYAxis(
   svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
   yScale: d3.ScaleLinear<number, number>,
-  width: number,
+  width: number
 ) {
   const yAxis = d3
     .axisLeft(yScale)
@@ -79,7 +79,7 @@ function drawLine(
   valueArray: number[],
   xScale: d3.ScaleLinear<number, number>,
   yScale: d3.ScaleLinear<number, number>,
-  color: string,
+  color: string
 ) {
   const line = d3
     .line<number>()

@@ -12,14 +12,14 @@ interface TelemetryContextProps {
 }
 
 const TelemetryContext = createContext<TelemetryContextProps | undefined>(
-  undefined,
+  undefined
 );
 
 export const TelemetryProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [telemetryData, setTelemetryData] = useState<TelemetryVarList | null>(
-    null,
+    null
   );
 
   useEffect(() => {
