@@ -26,6 +26,16 @@ export const InputTrace = ({ brake, throttle }: InputTraceProps) => {
   }, [brake, throttle]);
 
   useEffect(() => {
+    // ensures that the graph is updated at 60fps even if the input is not updated
+    // by copying the last value to the end of the array
+    const interval = setInterval(() => {
+      setThrottleArray((v) => [...v.slice(1), v[v.length - 1]]);
+      setBrakeArray((v) => [...v.slice(1), v[v.length - 1]]);
+    }, 1000 / 60);
+    return () => clearInterval(interval);
+  });
+
+  useEffect(() => {
     drawGraph(svgRef.current, [brakeArray, throttleArray]);
   }, [brakeArray, throttleArray]);
 
@@ -82,7 +92,7 @@ function drawLine(
   const line = d3
     .line<number>()
     .x((_, i) => xScale(i))
-    .y((d) => yScale(d))
+    .y((d) => yScale(Math.max(0, Math.min(1, d))))
     .curve(d3.curveBasis);
 
   svg

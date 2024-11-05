@@ -4,6 +4,24 @@ import { useEffect, useState } from 'react';
 
 const meta: Meta<typeof InputTrace> = {
   component: InputTrace,
+  argTypes: {
+    brake: {
+      control: {
+        type: 'range',
+        min: -2,
+        max: 2,
+        step: 0.01,
+      },
+    },
+    throttle: {
+      control: {
+        type: 'range',
+        min: -2,
+        max: 2,
+        step: 0.01,
+      },
+    },
+  },
 };
 export default meta;
 
@@ -31,4 +49,11 @@ const Traces = () => {
 export const Primary: Story = {
   render: () => <Traces />,
   args: {},
+};
+
+export const OutsideRange: Story = {
+  args: {
+    throttle: -0.5,
+    brake: 1.5,
+  },
 };
