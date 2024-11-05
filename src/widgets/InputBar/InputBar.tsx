@@ -63,7 +63,7 @@ function drawBars(svgElement: SVGSVGElement | null, values: number[]) {
     .enter()
     .append('text')
     .attr('x', (_, i) => (xScale(i.toString()) ?? 0) + xScale.bandwidth() / 2)
-    .attr('y', (_) => 10)
+    .attr('y', () => 10)
     .attr('text-anchor', 'middle')
     .attr('font-size', '11px')
     .attr('fill', 'white')

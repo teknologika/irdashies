@@ -24,9 +24,7 @@ export const TelemetryProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const bridge = window.irsdkBridge;
-    bridge.onTelemetry((telemetry: TelemetryVarList) => {
-      setTelemetryData(telemetry);
-    });
+    bridge.onTelemetry((telemetry) => setTelemetryData(telemetry));
   }, []);
 
   return (
