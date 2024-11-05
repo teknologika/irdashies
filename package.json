@@ -1,8 +1,8 @@
 {
-  "name": "electron-ts",
-  "productName": "electron-ts",
+  "name": "irdashies",
+  "productName": "irdashies",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "iRacing Dashboards & Overlays",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start --enable-logging",
@@ -53,7 +53,7 @@
   "keywords": [],
   "author": {
     "name": "Tarik Alani",
-    "email": "tarik.alani@dronedeploy.com"
+    "email": "tarik.nzl@gmail.com"
   },
   "license": "MIT",
   "dependencies": {

@@ -2,12 +2,15 @@ import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import { mockIRacingSDKEvents } from './bridge/mocksdk-bridge';
 
+// @ts-expect-error no types for squirrel
+import started from 'electron-squirrel-startup';
+
 // used for Hot Module Replacement
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
+if (started) {
   app.quit();
 }
 
