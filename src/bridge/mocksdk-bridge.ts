@@ -2,7 +2,7 @@ import { BrowserWindow } from 'electron';
 import mockTelemetry from './mock-data/telemetry.json';
 import type { TelemetryVarList } from '@irsdk-node/types';
 
-export async function mockIRacingSDKEvents(window: BrowserWindow) {
+export async function publishIRacingSDKEvents() {
   const telemetry = mockTelemetry as unknown as TelemetryVarList;
 
   setInterval(() => {
@@ -15,6 +15,8 @@ export async function mockIRacingSDKEvents(window: BrowserWindow) {
       Math.min(1, telemetry['Throttle'].value[0] + Math.random() * 0.1 - 0.05)
     );
 
-    window.webContents.send('telemetry', telemetry);
+    BrowserWindow.getAllWindows().forEach((window) => {
+      window.webContents.send('telemetry', telemetry);
+    });
   }, 1000 / 60);
 }

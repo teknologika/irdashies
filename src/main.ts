@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
-import { mockIRacingSDKEvents } from './bridge/mocksdk-bridge';
+import { iRacingSDKSetup } from './bridge/setup';
 
 // @ts-expect-error no types for squirrel
 import started from 'electron-squirrel-startup';
@@ -39,20 +39,6 @@ const createWindow = () => {
       path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
     );
   }
-
-  // loads data from iRacing SDK and publishes it to the renderer
-  if (process.platform === 'darwin') {
-    mockIRacingSDKEvents(mainWindow);
-  } else {
-    // Load the iRacing SDK bridge (only Windows)
-    import('./bridge/iracingsdk-bridge')
-      .then(async ({ publishIRacingSDKEvents }) => {
-        await publishIRacingSDKEvents(mainWindow);
-      })
-      .catch((err) => {
-        console.error('Failed to load iracingsdk-bridge:', err);
-      });
-  }
 };
 
 // This method will be called when Electron has finished
@@ -76,6 +62,8 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
+iRacingSDKSetup();
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
