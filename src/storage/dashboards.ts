@@ -40,6 +40,24 @@ export const getDashboard = (id: string) => {
   return dashboards[id];
 };
 
+export const updateDashboardWidget = (
+  updatedWidget: DashboardWidget,
+  dashboardId = 'default'
+) => {
+  const dashboard = getDashboard(dashboardId);
+  if (!dashboard) {
+    throw new Error('Default dashboard not found');
+  }
+
+  const updatedDashboard = {
+    widgets: dashboard.widgets.map((existingWidget) =>
+      existingWidget.id === updatedWidget.id ? updatedWidget : existingWidget
+    ),
+  };
+
+  saveDashboard(dashboardId, updatedDashboard);
+};
+
 export const saveDashboard = (
   id: string | 'default',
   value: DashboardLayout

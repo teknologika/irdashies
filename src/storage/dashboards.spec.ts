@@ -100,4 +100,40 @@ describe('dashboards', () => {
       });
     });
   });
+
+  describe('updateDashboardWidget', () => {
+    it('should update a widget in the default dashboard', () => {
+      const updatedWidget = {
+        id: 'input',
+        layout: { x: 100, y: 100, width: 600, height: 120 },
+      };
+      const updatedDashboard = { widgets: [updatedWidget] };
+      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+        default: defaultDashboard,
+      });
+
+      saveDashboard('default', updatedDashboard);
+
+      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+        default: updatedDashboard,
+      });
+    });
+
+    it('should update a widget in a specific dashboard', () => {
+      const updatedWidget = {
+        id: 'input',
+        layout: { x: 100, y: 100, width: 600, height: 120 },
+      };
+      const updatedDashboard = { widgets: [updatedWidget] };
+      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+        custom: defaultDashboard,
+      });
+
+      saveDashboard('custom', updatedDashboard);
+
+      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+        custom: updatedDashboard,
+      });
+    });
+  });
 });
