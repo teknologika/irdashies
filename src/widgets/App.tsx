@@ -31,8 +31,12 @@ root.render(
       <Routes>
         <Route path="/input" element={<App />} />
         <Route
-          path="/relative"
-          element={<div className="text-white text-lg">Relative</div>}
+          path="*"
+          element={
+            <div className="bg-slate-500 h-screen w-screen flex justify-center items-center text-white">
+              Unknown Widget
+            </div>
+          }
         />
       </Routes>
     </HashRouter>

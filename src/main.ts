@@ -1,6 +1,11 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import { iRacingSDKSetup } from './bridge/setup';
+import {
+  createDefaultDashboardIfNotExists,
+  getDashboard,
+  type DashboardWidget,
+} from './storage/dashboards';
 
 // @ts-expect-error no types for squirrel
 import started from 'electron-squirrel-startup';
@@ -12,12 +17,17 @@ declare const MAIN_WINDOW_VITE_NAME: string;
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) app.quit();
 
-const createWindow = ({ title, route }: { title: string; route: string }) => {
+const createWidget = ({ id, layout }: DashboardWidget) => {
+  const { x, y, width, height } = layout;
+  const title = id.charAt(0).toUpperCase() + id.slice(1);
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 600,
+    x,
+    y,
+    width,
+    height,
     title: `iRacing Dashies - ${title}`,
-    height: 120,
     transparent: true,
     frame: false,
     focusable: false,
@@ -30,11 +40,11 @@ const createWindow = ({ title, route }: { title: string; route: string }) => {
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    mainWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}#/${route}`);
+    mainWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}#/${id}`);
   } else {
     mainWindow.loadFile(
       path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
-      { hash: `/${route}` }
+      { hash: `/${id}` }
     );
   }
 };
@@ -43,10 +53,17 @@ const createWindow = ({ title, route }: { title: string; route: string }) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  createWindow({ title: 'Input', route: 'input' });
-  createWindow({ title: 'Relative', route: 'relative' });
+  const defaultDashboard = getDashboard('default');
+  if (!defaultDashboard) {
+    throw new Error('Default dashboard not found');
+  }
+
+  for (const widget of defaultDashboard.widgets) {
+    createWidget(widget);
+  }
 });
 
 app.on('window-all-closed', () => app.quit());
 
+createDefaultDashboardIfNotExists();
 iRacingSDKSetup();
