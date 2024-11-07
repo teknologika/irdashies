@@ -1,35 +1,13 @@
 import { createRoot } from 'react-dom/client';
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import { Input } from './Input/Input';
-import {
-  TelemetryProvider,
-  useTelemetry,
-} from './TelemetryContext/TelemetryContext';
+import { TelemetryProvider } from './TelemetryContext/TelemetryContext';
+import { Input } from './Input';
 
-const App = () => {
-  const { telemetryData } = useTelemetry();
-  return (
-    <Input
-      brake={telemetryData?.Brake?.value?.[0] ?? 0}
-      throttle={telemetryData?.Throttle.value?.[0] ?? 0}
-      clutch={telemetryData?.Clutch.value?.[0] ?? 0}
-      gear={telemetryData?.Gear.value?.[0] ?? 0}
-      speed={telemetryData?.Speed.value?.[0] ?? 0}
-    />
-  );
-};
-
-const el = document.getElementById('app');
-if (!el) {
-  throw new Error('No #app element found');
-}
-
-const root = createRoot(el);
-root.render(
+const App = () => (
   <TelemetryProvider>
     <HashRouter>
       <Routes>
-        <Route path="/input" element={<App />} />
+        <Route path="/input" element={<Input />} />
         <Route
           path="*"
           element={
@@ -42,3 +20,11 @@ root.render(
     </HashRouter>
   </TelemetryProvider>
 );
+
+const el = document.getElementById('app');
+if (!el) {
+  throw new Error('No #app element found');
+}
+
+const root = createRoot(el);
+root.render(<App />);

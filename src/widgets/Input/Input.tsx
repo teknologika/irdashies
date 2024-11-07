@@ -1,21 +1,16 @@
-import { InputBar } from '../InputBar/InputBar';
-import { InputGear } from '../InputGear/InputGear';
-import { InputTrace } from '../InputTrace/InputTrace';
+import { InputContainer } from './InputContainer/InputContainer';
+import { useTelemetry } from '../TelemetryContext/TelemetryContext';
+import { getSingleNumberValue } from '../TelemetryContext/telemetryUtils';
 
-export interface InputProps {
-  brake: number;
-  throttle: number;
-  clutch: number;
-  gear: number;
-  speed: number;
-}
-
-export const Input = ({ brake, throttle, clutch, gear, speed }: InputProps) => {
+export const Input = () => {
+  const { telemetryData } = useTelemetry();
   return (
-    <div className="inline-flex gap-1 p-2 rounded-md flex-row border-1 bg-slate-800 bg-opacity-50">
-      <InputTrace input={{ brake, throttle }} />
-      <InputBar brake={brake} throttle={throttle} clutch={clutch} />
-      <InputGear gear={gear} speed={speed} />
-    </div>
+    <InputContainer
+      brake={getSingleNumberValue(telemetryData?.Brake)}
+      throttle={getSingleNumberValue(telemetryData?.Throttle)}
+      clutch={getSingleNumberValue(telemetryData?.Clutch)}
+      gear={getSingleNumberValue(telemetryData?.Gear)}
+      speed={getSingleNumberValue(telemetryData?.Speed)}
+    />
   );
 };

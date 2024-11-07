@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Input } from './Input';
+import { InputContainer } from './InputContainer';
 import { useEffect, useState } from 'react';
 
-const meta: Meta<typeof Input> = {
-  component: Input,
+const meta: Meta<typeof InputContainer> = {
+  component: InputContainer,
 };
 export default meta;
 
-type Story = StoryObj<typeof Input>;
+type Story = StoryObj<typeof InputContainer>;
 
 const RandomTraces = () => {
   const [throttle, setThrottle] = useState(0);
@@ -33,7 +33,7 @@ const RandomTraces = () => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <Input
+    <InputContainer
       brake={brake}
       throttle={throttle}
       clutch={clutch}
