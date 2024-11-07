@@ -1,9 +1,10 @@
 export interface InputGearProps {
   gear: number;
-  speed: number;
+  speedMs: number;
 }
 
-export const InputGear = ({ gear, speed }: InputGearProps) => {
+export const InputGear = ({ gear, speedMs }: InputGearProps) => {
+  const speed = speedMs * 3.6;
   return (
     <div className="flex items-center justify-center font-mono p-2">
       <div className="flex flex-col items-center text-white">

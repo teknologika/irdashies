@@ -28,6 +28,6 @@ type Story = StoryObj<typeof InputGear>;
 export const Primary: Story = {
   args: {
     gear: 1,
-    speed: 30,
+    speedMs: 30,
   },
 };

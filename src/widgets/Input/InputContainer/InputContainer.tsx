@@ -21,7 +21,7 @@ export const InputContainer = ({
     <div className="inline-flex gap-1 p-2 rounded-md flex-row border-1 bg-slate-800 bg-opacity-50">
       <InputTrace input={{ brake, throttle }} />
       <InputBar brake={brake} throttle={throttle} clutch={clutch} />
-      <InputGear gear={gear} speed={speed} />
+      <InputGear gear={gear} speedMs={speed} />
     </div>
   );
 };
