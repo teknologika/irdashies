@@ -24,6 +24,10 @@ function irsdkNativeModule(nodeFiles: string[], outDir: string) {
       return nodeFileMap.has(path.basename(source)) ? source : null;
     },
     transform(code: string, id: string) {
+      // check platform
+      if (process.platform !== 'win32') {
+        return code;
+      }
       const file = nodeFileMap.get(path.basename(id));
       if (file) {
         return `
@@ -38,6 +42,10 @@ function irsdkNativeModule(nodeFiles: string[], outDir: string) {
       return nodeFileMap.has(path.basename(id)) ? '' : null;
     },
     generateBundle() {
+      // check platform
+      if (process.platform !== 'win32') {
+        return;
+      }
       nodeFileMap.forEach((fileAbs, file) => {
         const out = `${outDir}/${file}`;
         const nodeFile = fs.readFileSync(fileAbs);
