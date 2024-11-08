@@ -12,7 +12,8 @@
     "lint": "eslint --ext .ts,.tsx .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest"
+    "test": "vitest",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.2",
@@ -43,6 +44,7 @@
     "eslint-plugin-import": "^2.25.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-storybook": "^0.10.2",
+    "patch-package": "^8.0.0",
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "storybook": "^8.4.1",

@@ -52,14 +52,18 @@ npm run storybook
 
 This allows you to easily develop, test, and visualise the widgets/overlays in isolation.
 
-## Package
+## Package (create .exe)
 
-To package the application, run the following command:
+To package the application and create the .exe, run the following command:
 ```bash
 npm run package
 ```
 
-This will create the executable needed to run.
+To create the .exe and the installer run the following:
+
+```bash
+npm run make
+```
 
 ## Developing on Mac
 
