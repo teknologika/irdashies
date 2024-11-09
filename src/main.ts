@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 import path from 'path';
 import { iRacingSDKSetup } from './bridge/setup';
 import {
@@ -65,6 +65,8 @@ app.on('ready', () => {
     const browserWindow = createWidget(widget);
     trackWindowMovement(widget, browserWindow);
   }
+
+  setupTaskBar();
 });
 
 app.on('window-all-closed', () => app.quit());
@@ -80,6 +82,23 @@ function trackWindowMovement(
 
     updateDashboardWidget(widget, 'default');
   });
+}
+
+function setupTaskBar() {
+  if (process.platform === 'darwin') {
+    app.dock.show();
+    app.dock.setMenu(
+      Menu.buildFromTemplate([
+        {
+          label: 'Settings',
+          click() {
+            console.log('Open settings');
+          },
+        },
+      ])
+    );
+    return;
+  }
 }
 
 createDefaultDashboardIfNotExists();

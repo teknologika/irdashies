@@ -4,12 +4,12 @@ import { DriverInfoRow } from './DriverInfoRow/DriverInfoRow';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export const Standings = () => {
+  const [parent] = useAutoAnimate();
   const { session, telemetry } = useTelemetry();
   if (!session || !telemetry) {
     return <></>;
   }
 
-  const [parent] = useAutoAnimate();
 
   const standings = telemetry.CarIdxPosition.value
     .filter((carIndex) => carIndex > 0)
