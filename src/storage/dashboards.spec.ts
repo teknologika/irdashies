@@ -4,6 +4,7 @@ import {
   listDashboards,
   getDashboard,
   saveDashboard,
+  updateDashboardWidget,
 } from './dashboards';
 import { defaultDashboard } from './defaultDashboard';
 import * as storage from './storage';
@@ -133,6 +134,78 @@ describe('dashboards', () => {
 
       expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
         custom: updatedDashboard,
+      });
+    });
+  });
+  describe('updateDashboardWidget', () => {
+    it('should throw an error if the default dashboard does not exist', () => {
+      const updatedWidget = {
+        id: 'input',
+        layout: { x: 100, y: 100, width: 600, height: 120 },
+      };
+      vi.spyOn(storage, 'readData').mockReturnValueOnce(null);
+
+      expect(() => updateDashboardWidget(updatedWidget)).toThrow(
+        'Default dashboard not found'
+      );
+    });
+
+    it('should update an existing widget in the default dashboard', () => {
+      const existingWidget = {
+        id: 'input',
+        layout: { x: 0, y: 0, width: 300, height: 100 },
+      };
+      const updatedWidget = {
+        id: 'input',
+        layout: { x: 100, y: 100, width: 600, height: 120 },
+      };
+      const existingDashboard = { widgets: [existingWidget] };
+      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+        default: existingDashboard,
+      });
+
+      updateDashboardWidget(updatedWidget);
+
+      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+        default: { widgets: [updatedWidget] },
+      });
+    });
+
+    it('should update an existing widget in a specific dashboard', () => {
+      const existingWidget = {
+        id: 'input',
+        layout: { x: 0, y: 0, width: 300, height: 100 },
+      };
+      const updatedWidget = {
+        id: 'input',
+        layout: { x: 100, y: 100, width: 600, height: 120 },
+      };
+      const existingDashboard = { widgets: [existingWidget] };
+      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+        custom: existingDashboard,
+      });
+
+      updateDashboardWidget(updatedWidget, 'custom');
+
+      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+        custom: { widgets: [updatedWidget] },
+      });
+    });
+
+    it('should not update a widget if it does not exist in the dashboard', () => {
+      const updatedWidget = {
+        id: 'input',
+        layout: { x: 100, y: 100, width: 600, height: 120 },
+      };
+      const existingDashboard = { widgets: [] };
+      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+        default: existingDashboard,
+      });
+
+      updateDashboardWidget(updatedWidget);
+
+      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+        default: { widgets: [] },
       });
     });
   });
