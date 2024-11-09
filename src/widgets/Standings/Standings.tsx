@@ -1,47 +1,52 @@
 import { useTelemetry } from '../TelemetryContext/TelemetryContext';
-import { getSingleNumberValue } from '../TelemetryContext/telemetryUtils';
 import { DriverRatingBadge } from './DriverRatingBadge/DriverRatingBadge';
 import { DriverInfoRow } from './DriverInfoRow/DriverInfoRow';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export const Standings = () => {
   const { session, telemetry } = useTelemetry();
-  if (!session) {
+  if (!session || !telemetry) {
     return <></>;
   }
 
-  const currentSessionNum = getSingleNumberValue(telemetry?.SessionNum);
-  const currentSession = session?.SessionInfo.Sessions.find(
-    (s) => s.SessionNum === currentSessionNum
-  );
-  const driverResults = currentSession?.ResultsPositions.map((result) => ({
-    ...result,
-    Driver: session.DriverInfo.Drivers.find(
-      (driver) => driver.CarIdx === result.CarIdx
-    ),
-    Delta: telemetry?.CarIdxF2Time?.value?.[result.CarIdx],
-    IsPlayer: result.CarIdx === telemetry?.PlayerCarIdx?.value?.[0],
-  }));
+  const [parent] = useAutoAnimate();
 
-  if (!driverResults) {
-    return <></>;
-  }
+  const standings = telemetry.CarIdxPosition.value
+    .filter((carIndex) => carIndex > 0)
+    .map((carIndex, position) => {
+      const driver = session.DriverInfo.Drivers.find(
+        (driver) => driver.CarIdx === carIndex
+      );
+      return {
+        carIdx: carIndex,
+        position: position + 1,
+        delta: telemetry.CarIdxF2Time.value?.[carIndex],
+        isPlayer: carIndex === telemetry.PlayerCarIdx.value?.[0],
+        driver: driver && {
+          name: driver?.UserName || '',
+          license: driver?.LicString,
+          rating: driver?.IRating,
+        },
+      };
+    })
+    .filter((result) => result.driver);
 
   return (
     <div className="bg-slate-900 bg-opacity-50">
       <table className="w-full px-1 table-auto text-xs border-separate border-spacing-x-0 border-spacing-y-1">
-        <tbody>
-          {driverResults.map((result) => (
+        <tbody ref={parent}>
+          {standings.map((result) => (
             <DriverInfoRow
-              key={result.CarIdx}
-              carNumber={result.CarIdx}
-              name={result.Driver?.UserName || ''}
-              isPlayer={result.IsPlayer}
-              delta={result.Delta || 0}
-              position={result.Position}
+              key={result.carIdx}
+              carNumber={result.carIdx}
+              name={result.driver?.name || ''}
+              isPlayer={result.isPlayer}
+              delta={result.delta}
+              position={result.position}
               badge={
                 <DriverRatingBadge
-                  license={result.Driver?.LicString}
-                  rating={result.Driver?.IRating}
+                  license={result.driver?.license}
+                  rating={result.driver?.rating}
                 />
               }
             />

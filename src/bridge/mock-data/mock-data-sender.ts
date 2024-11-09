@@ -16,10 +16,11 @@ export function generateMockData(): typeof window.irsdkBridge {
   return {
     onTelemetry: (callback: (value: TelemetryVarList) => void) => {
       telemetryInterval = setInterval(() => {
-        telemetry['Brake'].value[0] = jitterValue(telemetry['Brake'].value[0]);
-        telemetry['Throttle'].value[0] = jitterValue(
-          telemetry['Throttle'].value[0]
+        telemetry.CarIdxPosition.value = randomCarPositionSwap(
+          telemetry.CarIdxPosition.value
         );
+        telemetry.Brake.value[0] = jitterValue(telemetry['Brake'].value[0]);
+        telemetry.Throttle.value[0] = jitterValue(telemetry.Throttle.value[0]);
         callback({ ...telemetry });
       }, 1000 / 60);
     },
@@ -34,4 +35,24 @@ export function generateMockData(): typeof window.irsdkBridge {
       clearInterval(sessionInfoInterval);
     },
   };
+}
+
+function randomCarPositionSwap(arr: number[]) {
+  if (arr.length < 2) {
+    console.log('Array is too short to swap adjacent elements.');
+    return arr;
+  }
+
+  // Only swap elements 10% of the time
+  if (!(Date.now() % 1000 < 100)) {
+    return arr;
+  }
+
+  // Generate a random index between 0 and the second-to-last element
+  const index = Math.floor(Math.random() * (arr.length - 1));
+
+  // Swap the element at the random index with the next element
+  [arr[index], arr[index + 1]] = [arr[index + 1], arr[index]];
+
+  return arr;
 }
