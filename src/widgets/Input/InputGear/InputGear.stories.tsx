@@ -7,7 +7,7 @@ export default {
     gear: {
       control: {
         type: 'range',
-        min: 1,
+        min: -1,
         max: 8,
         step: 1,
       },
