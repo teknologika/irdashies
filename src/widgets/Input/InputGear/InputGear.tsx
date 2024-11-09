@@ -20,7 +20,7 @@ export const InputGear = ({ gear, speedMs }: InputGearProps) => {
 
   return (
     <div className="flex items-center justify-center font-mono p-2">
-      <div className="flex flex-col items-center text-white">
+      <div className="flex flex-col items-center">
         <div className="text-4xl font-bold">{gearText}</div>
         <div className="text-l">{speed.toFixed(0)}</div>
       </div>
