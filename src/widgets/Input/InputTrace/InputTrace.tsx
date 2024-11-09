@@ -43,8 +43,12 @@ function drawGraph(svgElement: SVGSVGElement | null, valueArray: number[][]) {
 
   svg.selectAll('*').remove();
 
+  const scaleMargin = 0.05;
   const xScale = d3.scaleLinear().domain([0, width]).range([0, width]);
-  const yScale = d3.scaleLinear().domain([0, 1]).range([height, 0]);
+  const yScale = d3
+    .scaleLinear()
+    .domain([0 - scaleMargin, 1 + scaleMargin])
+    .range([height, 0]);
 
   drawYAxis(svg, yScale, width);
 
