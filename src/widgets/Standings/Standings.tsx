@@ -40,7 +40,7 @@ export const Standings = () => {
               position={result.Position}
               badge={
                 <DriverRatingBadge
-                  licenseString={result.Driver?.LicString}
+                  license={result.Driver?.LicString}
                   rating={result.Driver?.IRating}
                 />
               }

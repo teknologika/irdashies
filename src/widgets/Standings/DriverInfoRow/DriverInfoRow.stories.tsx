@@ -15,6 +15,6 @@ export const Primary: Story = {
     isPlayer: false,
     delta: 0.1,
     position: 1,
-    badge: <DriverRatingBadge licenseString="A 4.99" rating={4999} />,
+    badge: <DriverRatingBadge license="A 4.99" rating={4999} />,
   },
 };
