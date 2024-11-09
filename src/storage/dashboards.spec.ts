@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import {
-  createDefaultDashboardIfNotExists,
+  getOrCreateDefaultDashboard,
   listDashboards,
   getDashboard,
   saveDashboard,
@@ -21,7 +21,7 @@ describe('dashboards', () => {
 
   describe('createDefaultDashboardIfNotExists', () => {
     it('should create default dashboard if none exists', () => {
-      createDefaultDashboardIfNotExists();
+      getOrCreateDefaultDashboard();
 
       expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
         default: defaultDashboard,
@@ -33,7 +33,7 @@ describe('dashboards', () => {
         default: defaultDashboard,
       });
 
-      createDefaultDashboardIfNotExists();
+      getOrCreateDefaultDashboard();
 
       expect(storage.writeData).not.toHaveBeenCalled();
     });

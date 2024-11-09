@@ -28,11 +28,13 @@ export interface DashboardLayout {
   widgets: DashboardWidget[];
 }
 
-export const createDefaultDashboardIfNotExists = () => {
-  const dashboards = listDashboards();
-  if (Object.keys(dashboards).length) return;
+export const getOrCreateDefaultDashboard = () => {
+  const dashboard = getDashboard('default');
+  if (dashboard) return dashboard;
 
   saveDashboard('default', defaultDashboard);
+
+  return defaultDashboard;
 };
 
 export const listDashboards = () => {
@@ -44,7 +46,7 @@ export const listDashboards = () => {
 
 export const getDashboard = (id: string) => {
   const dashboards = readData<Record<string, DashboardLayout>>(DASHBOARDS_KEY);
-  if (!dashboards) return undefined;
+  if (!dashboards) return null;
 
   return dashboards[id];
 };
