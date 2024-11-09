@@ -24,6 +24,7 @@ export function generateMockData(): typeof window.irsdkBridge {
       }, 1000 / 60);
     },
     onSessionInfo: (callback: (value: SessionData) => void) => {
+      callback({ ...sessionInfo });
       sessionInfoInterval = setInterval(() => {
         callback({ ...sessionInfo });
       }, 1000);
