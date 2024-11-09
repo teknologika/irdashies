@@ -5,30 +5,32 @@ import React, {
   ReactNode,
   useEffect,
 } from 'react';
-import type { TelemetryVarList } from '@irsdk-node/types';
+import type { SessionData, TelemetryVarList } from '@irsdk-node/types';
 
 interface TelemetryContextProps {
-  telemetryData: TelemetryVarList | null;
+  telemetry: TelemetryVarList | null;
+  session: SessionData | null;
 }
 
 const TelemetryContext = createContext<TelemetryContextProps | undefined>(
   undefined
 );
 
-export const TelemetryProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  const [telemetryData, setTelemetryData] = useState<TelemetryVarList | null>(
-    null
-  );
+export const TelemetryProvider: React.FC<{
+  bridge: typeof window.irsdkBridge;
+  children: ReactNode;
+}> = ({ bridge, children }) => {
+  const [telemetry, setTelemetry] = useState<TelemetryVarList | null>(null);
+  const [session, setSession] = useState<SessionData | null>(null);
 
   useEffect(() => {
-    const bridge = window.irsdkBridge;
-    bridge.onTelemetry((telemetry) => setTelemetryData(telemetry));
-  }, []);
+    bridge.onTelemetry((telemetry) => setTelemetry(telemetry));
+    bridge.onSessionInfo((session) => setSession(session));
+    return () => bridge.stop();
+  }, [bridge]);
 
   return (
-    <TelemetryContext.Provider value={{ telemetryData }}>
+    <TelemetryContext.Provider value={{ telemetry, session }}>
       {children}
     </TelemetryContext.Provider>
   );
@@ -40,12 +42,4 @@ export const useTelemetry = (): TelemetryContextProps => {
     throw new Error('useTelemetry must be used within a TelemetryProvider');
   }
   return context;
-};
-
-export const withTelemetry = (Component: React.FC) => {
-  return () => (
-    <TelemetryProvider>
-      <Component />
-    </TelemetryProvider>
-  );
 };

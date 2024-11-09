@@ -4,14 +4,14 @@ import { TelemetryProvider } from './TelemetryContext/TelemetryContext';
 import { Input } from './Input';
 
 const App = () => (
-  <TelemetryProvider>
+  <TelemetryProvider bridge={window.irsdkBridge}>
     <HashRouter>
       <Routes>
         <Route path="/input" element={<Input />} />
         <Route
           path="*"
           element={
-            <div className="bg-slate-500 h-screen w-screen flex justify-center items-center text-white">
+            <div className="bg-slate-500 h-screen w-screen flex justify-center items-center">
               Unknown Widget
             </div>
           }

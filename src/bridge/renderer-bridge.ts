@@ -11,5 +11,9 @@ export function exposeBridge() {
       ipcRenderer.on('sessionInfo', (_, value) => {
         callback(value);
       }),
+    stop: () => {
+      ipcRenderer.removeAllListeners('telemetry');
+      ipcRenderer.removeAllListeners('sessionInfo');
+    },
   } as Window['irsdkBridge']);
 }

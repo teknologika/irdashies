@@ -3,14 +3,14 @@ import { useTelemetry } from '../TelemetryContext/TelemetryContext';
 import { getSingleNumberValue } from '../TelemetryContext/telemetryUtils';
 
 export const Input = () => {
-  const { telemetryData } = useTelemetry();
+  const { telemetry } = useTelemetry();
   return (
     <InputContainer
-      brake={getSingleNumberValue(telemetryData?.Brake)}
-      throttle={getSingleNumberValue(telemetryData?.Throttle)}
-      clutch={getSingleNumberValue(telemetryData?.Clutch)}
-      gear={getSingleNumberValue(telemetryData?.Gear)}
-      speed={getSingleNumberValue(telemetryData?.Speed)}
+      brake={getSingleNumberValue(telemetry?.Brake)}
+      throttle={getSingleNumberValue(telemetry?.Throttle)}
+      clutch={getSingleNumberValue(telemetry?.Clutch)}
+      gear={getSingleNumberValue(telemetry?.Gear)}
+      speed={getSingleNumberValue(telemetry?.Speed)}
     />
   );
 };
