@@ -4,7 +4,7 @@ import { TelemetryProvider } from './TelemetryContext/TelemetryContext';
 import { Input } from './Input';
 import { Standings } from './Standings/Standings';
 import { Settings } from './Settings/Settings';
-import { DashboardProvider, withDashboard } from './DashboardContext/DashboardContext';
+import { withDashboard } from './DashboardContext/DashboardContext';
 
 const App = () => (
   <TelemetryProvider bridge={window.irsdkBridge}>
