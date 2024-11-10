@@ -15,6 +15,15 @@ export const setupTaskbar = () => {
       },
     },
     {
+      label: 'Save Current Telemetry',
+      click() {
+        if (process.platform === 'darwin') return;
+        import('../bridge/iracingSdk/dumpTelemetry').then(
+          async ({ dumpCurrentTelemetry }) => await dumpCurrentTelemetry()
+        );
+      },
+    },
+    {
       label: 'Quit',
       click() {
         app.quit();
