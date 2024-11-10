@@ -1,14 +1,19 @@
-import mockTelemetry from './telemetry.json';
-import mockSessionInfo from './session.json';
 import type { SessionData, TelemetryVarList } from '@irsdk-node/types';
 import type { IrSdkBridge } from '../irSdkBridge.type';
+import mockTelemetry from './telemetry.json';
+import mockSessionInfo from './session.json';
 
-export function generateMockData(): IrSdkBridge {
-  const telemetry = mockTelemetry as unknown as TelemetryVarList;
-  const sessionInfo = mockSessionInfo as unknown as SessionData;
-
+export function generateMockData(sessionData?: {
+  telemetry: TelemetryVarList;
+  sessionInfo: SessionData;
+}): IrSdkBridge {
   let telemetryInterval: NodeJS.Timeout;
   let sessionInfoInterval: NodeJS.Timeout;
+
+  const telemetry =
+    sessionData?.telemetry || (mockTelemetry as unknown as TelemetryVarList);
+  const sessionInfo =
+    sessionData?.sessionInfo || (mockSessionInfo as unknown as SessionData);
 
   const jitterValue = (value: number): number => {
     return Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05));
