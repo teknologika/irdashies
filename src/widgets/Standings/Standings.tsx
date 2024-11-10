@@ -6,29 +6,31 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 export const Standings = () => {
   const [parent] = useAutoAnimate();
   const { session, telemetry } = useTelemetry();
-  if (!session || !telemetry) {
-    return <></>;
-  }
 
-  const standings = telemetry.CarIdxPosition.value
-    .filter((carIndex) => carIndex > 0)
-    .map((carIndex, position) => {
-      const driver = session.DriverInfo.Drivers.find(
-        (driver) => driver.CarIdx === carIndex
-      );
-      return {
-        carIdx: carIndex,
-        position: position + 1,
-        delta: telemetry.CarIdxF2Time.value?.[carIndex],
-        isPlayer: carIndex === telemetry.PlayerCarIdx.value?.[0],
-        driver: driver && {
-          name: driver?.UserName || '',
-          license: driver?.LicString,
-          rating: driver?.IRating,
-        },
-      };
-    })
-    .filter((result) => result.driver);
+  if (!session || !telemetry) return <>Waiting for session...</>;
+
+  const sessions = session.SessionInfo.Sessions;
+  const sessionValue = telemetry.SessionNum?.value[0];
+  const currentSession = sessions.find((s) => s.SessionNum === sessionValue);
+
+  if (!currentSession) return <>Waiting for current session...</>;
+
+  const standings = currentSession.ResultsPositions.map((result) => {
+    const driver = session.DriverInfo.Drivers.find(
+      (driver) => driver.CarIdx === result.CarIdx
+    );
+    return {
+      carIdx: result.CarIdx,
+      position: result.Position,
+      delta: result.Time,
+      isPlayer: result.CarIdx === session.DriverInfo.DriverCarIdx,
+      driver: driver && {
+        name: driver.UserName,
+        license: driver.LicString,
+        rating: driver.IRating,
+      },
+    };
+  });
 
   return (
     <div className="bg-slate-900 bg-opacity-50 w-full h-full">
