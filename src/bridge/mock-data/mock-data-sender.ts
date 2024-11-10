@@ -1,8 +1,9 @@
 import mockTelemetry from './telemetry.json';
 import mockSessionInfo from './session.json';
 import type { SessionData, TelemetryVarList } from '@irsdk-node/types';
+import type { IrSdkBridge } from '../irSdkBridge.type';
 
-export function generateMockData(): typeof window.irsdkBridge {
+export function generateMockData(): IrSdkBridge {
   const telemetry = mockTelemetry as unknown as TelemetryVarList;
   const sessionInfo = mockSessionInfo as unknown as SessionData;
 
@@ -24,7 +25,7 @@ export function generateMockData(): typeof window.irsdkBridge {
         callback({ ...telemetry });
       }, 1000 / 60);
     },
-    onSessionInfo: (callback: (value: SessionData) => void) => {
+    onSessionData: (callback: (value: SessionData) => void) => {
       callback({ ...sessionInfo });
       sessionInfoInterval = setInterval(() => {
         callback({ ...sessionInfo });

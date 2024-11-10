@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import type { TelemetryVarList, SessionInfo } from '@irsdk-node/types';
+import type { TelemetryVarList, SessionData } from '@irsdk-node/types';
+import type { IrSdkBridge } from './irSdkBridge.type';
 
 export function exposeBridge() {
   contextBridge.exposeInMainWorld('irsdkBridge', {
@@ -7,7 +8,7 @@ export function exposeBridge() {
       ipcRenderer.on('telemetry', (_, value) => {
         callback(value);
       }),
-    onSessionInfo: (callback: (value: SessionInfo) => void) =>
+    onSessionData: (callback: (value: SessionData) => void) =>
       ipcRenderer.on('sessionInfo', (_, value) => {
         callback(value);
       }),
@@ -15,5 +16,5 @@ export function exposeBridge() {
       ipcRenderer.removeAllListeners('telemetry');
       ipcRenderer.removeAllListeners('sessionInfo');
     },
-  } as Window['irsdkBridge']);
+  } as IrSdkBridge);
 }

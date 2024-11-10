@@ -6,6 +6,7 @@ import React, {
   useEffect,
 } from 'react';
 import type { SessionData, TelemetryVarList } from '@irsdk-node/types';
+import type { IrSdkBridge } from '../../bridge/irSdkBridge.type';
 
 interface TelemetryContextProps {
   telemetry: TelemetryVarList | null;
@@ -17,7 +18,7 @@ const TelemetryContext = createContext<TelemetryContextProps | undefined>(
 );
 
 export const TelemetryProvider: React.FC<{
-  bridge: typeof window.irsdkBridge;
+  bridge: IrSdkBridge;
   children: ReactNode;
 }> = ({ bridge, children }) => {
   const [telemetry, setTelemetry] = useState<TelemetryVarList | null>(null);
@@ -25,7 +26,7 @@ export const TelemetryProvider: React.FC<{
 
   useEffect(() => {
     bridge.onTelemetry((telemetry) => setTelemetry(telemetry));
-    bridge.onSessionInfo((session) => setSession(session));
+    bridge.onSessionData((session) => setSession(session));
     return () => bridge.stop();
   }, [bridge]);
 
