@@ -20,6 +20,8 @@ export interface WidgetLayout {
 export interface DashboardWidget {
   /** id of the widget type, used to route to the widget (see App.tsx). */
   id: string;
+  /** Show/hide widget */
+  enabled: boolean;
   /** The layout of the window for the widget on the dashboard. */
   layout: WidgetLayout;
 }
@@ -30,7 +32,24 @@ export interface DashboardLayout {
 
 export const getOrCreateDefaultDashboard = () => {
   const dashboard = getDashboard('default');
-  if (dashboard) return dashboard;
+  if (dashboard) {
+    // check missing widgets
+    const missingWidgets = defaultDashboard.widgets.filter(
+      (defaultWidget) =>
+        !dashboard.widgets.find((widget) => widget.id === defaultWidget.id)
+    );
+
+    if (!missingWidgets.length) {
+      return dashboard;
+    }
+
+    // add missing widgets and save
+    const updatedDashboard = {
+      widgets: [...dashboard.widgets, ...missingWidgets],
+    };
+    saveDashboard('default', updatedDashboard);
+    return updatedDashboard;
+  }
 
   saveDashboard('default', defaultDashboard);
 

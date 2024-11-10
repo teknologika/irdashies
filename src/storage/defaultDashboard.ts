@@ -4,6 +4,7 @@ export const defaultDashboard: DashboardLayout = {
   widgets: [
     {
       id: 'standings',
+      enabled: true,
       layout: {
         x: 50,
         y: 50,
@@ -13,6 +14,7 @@ export const defaultDashboard: DashboardLayout = {
     },
     {
       id: 'input',
+      enabled: true,
       layout: {
         x: 50,
         y: 50,

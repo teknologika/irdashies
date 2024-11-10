@@ -64,7 +64,7 @@ describe('dashboards', () => {
 
       const dashboard = getDashboard('default');
 
-      expect(dashboard).toBeUndefined();
+      expect(dashboard).toBeNull();
     });
 
     it('should return the requested dashboard if it exists', () => {
@@ -106,6 +106,7 @@ describe('dashboards', () => {
     it('should update a widget in the default dashboard', () => {
       const updatedWidget = {
         id: 'input',
+        enabled: true,
         layout: { x: 100, y: 100, width: 600, height: 120 },
       };
       const updatedDashboard = { widgets: [updatedWidget] };
@@ -123,6 +124,7 @@ describe('dashboards', () => {
     it('should update a widget in a specific dashboard', () => {
       const updatedWidget = {
         id: 'input',
+        enabled: true,
         layout: { x: 100, y: 100, width: 600, height: 120 },
       };
       const updatedDashboard = { widgets: [updatedWidget] };
@@ -141,6 +143,7 @@ describe('dashboards', () => {
     it('should throw an error if the default dashboard does not exist', () => {
       const updatedWidget = {
         id: 'input',
+        enabled: true,
         layout: { x: 100, y: 100, width: 600, height: 120 },
       };
       vi.spyOn(storage, 'readData').mockReturnValueOnce(null);
@@ -153,10 +156,12 @@ describe('dashboards', () => {
     it('should update an existing widget in the default dashboard', () => {
       const existingWidget = {
         id: 'input',
+        enabled: true,
         layout: { x: 0, y: 0, width: 300, height: 100 },
       };
       const updatedWidget = {
         id: 'input',
+        enabled: false,
         layout: { x: 100, y: 100, width: 600, height: 120 },
       };
       const existingDashboard = { widgets: [existingWidget] };
@@ -174,10 +179,12 @@ describe('dashboards', () => {
     it('should update an existing widget in a specific dashboard', () => {
       const existingWidget = {
         id: 'input',
+        enabled: true,
         layout: { x: 0, y: 0, width: 300, height: 100 },
       };
       const updatedWidget = {
         id: 'input',
+        enabled: true,
         layout: { x: 100, y: 100, width: 600, height: 120 },
       };
       const existingDashboard = { widgets: [existingWidget] };
@@ -195,6 +202,7 @@ describe('dashboards', () => {
     it('should not update a widget if it does not exist in the dashboard', () => {
       const updatedWidget = {
         id: 'input',
+        enabled: true,
         layout: { x: 100, y: 100, width: 600, height: 120 },
       };
       const existingDashboard = { widgets: [] };
@@ -207,6 +215,57 @@ describe('dashboards', () => {
       expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
         default: { widgets: [] },
       });
+    });
+  });
+
+  describe('getOrCreateDefaultDashboard', () => {
+    it('should return the default dashboard if it exists', () => {
+      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+        default: defaultDashboard,
+      });
+
+      const dashboard = getOrCreateDefaultDashboard();
+
+      expect(dashboard).toEqual(defaultDashboard);
+    });
+
+    it('should create and return the default dashboard if it does not exist', () => {
+      vi.spyOn(storage, 'readData').mockReturnValueOnce(null);
+
+      const dashboard = getOrCreateDefaultDashboard();
+
+      expect(dashboard).toEqual(defaultDashboard);
+      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+        default: defaultDashboard,
+      });
+    });
+
+    it('should add missing widgets to the default dashboard if some widgets are missing', () => {
+      const incompleteDashboard = {
+        widgets: defaultDashboard.widgets.slice(0, 1),
+      };
+      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+        default: incompleteDashboard,
+      });
+
+      const dashboard = getOrCreateDefaultDashboard();
+
+      expect(dashboard.widgets).toEqual(defaultDashboard.widgets);
+      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+        default: defaultDashboard,
+      });
+    });
+
+    it('should not modify the default dashboard if all widgets are present', () => {
+      const completeDashboard = { ...defaultDashboard };
+      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+        default: completeDashboard,
+      });
+
+      const dashboard = getOrCreateDefaultDashboard();
+
+      expect(dashboard).toEqual(completeDashboard);
+      expect(storage.writeData).not.toHaveBeenCalled();
     });
   });
 });
