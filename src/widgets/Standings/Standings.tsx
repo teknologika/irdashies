@@ -10,7 +10,6 @@ export const Standings = () => {
     return <></>;
   }
 
-
   const standings = telemetry.CarIdxPosition.value
     .filter((carIndex) => carIndex > 0)
     .map((carIndex, position) => {
@@ -33,7 +32,7 @@ export const Standings = () => {
 
   return (
     <div className="bg-slate-900 bg-opacity-50">
-      <table className="w-full px-1 table-auto text-xs border-separate border-spacing-x-0 border-spacing-y-1">
+      <table className="w-full px-1 table-auto text-xs border-separate border-spacing-x-0 border-spacing-y-0.5">
         <tbody ref={parent}>
           {standings.map((result) => (
             <DriverInfoRow

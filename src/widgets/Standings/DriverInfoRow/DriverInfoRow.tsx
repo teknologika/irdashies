@@ -18,7 +18,7 @@ export const DriverInfoRow = ({
   return (
     <tr
       key={carNumber}
-      className={`bg-slate-800 text-xs bg-opacity-60 [&>:first-child]:rounded-l-md [&>:last-child]:rounded-r-md text-white
+      className={`odd:bg-slate-800 even:bg-slate-900 text-xs bg-opacity-60 [&>:first-child]:rounded-l-md [&>:last-child]:rounded-r-md text-white
          ${isPlayer ? 'text-yellow-500' : ''}`}
     >
       <td
