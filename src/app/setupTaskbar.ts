@@ -1,4 +1,5 @@
 import { nativeImage, Tray, Menu, app } from 'electron';
+import { createSettingsWindow } from './createSettingsWindow';
 
 export const setupTaskbar = () => {
   // TODO: Add icon
@@ -10,7 +11,7 @@ export const setupTaskbar = () => {
     {
       label: 'Settings',
       click() {
-        console.log('Open settings');
+        createSettingsWindow();
       },
     },
     {

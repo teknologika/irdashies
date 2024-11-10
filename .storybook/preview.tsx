@@ -2,7 +2,7 @@ import type { Preview } from "@storybook/react";
 import '../src/theme.css';
 import React from "react";
 import { TelemetryProvider } from "../src/widgets/TelemetryContext/TelemetryContext";
-import { generateMockData } from '../src/bridge/mock-data/mock-data-sender';
+import { generateMockData } from '../src/bridge/iracingSdk/mock-data/generateMockData';
 
 const preview: Preview = {
   parameters: {

@@ -1,5 +1,6 @@
 declare global {
   interface Window {
-    irsdkBridge: import('./bridge/irSdkBridge.type').IrSdkBridge;
+    irsdkBridge: import('./bridge/iracingSdk/irSdkBridge.type').IrSdkBridge;
+    dashboardBridge: import('./bridge/dashboard/dashboardBridge.type').DashboardBridge;
   }
 }

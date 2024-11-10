@@ -1,6 +1,8 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcMain, ipcRenderer } from 'electron';
 import type { TelemetryVarList, SessionData } from '@irsdk-node/types';
-import type { IrSdkBridge } from './irSdkBridge.type';
+import type { IrSdkBridge } from './iracingSdk/irSdkBridge.type';
+import { DashboardLayout, getDashboard } from '../storage/dashboards';
+import { DashboardBridge } from './dashboard/dashboardBridge.type';
 
 export function exposeBridge() {
   contextBridge.exposeInMainWorld('irsdkBridge', {
@@ -17,4 +19,18 @@ export function exposeBridge() {
       ipcRenderer.removeAllListeners('sessionInfo');
     },
   } as IrSdkBridge);
+
+  contextBridge.exposeInMainWorld('dashboardBridge', {
+    reloadDashboard: () => {
+      ipcRenderer.send('reloadDashboard');
+    },
+    dashboardUpdated: (callback: (value: DashboardLayout) => void) => {
+      ipcRenderer.on('dashboardUpdated', (_, value) => {
+        callback(value);
+      });
+    },
+    saveDashboard: (value: DashboardLayout) => {
+      ipcRenderer.send('saveDashboard', value);
+    },
+  } as DashboardBridge);
 }

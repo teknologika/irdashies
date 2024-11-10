@@ -1,3 +1,4 @@
+import { emitDashboardUpdated } from './dashboardEvents';
 import { defaultDashboard } from './defaultDashboard';
 import { readData, writeData } from './storage';
 
@@ -95,4 +96,5 @@ export const saveDashboard = (
   const dashboards = listDashboards();
   dashboards[id] = value;
   writeData(DASHBOARDS_KEY, dashboards);
+  emitDashboardUpdated(value);
 };
