@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron';
-import { generateMockData } from './mock-data/mock-data-sender';
+import { generateMockData } from './generateMockData';
 
 export async function publishIRacingSDKEvents() {
   const bridge = generateMockData();

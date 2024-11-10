@@ -2,8 +2,8 @@ export async function iRacingSDKSetup() {
   try {
     const module =
       process.platform === 'darwin'
-        ? await import('./mocksdk-bridge')
-        : await import('./iracingsdk-bridge');
+        ? await import('./mock-data/mockSdkBridge')
+        : await import('./iracingSdkBridge');
 
     const { publishIRacingSDKEvents } = module;
     await publishIRacingSDKEvents();
