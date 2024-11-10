@@ -17,10 +17,12 @@ export async function publishIRacingSDKEvents() {
 
       while (sdk.waitForData(TIMEOUT)) {
         const telemetry = sdk.getTelemetry();
+        const session = sdk.getSessionData();
         await new Promise((resolve) => setTimeout(resolve, 1000 / 60));
 
         BrowserWindow.getAllWindows().forEach((window) => {
-          window.webContents.send('telemetry', telemetry);
+          if (telemetry) window.webContents.send('telemetry', telemetry);
+          if (session) window.webContents.send('sessionData', session);
         });
       }
 

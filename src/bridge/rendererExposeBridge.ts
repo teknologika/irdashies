@@ -11,12 +11,12 @@ export function exposeBridge() {
         callback(value);
       }),
     onSessionData: (callback: (value: SessionData) => void) =>
-      ipcRenderer.on('sessionInfo', (_, value) => {
+      ipcRenderer.on('sessionData', (_, value) => {
         callback(value);
       }),
     stop: () => {
       ipcRenderer.removeAllListeners('telemetry');
-      ipcRenderer.removeAllListeners('sessionInfo');
+      ipcRenderer.removeAllListeners('sessionData');
     },
   } as IrSdkBridge);
 

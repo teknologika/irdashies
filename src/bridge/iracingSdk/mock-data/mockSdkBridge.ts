@@ -5,7 +5,7 @@ export async function publishIRacingSDKEvents() {
   const bridge = generateMockData();
   bridge.onSessionData((session) => {
     BrowserWindow.getAllWindows().forEach((window) => {
-      window.webContents.send('sessionInfo', session);
+      window.webContents.send('sessionData', session);
     });
   });
   bridge.onTelemetry((telemetry) => {

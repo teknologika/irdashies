@@ -31,7 +31,7 @@ export const Standings = () => {
     .filter((result) => result.driver);
 
   return (
-    <div className="bg-slate-900 bg-opacity-50">
+    <div className="bg-slate-900 bg-opacity-50 w-full h-full">
       <table className="w-full px-1 table-auto text-xs border-separate border-spacing-x-0 border-spacing-y-0.5">
         <tbody ref={parent}>
           {standings.map((result) => (
