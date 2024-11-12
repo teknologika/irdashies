@@ -2,6 +2,7 @@ import { formatTime } from '../../utils/time';
 
 type DriverRowInfoProps = {
   carIdx: number;
+  classIdx: number;
   carNumber: string;
   name: string;
   isPlayer: boolean;
@@ -15,6 +16,7 @@ type DriverRowInfoProps = {
 export const DriverInfoRow = ({
   carIdx,
   carNumber,
+  classIdx,
   name,
   isPlayer,
   delta,
@@ -30,7 +32,7 @@ export const DriverInfoRow = ({
   return (
     <tr
       key={carIdx}
-      className={`odd:bg-slate-800 even:bg-slate-900 text-xs bg-opacity-60 [&>:first-child]:rounded-l-md [&>:last-child]:rounded-r-md text-white
+      className={`odd:bg-slate-800/70 even:bg-slate-900/70 text-xs text-white
          ${isPlayer ? 'text-yellow-500' : ''}`}
     >
       <td
@@ -38,7 +40,9 @@ export const DriverInfoRow = ({
       >
         {position}
       </td>
-      <td className="bg-yellow-700 bg-opacity-90 border-l-2 border-yellow-500 text-right px-1 w-10">
+      <td
+        className={`${classColorMap[classIdx % classColorMap.length]} bg-opacity-90 border-l-4 text-right px-1 w-10`}
+      >
         #{carNumber}
       </td>
       <td className={`px-2 w-full`}>{name}</td>
@@ -49,3 +53,10 @@ export const DriverInfoRow = ({
     </tr>
   );
 };
+
+export const classColorMap = [
+  'bg-yellow-700 border-yellow-500',
+  'bg-blue-800 border-blue-500',
+  'bg-pink-800 border-pink-500',
+  'bg-purple-800 border-purple-500',
+];
