@@ -26,6 +26,7 @@ export const Standings = () => {
       isPlayer: result.CarIdx === session.DriverInfo.DriverCarIdx,
       driver: driver && {
         name: driver.UserName,
+        carNum: driver?.CarNumber,
         license: driver.LicString,
         rating: driver.IRating,
       },
@@ -41,7 +42,8 @@ export const Standings = () => {
           {standings.map((result) => (
             <DriverInfoRow
               key={result.carIdx}
-              carNumber={result.carIdx}
+              carIdx={result.carIdx}
+              carNumber={result.driver?.carNum || ''}
               name={result.driver?.name || ''}
               isPlayer={result.isPlayer}
               delta={result.delta}

@@ -11,8 +11,8 @@ export const DriverRatingBadge = ({
   const colorMap: { [key: string]: string } = {
     A: 'border-blue-500 bg-blue-800',
     B: 'border-green-500 bg-green-800',
-    C: 'border-yellow-500 bg-yellow-800',
-    D: 'border-orange-500 bg-orange-800',
+    C: 'border-yellow-500 bg-yellow-700',
+    D: 'border-orange-500 bg-orange-700',
     R: 'border-red-500 bg-red-800',
   };
   const color = colorMap[licenseLevel] ?? '';
