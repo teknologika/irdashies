@@ -10,7 +10,7 @@ export const Standings = () => {
   if (!session || !telemetry) return <>Waiting for session...</>;
 
   const sessions = session.SessionInfo.Sessions;
-  const sessionValue = telemetry.SessionNum?.value[0];
+  const sessionValue = telemetry.SessionNum?.value[0] || 0;
   const currentSession = sessions.find((s) => s.SessionNum === sessionValue);
 
   if (!currentSession) return <>Waiting for current session...</>;
@@ -29,6 +29,8 @@ export const Standings = () => {
         license: driver.LicString,
         rating: driver.IRating,
       },
+      fastestTime: result.FastestTime,
+      lastTime: result.LastTime,
     };
   });
 
@@ -44,6 +46,8 @@ export const Standings = () => {
               isPlayer={result.isPlayer}
               delta={result.delta}
               position={result.position}
+              lastTime={result.lastTime}
+              fastestTime={result.fastestTime}
               badge={
                 <DriverRatingBadge
                   license={result.driver?.license}

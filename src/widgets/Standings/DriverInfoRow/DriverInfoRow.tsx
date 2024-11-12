@@ -5,6 +5,8 @@ type DriverRowInfoProps = {
   delta: number;
   position: number;
   badge: React.ReactNode;
+  lastTime?: number;
+  fastestTime?: number;
 };
 
 export const DriverInfoRow = ({
@@ -14,7 +16,13 @@ export const DriverInfoRow = ({
   delta,
   position,
   badge,
+  lastTime,
+  fastestTime,
 }: DriverRowInfoProps) => {
+  // convert seconds to mm:ss:ms
+  const lastTimeString = formatTime(lastTime);
+  const fastestTimeString = formatTime(fastestTime);
+
   return (
     <tr
       key={carNumber}
@@ -32,6 +40,22 @@ export const DriverInfoRow = ({
       <td className={`px-2 w-full`}>{name}</td>
       <td>{badge}</td>
       <td className="px-2">{delta?.toFixed(1)}</td>
+      <td className="px-2">{fastestTimeString}</td>
+      <td className="px-2">{lastTimeString}</td>
     </tr>
   );
 };
+
+function formatTime(seconds?: number): string {
+  if (!seconds) return '';
+
+  const ms = Math.floor((seconds % 1) * 1000); // Get milliseconds
+  const totalSeconds = Math.floor(seconds); // Get total whole seconds
+  const minutes = Math.floor(totalSeconds / 60); // Get minutes
+  const remainingSeconds = totalSeconds % 60; // Get remaining seconds
+
+  // Format as mm:ss:ms
+  const formattedTime = `${minutes}:${String(remainingSeconds).padStart(2, '0')}:${String(ms).padStart(3, '0')}`;
+  
+  return formattedTime;
+}
