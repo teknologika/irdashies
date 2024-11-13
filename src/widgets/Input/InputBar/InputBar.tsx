@@ -21,7 +21,7 @@ export const InputBar = ({ brake, throttle, clutch }: InputTraceProps) => {
     drawBars(svgRef.current, [clutch, brake, throttle]);
   }, [brake, throttle, clutch]);
 
-  return <svg ref={svgRef} width="100"></svg>;
+  return <svg ref={svgRef} width="120"></svg>;
 };
 
 function drawBars(svgElement: SVGSVGElement | null, values: number[]) {
@@ -65,7 +65,7 @@ function drawBars(svgElement: SVGSVGElement | null, values: number[]) {
     .attr('x', (_, i) => (xScale(i.toString()) ?? 0) + xScale.bandwidth() / 2)
     .attr('y', () => 10)
     .attr('text-anchor', 'middle')
-    .attr('font-size', '11px')
+    .attr('font-size', '10px')
     .attr('fill', 'white')
     .text((d) => (d.value * 100).toFixed(0));
 }
