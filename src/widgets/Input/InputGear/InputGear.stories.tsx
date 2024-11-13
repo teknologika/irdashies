@@ -12,7 +12,7 @@ export default {
         step: 1,
       },
     },
-    speed: {
+    speedMs: {
       control: {
         type: 'range',
         min: 0,

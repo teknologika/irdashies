@@ -21,7 +21,7 @@ export const InputBar = ({ brake, throttle, clutch }: InputTraceProps) => {
     drawBars(svgRef.current, [clutch, brake, throttle]);
   }, [brake, throttle, clutch]);
 
-  return <svg ref={svgRef} width="100" height="100"></svg>;
+  return <svg ref={svgRef} width="100"></svg>;
 };
 
 function drawBars(svgElement: SVGSVGElement | null, values: number[]) {

@@ -12,7 +12,7 @@ export const Standings = () => {
   if (!session || !telemetry) return <>Waiting for session...</>;
 
   const sessions = session.SessionInfo.Sessions;
-  const sessionValue = telemetry.SessionNum?.value[0] || 0;
+  const sessionValue = telemetry.SessionNum?.value?.[0] || 0;
   const currentSession = sessions.find((s) => s.SessionNum === sessionValue);
   const numOfClasses = session.WeekendInfo.NumCarClasses;
 
@@ -63,7 +63,7 @@ export const Standings = () => {
   );
 
   return (
-    <div className="bg-opacity-50 w-full h-full">
+    <div className="w-full h-full">
       <table className="w-full px-1 table-auto text-xs border-separate border-spacing-y-0.5">
         <tbody ref={parent}>
           {sorted.map(([classId, standings], classIdx) => (

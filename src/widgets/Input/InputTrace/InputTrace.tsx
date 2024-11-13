@@ -13,12 +13,13 @@ export interface InputTraceProps {
 
 export const InputTrace = ({ input }: InputTraceProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const { width, height } = { width: 400, height: 100 };
 
   const [brakeArray, setBrakeArray] = useState<number[]>(
-    Array.from({ length: 400 }, () => 0)
+    Array.from({ length: width }, () => 0)
   );
   const [throttleArray, setThrottleArray] = useState<number[]>(
-    Array.from({ length: 400 }, () => 0)
+    Array.from({ length: width }, () => 0)
   );
 
   useEffect(() => {
@@ -28,18 +29,28 @@ export const InputTrace = ({ input }: InputTraceProps) => {
   }, [input]);
 
   useEffect(() => {
-    drawGraph(svgRef.current, [brakeArray, throttleArray]);
+    drawGraph(svgRef.current, [brakeArray, throttleArray], width, height);
   }, [brakeArray, throttleArray]);
 
-  return <svg ref={svgRef} width="400" height="100"></svg>;
+  return (
+    <svg
+      ref={svgRef}
+      width={'100%'}
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio="none"
+    ></svg>
+  );
 };
 
-function drawGraph(svgElement: SVGSVGElement | null, valueArray: number[][]) {
+function drawGraph(
+  svgElement: SVGSVGElement | null,
+  valueArray: number[][],
+  width: number,
+  height: number
+) {
   if (!svgElement) return;
 
   const svg = d3.select(svgElement);
-  const width = +svg.attr('width');
-  const height = +svg.attr('height');
 
   svg.selectAll('*').remove();
 
