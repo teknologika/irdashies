@@ -26,7 +26,7 @@ export const Standings = () => {
     return {
       carIdx: result.CarIdx,
       position: result.ClassPosition + 1,
-      delta: result.Time,
+      delta: telemetry.CarIdxF2Time.value?.[result.CarIdx],
       isPlayer: result.CarIdx === session.DriverInfo.DriverCarIdx,
       driver: {
         name: driver.UserName,
