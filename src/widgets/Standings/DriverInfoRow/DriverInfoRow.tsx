@@ -6,6 +6,7 @@ type DriverRowInfoProps = {
   carNumber: string;
   name: string;
   isPlayer: boolean;
+  hasFastestTime: boolean;
   delta: number;
   position: number;
   badge: React.ReactNode;
@@ -19,6 +20,7 @@ export const DriverInfoRow = ({
   classIdx,
   name,
   isPlayer,
+  hasFastestTime,
   delta,
   position,
   badge,
@@ -48,7 +50,9 @@ export const DriverInfoRow = ({
       <td className={`px-2 w-full`}>{name}</td>
       <td>{badge}</td>
       <td className="px-2">{delta?.toFixed(1)}</td>
-      <td className="px-2">{fastestTimeString}</td>
+      <td className={`px-2 ${hasFastestTime ? 'text-purple-400' : ''}`}>
+        {fastestTimeString}
+      </td>
       <td className="px-2">{lastTimeString}</td>
     </tr>
   );

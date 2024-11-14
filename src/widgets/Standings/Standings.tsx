@@ -18,6 +18,8 @@ export const Standings = () => {
 
   if (!currentSession) return <>Waiting for current session...</>;
 
+  const fastestDriver = currentSession.ResultsFastestLap?.[0]?.CarIdx;
+
   const standings = currentSession.ResultsPositions.map((result) => {
     const driver = session.DriverInfo.Drivers.find(
       (driver) => driver.CarIdx === result.CarIdx
@@ -35,6 +37,7 @@ export const Standings = () => {
         rating: driver.IRating,
       },
       fastestTime: result.FastestTime,
+      hasFastestTime: result.CarIdx === fastestDriver,
       lastTime: result.LastTime,
       carClass: {
         id: driver.CarClassID,
@@ -82,6 +85,7 @@ export const Standings = () => {
                   carNumber={result.driver?.carNum || ''}
                   name={result.driver?.name || ''}
                   isPlayer={result.isPlayer}
+                  hasFastestTime={result.hasFastestTime}
                   delta={result.delta}
                   position={result.position}
                   lastTime={result.lastTime}
