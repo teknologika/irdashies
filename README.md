@@ -73,9 +73,15 @@ As you may know, the iRacing SDK is only available on Windows. To develop on Mac
 
 ### Input trace
 
-A simple overlay that displays the throttle, and brake input traces, as well as the current gear and speed.
+Displays the throttle, clutch, and brake input traces, as well as the current gear and speed.
 
 ![Input Trace](./docs/assets/input.png)
+
+### Standings
+
+Displays standings information for the current session.
+
+![Standings](./docs/assets/standings.png)
 
 ## Contributing
 
