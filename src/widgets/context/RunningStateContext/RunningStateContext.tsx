@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { IrSdkBridge } from '../../bridge/iracingSdk/irSdkBridge.type';
+import type { IrSdkBridge } from '../../../bridge/iracingSdk/irSdkBridge.type';
 
 interface RunningStateContextProps {
   running: boolean;
@@ -49,4 +49,13 @@ export const useRunningState = (): RunningStateContextProps => {
     );
   }
   return context;
+};
+
+// This conditionally renders the children based on whether the sim is running.
+export const withRunningChecker = (C: ReactNode) => {
+  const { running } = useRunningState();
+  if (!running) {
+    return <></>;
+  }
+  return C;
 };

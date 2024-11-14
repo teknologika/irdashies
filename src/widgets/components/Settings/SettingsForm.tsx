@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DashboardLayout } from '../../storage/dashboards';
+import { DashboardLayout } from '../../../storage/dashboards';
 
 export const SettingsForm = ({
   currentDashboard,

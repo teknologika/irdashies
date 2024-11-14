@@ -5,8 +5,8 @@ import React, {
   ReactNode,
   useEffect,
 } from 'react';
-import type { DashboardBridge } from '../../bridge/dashboard/dashboardBridge.type';
-import { DashboardLayout } from '../../storage/dashboards';
+import type { DashboardBridge } from '../../../bridge/dashboard/dashboardBridge.type';
+import { DashboardLayout } from '../../../storage/dashboards';
 
 interface DashboardContextProps {
   currentDashboard: DashboardLayout | undefined;

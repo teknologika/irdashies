@@ -1,7 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { RunningStateProvider, useRunningState } from './RunningStateContext';
-import { IrSdkBridge } from '../../bridge/iracingSdk/irSdkBridge.type';
+import { IrSdkBridge } from '../../../bridge/iracingSdk/irSdkBridge.type';
 import { ReactNode } from 'react';
 
 describe('RunningStateContext', () => {
