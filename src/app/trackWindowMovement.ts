@@ -6,14 +6,20 @@ export const trackWindowMovement = (
   browserWindow: BrowserWindow
 ) => {
   // Tracks dragged events on window and updates the widget layout
-  browserWindow.on('moved', () => {
-    const [x, y] = browserWindow.getPosition();
-    const [width, height] = browserWindow.getSize();
-    widget.layout.x = x;
-    widget.layout.y = y;
-    widget.layout.width = width;
-    widget.layout.height = height;
-
-    updateDashboardWidget(widget, 'default');
-  });
+  browserWindow.on('moved', () => updateWidgetLayout(browserWindow, widget));
+  browserWindow.on('resized', () => updateWidgetLayout(browserWindow, widget));
 };
+
+function updateWidgetLayout(
+  browserWindow: BrowserWindow,
+  widget: DashboardWidget
+) {
+  const [x, y] = browserWindow.getPosition();
+  const [width, height] = browserWindow.getSize();
+  widget.layout.x = x;
+  widget.layout.y = y;
+  widget.layout.width = width;
+  widget.layout.height = height;
+
+  updateDashboardWidget(widget, 'default');
+}
