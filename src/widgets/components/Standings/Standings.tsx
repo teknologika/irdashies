@@ -1,4 +1,4 @@
-import { useTelemetry } from '../TelemetryContext/TelemetryContext';
+import { useTelemetry } from '../../context/TelemetryContext/TelemetryContext';
 import { DriverRatingBadge } from './DriverRatingBadge/DriverRatingBadge';
 import { DriverInfoRow } from './DriverInfoRow/DriverInfoRow';
 import { useAutoAnimate } from '@formkit/auto-animate/react';

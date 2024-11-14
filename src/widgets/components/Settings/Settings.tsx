@@ -1,4 +1,4 @@
-import { useDashboard } from '../DashboardContext/DashboardContext';
+import { useDashboard } from '../../context/DashboardContext/DashboardContext';
 import { SettingsForm } from './SettingsForm';
 
 export const Settings = () => {

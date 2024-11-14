@@ -1,6 +1,6 @@
 import { InputContainer } from './InputContainer/InputContainer';
-import { useTelemetry } from '../TelemetryContext/TelemetryContext';
-import { getSingleNumberValue } from '../utils/telemetryUtils';
+import { useTelemetry } from '../../context/TelemetryContext/TelemetryContext';
+import { getSingleNumberValue } from '../../utils/telemetryUtils';
 
 export const Input = () => {
   const { telemetry } = useTelemetry();

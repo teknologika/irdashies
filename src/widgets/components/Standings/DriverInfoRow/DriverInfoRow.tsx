@@ -1,4 +1,4 @@
-import { formatTime } from '../../utils/time';
+import { formatTime } from '../../../utils/time';
 
 type DriverRowInfoProps = {
   carIdx: number;
