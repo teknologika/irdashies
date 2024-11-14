@@ -9,6 +9,7 @@ export function generateMockData(sessionData?: {
 }): IrSdkBridge {
   let telemetryInterval: NodeJS.Timeout;
   let sessionInfoInterval: NodeJS.Timeout;
+  let runningStateInterval: NodeJS.Timeout;
 
   const telemetry =
     sessionData?.telemetry || (mockTelemetry as unknown as TelemetryVarList);
@@ -27,6 +28,8 @@ export function generateMockData(sessionData?: {
         );
         telemetry.Brake.value[0] = jitterValue(telemetry['Brake'].value[0]);
         telemetry.Throttle.value[0] = jitterValue(telemetry.Throttle.value[0]);
+        telemetry.Gear.value[0] = 3;
+        telemetry.Speed.value[0] = 44;
         callback({ ...telemetry });
       }, 1000 / 60);
     },
@@ -36,9 +39,15 @@ export function generateMockData(sessionData?: {
         callback({ ...sessionInfo });
       }, 1000);
     },
+    onRunningState: (callback: (value: boolean) => void) => {
+      runningStateInterval = setInterval(() => {
+        callback(true);
+      }, 1000);
+    },
     stop: () => {
       clearInterval(telemetryInterval);
       clearInterval(sessionInfoInterval);
+      clearInterval(runningStateInterval);
     },
   };
 }

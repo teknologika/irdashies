@@ -14,6 +14,10 @@ export function exposeBridge() {
       ipcRenderer.on('sessionData', (_, value) => {
         callback(value);
       }),
+    onRunningState: (callback: (value: boolean) => void) =>
+      ipcRenderer.on('runningState', (_, value) => {
+        callback(value);
+      }),
     stop: () => {
       ipcRenderer.removeAllListeners('telemetry');
       ipcRenderer.removeAllListeners('sessionData');

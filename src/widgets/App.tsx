@@ -5,28 +5,42 @@ import { Input } from './Input';
 import { Standings } from './Standings/Standings';
 import { Settings } from './Settings/Settings';
 import { withDashboard } from './DashboardContext/DashboardContext';
+import { ReactNode } from 'react';
+import {
+  RunningStateProvider,
+  useRunningState,
+} from './RunningStateContext/RunningStateContext';
+
+// This conditionally renders the children based on whether the sim is running.
+const withRunningChecker = (C: ReactNode) => {
+  const { running } = useRunningState();
+  if (!running) {
+    return <></>;
+  }
+  return C;
+};
+
+const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/input" element={withRunningChecker(<Input />)} />
+      <Route path="/standings" element={withRunningChecker(<Standings />)} />
+      <Route
+        path="/settings"
+        element={withDashboard(window.dashboardBridge)(<Settings />)}
+      />
+    </Routes>
+  );
+};
 
 const App = () => (
-  <TelemetryProvider bridge={window.irsdkBridge}>
-    <HashRouter>
-      <Routes>
-        <Route path="/input" element={<Input />} />
-        <Route path="/standings" element={<Standings />} />
-        <Route
-          path="*"
-          element={
-            <div className="bg-slate-500 h-screen w-screen flex justify-center items-center">
-              Unknown Widget
-            </div>
-          }
-        />
-        <Route
-          path="/settings"
-          element={withDashboard(window.dashboardBridge)(<Settings />)}
-        />
-      </Routes>
-    </HashRouter>
-  </TelemetryProvider>
+  <RunningStateProvider bridge={window.irsdkBridge}>
+    <TelemetryProvider bridge={window.irsdkBridge}>
+      <HashRouter>
+        <AppRoutes />
+      </HashRouter>
+    </TelemetryProvider>
+  </RunningStateProvider>
 );
 
 const el = document.getElementById('app');

@@ -15,6 +15,10 @@ export async function publishIRacingSDKEvents() {
 
       await sdk.ready();
 
+      BrowserWindow.getAllWindows().forEach((window) => {
+        window.webContents.send('runningState', true);
+      });
+
       while (sdk.waitForData(TIMEOUT)) {
         const telemetry = sdk.getTelemetry();
         const session = sdk.getSessionData();
@@ -29,6 +33,9 @@ export async function publishIRacingSDKEvents() {
       console.log('iRacing is no longer publishing telemetry');
     } else {
       console.log('iRacing is not running');
+      BrowserWindow.getAllWindows().forEach((window) => {
+        window.webContents.send('runningState', false);
+      });
     }
 
     await new Promise((resolve) => setTimeout(resolve, TIMEOUT));

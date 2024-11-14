@@ -13,4 +13,9 @@ export async function publishIRacingSDKEvents() {
       window.webContents.send('telemetry', telemetry);
     });
   });
+  bridge.onRunningState((running) => {
+    BrowserWindow.getAllWindows().forEach((window) => {
+      window.webContents.send('runningState', running);
+    });
+  });
 }
