@@ -15,37 +15,44 @@ export const Standings = () => {
   const sessionValue = telemetry.SessionNum?.value?.[0] || 0;
   const currentSession = sessions.find((s) => s.SessionNum === sessionValue);
   const numOfClasses = session.WeekendInfo.NumCarClasses;
+
   if (!currentSession) return <>Waiting for current session...</>;
 
   const fastestDriver = currentSession.ResultsFastestLap?.[0]?.CarIdx;
+  const results =
+    currentSession.ResultsPositions ?? session.QualifyResultsInfo?.Results;
 
-  const standings = currentSession.ResultsPositions?.map((result) => {
-    const driver = session.DriverInfo.Drivers.find(
-      (driver) => driver.CarIdx === result.CarIdx
-    );
-    if (!driver) return null;
-    return {
-      carIdx: result.CarIdx,
-      position: result.ClassPosition + 1,
-      delta: telemetry.CarIdxF2Time.value?.[result.CarIdx],
-      isPlayer: result.CarIdx === session.DriverInfo.DriverCarIdx,
-      driver: {
-        name: driver.UserName,
-        carNum: driver.CarNumber,
-        license: driver.LicString,
-        rating: driver.IRating,
-      },
-      fastestTime: result.FastestTime,
-      hasFastestTime: result.CarIdx === fastestDriver,
-      lastTime: result.LastTime,
-      carClass: {
-        id: driver.CarClassID,
-        color: driver.CarClassColor,
-        name: driver.CarClassShortName,
-        relativeSpeed: driver.CarClassRelSpeed,
-      },
-    };
-  }).filter((s) => !!s);
+  const standings = results
+    ?.map((result) => {
+      const driver = session.DriverInfo?.Drivers.find(
+        (driver) => driver.CarIdx === result.CarIdx
+      );
+      if (!driver) return null;
+      return {
+        carIdx: result.CarIdx,
+        position: result.ClassPosition + 1,
+        delta: telemetry.CarIdxF2Time.value?.[result.CarIdx],
+        isPlayer: result.CarIdx === session.DriverInfo.DriverCarIdx,
+        driver: {
+          name: driver.UserName,
+          carNum: driver.CarNumber,
+          license: driver.LicString,
+          rating: driver.IRating,
+        },
+        fastestTime: result.FastestTime,
+        hasFastestTime: result.CarIdx === fastestDriver,
+        lastTime: result.LastTime,
+        carClass: {
+          id: driver.CarClassID,
+          color: driver.CarClassColor,
+          name: driver.CarClassShortName,
+          relativeSpeed: driver.CarClassRelSpeed,
+        },
+      };
+    })
+    .filter((s) => !!s);
+
+  if (!standings?.length) return <>Waiting for results...</>;
 
   // group by class
   const groupedStandings = standings.reduce(
@@ -60,6 +67,7 @@ export const Standings = () => {
     {} as Record<number, typeof standings>
   );
 
+  // sort class by relative speed
   const sorted = Object.entries(groupedStandings).sort(
     ([, a], [, b]) => b[0].carClass.relativeSpeed - a[0].carClass.relativeSpeed
   );
@@ -68,19 +76,19 @@ export const Standings = () => {
     <div className="w-full h-full">
       <table className="w-full px-1 table-auto text-xs border-separate border-spacing-y-0.5">
         <tbody ref={parent}>
-          {sorted.map(([classId, standings], classIdx) => (
+          {sorted.map(([classId, standings]) => (
             <React.Fragment key={classId}>
               {numOfClasses > 1 && (
                 <DriverClassHeader
                   className={standings[0].carClass.name}
-                  classIdx={classIdx}
+                  classColor={standings[0].carClass.color}
                 />
               )}
               {standings.map((result) => (
                 <DriverInfoRow
                   key={result.carIdx}
                   carIdx={result.carIdx}
-                  classIdx={classIdx}
+                  classColor={result.carClass.color}
                   carNumber={result.driver?.carNum || ''}
                   name={result.driver?.name || ''}
                   isPlayer={result.isPlayer}

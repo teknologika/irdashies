@@ -5,12 +5,18 @@ import React, {
   ReactNode,
   useEffect,
 } from 'react';
-import type { SessionData, TelemetryVarList } from '@irsdk-node/types';
+import type {
+  SessionData,
+  SessionResultsPosition,
+  TelemetryVarList,
+} from '@irsdk-node/types';
 import type { IrSdkBridge } from '../../../bridge/iracingSdk/irSdkBridge.type';
 
 interface TelemetryContextProps {
   telemetry?: TelemetryVarList;
-  session?: SessionData;
+  session?: SessionData & {
+    QualifyResultsInfo?: { Results: SessionResultsPosition[] };
+  };
 }
 
 const TelemetryContext = createContext<TelemetryContextProps | undefined>(

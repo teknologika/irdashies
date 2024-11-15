@@ -1,8 +1,9 @@
+import { getTailwindColor } from '../../../utils/telemetryUtils';
 import { formatTime } from '../../../utils/time';
 
 type DriverRowInfoProps = {
   carIdx: number;
-  classIdx: number;
+  classColor: number;
   carNumber: string;
   name: string;
   isPlayer: boolean;
@@ -17,7 +18,7 @@ type DriverRowInfoProps = {
 export const DriverInfoRow = ({
   carIdx,
   carNumber,
-  classIdx,
+  classColor,
   name,
   isPlayer,
   hasFastestTime,
@@ -43,7 +44,7 @@ export const DriverInfoRow = ({
         {position}
       </td>
       <td
-        className={`${classColorMap[classIdx % classColorMap.length]} bg-opacity-90 border-l-4 text-right px-1 w-10`}
+        className={`${getTailwindColor(classColor).driverIcon} bg-opacity-90 border-l-4 text-right px-1 w-10`}
       >
         #{carNumber}
       </td>
