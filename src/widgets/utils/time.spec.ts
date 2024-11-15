@@ -37,4 +37,8 @@ describe('formatTime', () => {
   it('should round time correctly for higher precision sub second', () => {
     expect(formatTime(0.4562335)).toBe('0:00:456');
   });
+
+  it('should return empty string for -1 time', () => {
+    expect(formatTime(-1)).toBe('');
+  });
 });

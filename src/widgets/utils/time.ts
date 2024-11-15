@@ -1,5 +1,6 @@
 export const formatTime = (seconds?: number): string => {
   if (!seconds) return '';
+  if (seconds < 0) return '';
 
   const ms = Math.floor((seconds % 1) * 1000); // Get milliseconds
   const totalSeconds = Math.floor(seconds); // Get total whole seconds
