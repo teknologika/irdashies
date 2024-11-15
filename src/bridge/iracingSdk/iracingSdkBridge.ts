@@ -6,6 +6,14 @@ const TIMEOUT = 1000;
 export async function publishIRacingSDKEvents() {
   console.log('Loading iRacing SDK bridge...');
 
+  setInterval(async () => {
+    const isSimRunning = await IRacingSDK.IsSimRunning();
+    BrowserWindow.getAllWindows().forEach((window) => {
+      console.log('Sending running state to window', isSimRunning);
+      window.webContents.send('runningState', isSimRunning);
+    });
+  }, 2000);
+
   // eslint-disable-next-line no-constant-condition
   while (true) {
     if (await IRacingSDK.IsSimRunning()) {
@@ -14,10 +22,6 @@ export async function publishIRacingSDKEvents() {
       sdk.autoEnableTelemetry = true;
 
       await sdk.ready();
-
-      BrowserWindow.getAllWindows().forEach((window) => {
-        window.webContents.send('runningState', true);
-      });
 
       while (sdk.waitForData(TIMEOUT)) {
         const telemetry = sdk.getTelemetry();
@@ -33,9 +37,6 @@ export async function publishIRacingSDKEvents() {
       console.log('iRacing is no longer publishing telemetry');
     } else {
       console.log('iRacing is not running');
-      BrowserWindow.getAllWindows().forEach((window) => {
-        window.webContents.send('runningState', false);
-      });
     }
 
     await new Promise((resolve) => setTimeout(resolve, TIMEOUT));

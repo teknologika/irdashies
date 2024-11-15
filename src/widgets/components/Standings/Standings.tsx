@@ -15,12 +15,11 @@ export const Standings = () => {
   const sessionValue = telemetry.SessionNum?.value?.[0] || 0;
   const currentSession = sessions.find((s) => s.SessionNum === sessionValue);
   const numOfClasses = session.WeekendInfo.NumCarClasses;
-
   if (!currentSession) return <>Waiting for current session...</>;
 
   const fastestDriver = currentSession.ResultsFastestLap?.[0]?.CarIdx;
 
-  const standings = currentSession.ResultsPositions.map((result) => {
+  const standings = currentSession.ResultsPositions?.map((result) => {
     const driver = session.DriverInfo.Drivers.find(
       (driver) => driver.CarIdx === result.CarIdx
     );
