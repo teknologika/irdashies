@@ -18,20 +18,33 @@ export const Standings = () => {
 
   if (!currentSession) return <>Waiting for current session...</>;
 
-  const fastestDriver = currentSession.ResultsFastestLap?.[0]?.CarIdx;
+  const fastestDriverIdx = currentSession.ResultsFastestLap?.[0]?.CarIdx;
   const results =
     currentSession.ResultsPositions ?? session.QualifyResultsInfo?.Results;
 
+  // TODO: refactor all these to utils
   const standings = results
     ?.map((result) => {
       const driver = session.DriverInfo?.Drivers.find(
         (driver) => driver.CarIdx === result.CarIdx
       );
+
+      // race delta
+      let delta: number | undefined =
+        telemetry.CarIdxF2Time.value?.[result.CarIdx];
+
+      // non-race delta
+      if (currentSession.SessionType !== 'Race') {
+        const leader = results.find((r) => r.CarIdx === fastestDriverIdx);
+        delta = leader ? result.FastestTime - leader.FastestTime : undefined;
+        if (delta && delta <= 0) delta = undefined;
+      }
+
       if (!driver) return null;
       return {
         carIdx: result.CarIdx,
         position: result.ClassPosition + 1,
-        delta: telemetry.CarIdxF2Time.value?.[result.CarIdx],
+        delta: delta,
         isPlayer: result.CarIdx === session.DriverInfo.DriverCarIdx,
         driver: {
           name: driver.UserName,
@@ -40,7 +53,7 @@ export const Standings = () => {
           rating: driver.IRating,
         },
         fastestTime: result.FastestTime,
-        hasFastestTime: result.CarIdx === fastestDriver,
+        hasFastestTime: result.CarIdx === fastestDriverIdx,
         lastTime: result.LastTime,
         carClass: {
           id: driver.CarClassID,

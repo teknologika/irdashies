@@ -8,7 +8,7 @@ type DriverRowInfoProps = {
   name: string;
   isPlayer: boolean;
   hasFastestTime: boolean;
-  delta: number;
+  delta?: number;
   position: number;
   badge: React.ReactNode;
   lastTime?: number;
@@ -58,10 +58,3 @@ export const DriverInfoRow = ({
     </tr>
   );
 };
-
-export const classColorMap = [
-  'bg-yellow-700 border-yellow-500',
-  'bg-blue-800 border-blue-500',
-  'bg-pink-800 border-pink-500',
-  'bg-purple-800 border-purple-500',
-];
