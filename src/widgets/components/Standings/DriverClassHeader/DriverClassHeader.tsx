@@ -1,4 +1,4 @@
-import { getTailwindColor } from '../../../utils/telemetryUtils';
+import { getTailwindColor } from '../../../utils/colors';
 
 type DriverClassHeaderProps = {
   className: string;

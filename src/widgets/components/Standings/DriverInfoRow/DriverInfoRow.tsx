@@ -1,4 +1,4 @@
-import { getTailwindColor } from '../../../utils/telemetryUtils';
+import { getTailwindColor } from '../../../utils/colors';
 import { formatTime } from '../../../utils/time';
 
 type DriverRowInfoProps = {
