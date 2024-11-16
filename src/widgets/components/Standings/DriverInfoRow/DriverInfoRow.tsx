@@ -39,7 +39,7 @@ export const DriverInfoRow = ({
          ${isPlayer ? 'text-yellow-500' : ''}`}
     >
       <td
-        className={`text-center px-2 ${isPlayer ? 'bg-yellow-500 text-black' : ''}`}
+        className={`text-center px-2 ${isPlayer ? 'bg-yellow-500 text-white' : ''}`}
       >
         {position}
       </td>

@@ -22,7 +22,7 @@ export const DriverClassHeader = ({
       <td></td>
       <td colSpan={4} className="p-0">
         <div
-          className={`[text-shadow:_1px_1px_0px_rgb(0_0_0)] font-bold mt-3 px-2 py-1 inline-block border-l-4 ${getTailwindColor(classColor).classHeader}`}
+          className={`[text-shadow:_1px_1px_1px_rgba(0_0_0/0.2)] font-bold mt-3 px-2 py-1 inline-block border-l-4 ${getTailwindColor(classColor).classHeader}`}
         >
           {className}
         </div>

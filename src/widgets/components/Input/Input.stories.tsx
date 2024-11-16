@@ -10,7 +10,18 @@ type Story = StoryObj<typeof Input>;
 
 export const Primary: Story = {
   render: () => (
-    <div className="h-[80px]">
+    <>
+      <div className="h-[80px] w-[400px]">
+        <Input />
+      </div>
+    </>
+  ),
+  args: {},
+};
+
+export const Bigger: Story = {
+  render: () => (
+    <div className="h-full w-full">
       <Input />
     </div>
   ),
