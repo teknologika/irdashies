@@ -25,6 +25,8 @@ export interface DashboardWidget {
   enabled: boolean;
   /** The layout of the window for the widget on the dashboard. */
   layout: WidgetLayout;
+  /** Configuration for the widget. */
+  config?: Record<string, unknown>;
 }
 
 export interface DashboardLayout {

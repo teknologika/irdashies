@@ -4,10 +4,13 @@ import { TelemetryProvider } from './context/TelemetryContext/TelemetryContext';
 import { Input } from './components/Input';
 import { Standings } from './components/Standings/Standings';
 import { Settings } from './components/Settings/Settings';
-import { DashboardProvider } from './context/DashboardContext/DashboardContext';
+import {
+  DashboardProvider,
+  useDashboard,
+} from './context/DashboardContext/DashboardContext';
 import {
   RunningStateProvider,
-  withRunningChecker,
+  useRunningState,
 } from './context/RunningStateContext/RunningStateContext';
 
 // I don't really know why interface.d.ts isn't being picked up so just redefining it here.
@@ -18,11 +21,37 @@ declare global {
   }
 }
 
+// TODO: type this better, right now the config comes from settings
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const WIDGET_MAP: Record<string, (config: any) => JSX.Element> = {
+  standings: Standings,
+  input: Input,
+  settings: Settings,
+};
+
 const AppRoutes = () => {
+  const { currentDashboard } = useDashboard();
+  const { running } = useRunningState();
   return (
     <Routes>
-      <Route path="/input" element={withRunningChecker(<Input />)} />
-      <Route path="/standings" element={withRunningChecker(<Standings />)} />
+      {currentDashboard?.widgets.map((widget) => {
+        const WidgetComponent = WIDGET_MAP[widget.id];
+        if (!WidgetComponent) {
+          return null;
+        }
+
+        if (!running) {
+          return null;
+        }
+
+        return (
+          <Route
+            key={widget.id}
+            path={`/${widget.id}`}
+            element={<WidgetComponent {...widget.config} />}
+          />
+        );
+      })}
       <Route path="/settings" element={<Settings />} />
     </Routes>
   );

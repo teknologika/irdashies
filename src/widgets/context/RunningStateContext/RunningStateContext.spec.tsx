@@ -1,10 +1,6 @@
 import { act, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import {
-  RunningStateProvider,
-  useRunningState,
-  withRunningChecker,
-} from './RunningStateContext';
+import { RunningStateProvider, useRunningState } from './RunningStateContext';
 import { IrSdkBridge } from '../../../bridge/iracingSdk/irSdkBridge.type';
 import { ReactNode } from 'react';
 
@@ -64,31 +60,5 @@ describe('RunningStateContext', () => {
       'useRunningState must be used within a RunningStateProvider'
     );
     consoleErrorSpy.mockRestore();
-  });
-
-  describe('withRunningChecker', () => {
-    it('should not render the children if the sim is running', () => {
-      const TestComponent = () => withRunningChecker(<div>Test</div>);
-      const { queryByText } = renderWithProvider(mockBridge, <TestComponent />);
-      expect(queryByText('Test')).toBeNull();
-    });
-
-    it('should render the children if the sim is not running', () => {
-      const TestComponent = () => withRunningChecker(<div>Test</div>);
-      let runningStateCallback: (isRunning: boolean) => void = () => {
-        /** noop */
-      };
-
-      vi.spyOn(mockBridge, 'onRunningState').mockImplementation(
-        (callback: (isRunning: boolean) => void) => {
-          runningStateCallback = callback;
-        }
-      );
-
-      const { getByText } = renderWithProvider(mockBridge, <TestComponent />);
-
-      act(() => runningStateCallback(true));
-      expect(getByText('Test')).toBeInTheDocument();
-    });
   });
 });
