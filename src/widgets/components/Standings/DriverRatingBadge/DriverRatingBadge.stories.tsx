@@ -14,6 +14,13 @@ export const Primary: Story = {
   },
 };
 
+export const Alien: Story = {
+  args: {
+    license: 'A 4.99',
+    rating: 12200,
+  },
+};
+
 export const AllRatings: Story = {
   render: () => (
     <div className="flex flex-col gap-1">

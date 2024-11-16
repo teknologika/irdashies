@@ -1,13 +1,13 @@
 export type DriverRatingBadgeProps = {
-  license: string | undefined;
-  rating: number | undefined;
+  license?: string;
+  rating?: number;
 };
 
 export const DriverRatingBadge = ({
-  license = '',
+  license = 'R',
   rating = 0,
 }: DriverRatingBadgeProps) => {
-  const licenseLevel = license.charAt(0);
+  const licenseLevel = license?.charAt(0) || 'R';
   const colorMap: { [key: string]: string } = {
     A: 'border-blue-500 bg-blue-800',
     B: 'border-green-500 bg-green-800',
@@ -16,10 +16,12 @@ export const DriverRatingBadge = ({
     R: 'border-red-500 bg-red-800',
   };
   const color = colorMap[licenseLevel] ?? '';
-  const simplifiedRating = (rating / 1000).toFixed(1);
+  let fixed = 1;
+  if (rating >= 10000) fixed = 0;
+  const simplifiedRating = (rating / 1000).toFixed(fixed);
   return (
     <div
-      className={`text-center text-white w-[75px] border-solid rounded-md text-[10px] m-0 px-1 border-2 ${color}`}
+      className={`text-center text-white w-16 border-solid rounded-md text-[10px] m-0 px-1 border-2 ${color}`}
     >
       {license} {simplifiedRating}k
     </div>
