@@ -92,4 +92,4 @@ typings/
 out/
 
 *storybook.log
-test-data
+test-data/*.png
