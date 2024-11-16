@@ -24,7 +24,7 @@ const TelemetryContext = createContext<TelemetryContextProps | undefined>(
 );
 
 export const TelemetryProvider: React.FC<{
-  bridge: IrSdkBridge;
+  bridge: IrSdkBridge | Promise<IrSdkBridge>;
   children: ReactNode;
 }> = ({ bridge, children }) => {
   const [session, setSession] = useState<SessionData | undefined>(undefined);
@@ -33,6 +33,14 @@ export const TelemetryProvider: React.FC<{
   );
 
   useEffect(() => {
+    if (bridge instanceof Promise) {
+      bridge.then((bridge) => {
+        bridge.onTelemetry((telemetry) => setTelemetry(telemetry));
+        bridge.onSessionData((session) => setSession(session));
+      });
+      return () => bridge.then((bridge) => bridge.stop());
+    }
+
     bridge.onTelemetry((telemetry) => setTelemetry(telemetry));
     bridge.onSessionData((session) => setSession(session));
     return () => bridge.stop();

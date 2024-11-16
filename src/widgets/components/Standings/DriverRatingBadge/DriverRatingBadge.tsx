@@ -19,7 +19,7 @@ export const DriverRatingBadge = ({
   const simplifiedRating = (rating / 1000).toFixed(1);
   return (
     <div
-      className={`text-center text-white w-[70px] border-solid rounded-md text-xs m-0 px-1 text-[10px] border-2 ${color}`}
+      className={`text-center text-white w-[85px] border-solid rounded-md text-xs m-0 px-1 text-xs border-2 ${color}`}
     >
       {license} {simplifiedRating}k
     </div>
