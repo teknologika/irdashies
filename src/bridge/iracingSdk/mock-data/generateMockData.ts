@@ -4,8 +4,8 @@ import mockTelemetry from './telemetry.json';
 import mockSessionInfo from './session.json';
 
 export async function generateMockDataFromPath(path: string) {
-  const telemetry = await import(`${path}/telemetry.json`);
-  const sessionInfo = await import(`${path}/session.json`);
+  const telemetry = await import(`./${path}/telemetry.json`);
+  const sessionInfo = await import(`./${path}/session.json`);
   return generateMockData({ telemetry, sessionInfo });
 }
 
