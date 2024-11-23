@@ -9,7 +9,9 @@ declare const MAIN_WINDOW_VITE_NAME: string;
 export const createWidgets = (
   widgets: DashboardWidget[]
 ): { widget: DashboardWidget; window: BrowserWindow }[] => {
-  return widgets.map((widget) => ({ widget, window: createWidget(widget) }));
+  return widgets
+    .filter((w) => w.enabled)
+    .map((widget) => ({ widget, window: createWidget(widget) }));
 };
 
 export const createWidget = ({
@@ -29,12 +31,15 @@ export const createWidget = ({
     transparent: true,
     frame: false,
     focusable: false,
+    resizable: false,
+    movable: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
   browserWindow.setAlwaysOnTop(true, 'floating', 1);
+  browserWindow.setIgnoreMouseEvents(true);
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
