@@ -1,19 +1,21 @@
-import { useTelemetry } from '../../context/TelemetryContext/TelemetryContext';
+import {
+  useTelemetry,
+  useCurrentSession,
+} from '../../context/TelemetryContext';
 import { DriverRatingBadge } from './DriverRatingBadge/DriverRatingBadge';
 import { DriverInfoRow } from './DriverInfoRow/DriverInfoRow';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import React from 'react';
 import { DriverClassHeader } from './DriverClassHeader/DriverClassHeader';
+import { SessionBar } from './SessionBar/SessionBar';
 
 export const Standings = () => {
   const [parent] = useAutoAnimate();
   const { session, telemetry } = useTelemetry();
+  const currentSession = useCurrentSession();
 
   if (!session || !telemetry) return <>Waiting for session...</>;
 
-  const sessions = session.SessionInfo.Sessions;
-  const sessionValue = telemetry.SessionNum?.value?.[0] || 0;
-  const currentSession = sessions.find((s) => s.SessionNum === sessionValue);
   const numOfClasses = session.WeekendInfo.NumCarClasses;
 
   if (!currentSession) return <>Waiting for current session...</>;
@@ -87,7 +89,8 @@ export const Standings = () => {
 
   return (
     <div className="w-full h-full">
-      <table className="w-full px-1 table-auto text-xs border-separate border-spacing-y-0.5">
+      <SessionBar />
+      <table className="w-full table-auto text-xs border-separate border-spacing-y-0.5">
         <tbody ref={parent}>
           {sorted.map(([classId, standings]) => (
             <React.Fragment key={classId}>
