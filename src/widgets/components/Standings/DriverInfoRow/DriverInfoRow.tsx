@@ -54,7 +54,17 @@ export const DriverInfoRow = ({
       <td className={`px-2 ${hasFastestTime ? 'text-purple-400' : ''}`}>
         {fastestTimeString}
       </td>
-      <td className="px-2">{lastTimeString}</td>
+      <td
+        className={`px-2 ${
+          lastTimeString === fastestTimeString
+            ? hasFastestTime
+              ? 'text-purple-400'
+              : 'text-green-400'
+            : ''
+        }`}
+      >
+        {lastTimeString}
+      </td>
     </tr>
   );
 };
