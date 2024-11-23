@@ -7,7 +7,7 @@
     "unit": "s",
     "varType": 5,
     "value": [
-      106.50000000173371
+      236.40000000604064
     ]
   },
   "SessionTick": {
@@ -18,7 +18,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      13773
+      71611
     ]
   },
   "SessionNum": {
@@ -29,7 +29,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0
+      1
     ]
   },
   "SessionState": {
@@ -40,7 +40,7 @@
     "unit": "irsdk_SessionState",
     "varType": 2,
     "value": [
-      1
+      5
     ]
   },
   "SessionUniqueID": {
@@ -51,7 +51,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      3
+      2
     ]
   },
   "SessionFlags": {
@@ -62,7 +62,7 @@
     "unit": "irsdk_Flags",
     "varType": 3,
     "value": [
-      268435968
+      268698113
     ]
   },
   "SessionTimeRemain": {
@@ -73,7 +73,7 @@
     "unit": "s",
     "varType": 5,
     "value": [
-      193.51666666493293
+      243.616666660626
     ]
   },
   "SessionLapsRemain": {
@@ -84,7 +84,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      32767
+      -1
     ]
   },
   "SessionLapsRemainEx": {
@@ -95,7 +95,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      32767
+      2
     ]
   },
   "SessionTimeTotal": {
@@ -106,7 +106,7 @@
     "unit": "s",
     "varType": 5,
     "value": [
-      900
+      480
     ]
   },
   "SessionLapsTotal": {
@@ -117,7 +117,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      32767
+      2
     ]
   },
   "SessionJokerLapsRemain": {
@@ -150,7 +150,7 @@
     "unit": "s",
     "varType": 4,
     "value": [
-      43200
+      44336
     ]
   },
   "RadioTransmitCarIdx": {
@@ -183,7 +183,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      1
+      0
     ]
   },
   "DisplayUnits": {
@@ -282,7 +282,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      10182
+      18919
     ]
   },
   "ReplayFrameNumEnd": {
@@ -293,7 +293,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      1
+      1201
     ]
   },
   "IsDiskLoggingEnabled": {
@@ -326,7 +326,7 @@
     "unit": "fps",
     "varType": 4,
     "value": [
-      84.40323638916016
+      52.16327667236328
     ]
   },
   "CpuUsageFG": {
@@ -337,7 +337,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.12273168563842773
+      0.37823349237442017
     ]
   },
   "GpuUsage": {
@@ -348,7 +348,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.3091351091861725
+      1.1233559846878052
     ]
   },
   "ChanAvgLatency": {
@@ -359,7 +359,7 @@
     "unit": "s",
     "varType": 4,
     "value": [
-      0.033333078026771545
+      0.2006816565990448
     ]
   },
   "ChanLatency": {
@@ -370,7 +370,7 @@
     "unit": "s",
     "varType": 4,
     "value": [
-      0.03333333507180214
+      0.20000000298023224
     ]
   },
   "ChanQuality": {
@@ -381,7 +381,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      1.0003719329833984
+      0.997520387172699
     ]
   },
   "ChanPartnerQuality": {
@@ -403,7 +403,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.29799944162368774
+      0.13100044429302216
     ]
   },
   "ChanClockSkew": {
@@ -425,7 +425,7 @@
     "unit": "",
     "varType": 4,
     "value": [
-      0
+      311
     ]
   },
   "MemSoftPageFaultSec": {
@@ -436,7 +436,7 @@
     "unit": "",
     "varType": 4,
     "value": [
-      3509
+      6873
     ]
   },
   "PlayerCarPosition": {
@@ -447,7 +447,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0
+      2
     ]
   },
   "PlayerCarClassPosition": {
@@ -458,7 +458,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0
+      2
     ]
   },
   "PlayerCarClass": {
@@ -469,7 +469,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      2974
+      3002
     ]
   },
   "PlayerTrackSurface": {
@@ -502,7 +502,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0
+      4
     ]
   },
   "PlayerCarTeamIncidentCount": {
@@ -636,25 +636,25 @@
     "value": [
       -1,
       0,
+      -1,
+      -1,
+      -1,
+      3,
+      2,
+      -1,
+      -1,
       0,
+      2,
       0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
       -1,
       -1,
       -1,
@@ -713,12 +713,12 @@
       -1,
       -1,
       -1,
+      2,
+      1,
       -1,
       -1,
       -1,
-      -1,
-      -1,
-      -1,
+      1,
       -1,
       -1,
       -1,
@@ -783,26 +783,26 @@
     "varType": 4,
     "value": [
       -1,
-      0.9950782656669617,
-      0.9890068769454956,
-      0.9811465740203857,
-      0.9830051064491272,
-      0.9848194122314453,
-      0.991121768951416,
-      0.9930381774902344,
-      0.9869866371154785,
-      0.9888725280761719,
-      0.9931021928787231,
-      0.9910264611244202,
-      0.9950462579727173,
-      0.9990374445915222,
-      0.9970574378967285,
-      0.9970471858978271,
-      0.9832444787025452,
-      0.987165093421936,
-      0.9850590825080872,
-      0.9809339046478271,
-      0.002305199159309268,
+      0.32217445969581604,
+      -1,
+      -1,
+      -1,
+      0.1983196884393692,
+      0.03249025717377663,
+      -1,
+      -1,
+      0.23387117683887482,
+      0.9251067638397217,
+      0.15529325604438782,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
       -1,
       -1,
       -1,
@@ -858,25 +858,25 @@
     "value": [
       -1,
       3,
+      -1,
+      -1,
+      -1,
+      3,
+      2,
+      -1,
+      -1,
       3,
       3,
       3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
       -1,
       -1,
       -1,
@@ -932,25 +932,25 @@
     "value": [
       -1,
       1,
+      -1,
+      -1,
+      -1,
+      1,
+      1,
+      -1,
+      -1,
       1,
       1,
       1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
-      1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
       -1,
       -1,
       -1,
@@ -1010,7 +1010,7 @@
       false,
       false,
       false,
-      false,
+      true,
       false,
       false,
       false,
@@ -1081,14 +1081,14 @@
       0,
       0,
       0,
+      5,
+      2,
+      6,
+      1,
+      4,
       0,
       0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
+      3,
       0,
       0,
       0,
@@ -1155,14 +1155,14 @@
       0,
       0,
       0,
+      5,
+      2,
+      6,
+      1,
+      4,
       0,
       0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
+      3,
       0,
       0,
       0,
@@ -1226,27 +1226,18 @@
     "unit": "",
     "varType": 2,
     "value": [
-      2974,
-      2974,
-      4012,
-      24,
-      74,
-      74,
-      4012,
-      4012,
-      4012,
-      4012,
-      4012,
-      4012,
-      2974,
-      2974,
-      2974,
-      2974,
-      74,
-      74,
-      74,
-      74,
       11,
+      3002,
+      3002,
+      3002,
+      3002,
+      3002,
+      3002,
+      3002,
+      3002,
+      3002,
+      3002,
+      3002,
       -1,
       -1,
       -1,
@@ -1289,7 +1280,16 @@
       -1,
       -1,
       -1,
-      2974
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      3002
     ]
   },
   "CarIdxF2Time": {
@@ -1303,14 +1303,14 @@
       0,
       0,
       0,
+      65.25679779052734,
+      64.39839935302734,
+      65.3093032836914,
+      63.894100189208984,
+      64.69930267333984,
       0,
       0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
+      64.5353012084961,
       0,
       0,
       0,
@@ -1375,26 +1375,26 @@
     "varType": 4,
     "value": [
       0,
-      84.7269287109375,
-      94.60363006591797,
-      94.74061584472656,
-      93.45240783691406,
-      93.6010513305664,
-      94.77706909179688,
-      94.93465423583984,
-      94.43769836425781,
-      94.59260559082031,
-      94.9399185180664,
-      94.76923370361328,
-      84.72467803955078,
-      85.00520324707031,
-      82.7512435913086,
-      82.75053405761719,
-      93.47203826904297,
-      93.7928695678711,
-      93.62068176269531,
-      93.28189849853516,
-      0.15872065722942352,
+      20.345108032226562,
+      0,
+      0,
+      0,
+      11.828639030456543,
+      1.7099981307983398,
+      0,
+      0,
+      14.172487258911133,
+      58.05070877075195,
+      8.838841438293457,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
       0,
       0,
       0,
@@ -1453,12 +1453,12 @@
       -1,
       -1,
       -1,
+      65.62049865722656,
+      63.894100189208984,
       -1,
       -1,
       -1,
-      -1,
-      -1,
-      -1,
+      64.5353012084961,
       -1,
       -1,
       -1,
@@ -1527,12 +1527,12 @@
       -1,
       -1,
       -1,
+      65.3093032836914,
+      63.894100189208984,
       -1,
       -1,
       -1,
-      -1,
-      -1,
-      -1,
+      64.5353012084961,
       -1,
       -1,
       -1,
@@ -1601,12 +1601,12 @@
       -1,
       -1,
       -1,
+      1,
+      1,
       -1,
       -1,
       -1,
-      -1,
-      -1,
-      -1,
+      1,
       -1,
       -1,
       -1,
@@ -1672,24 +1672,24 @@
     "value": [
       -1,
       0,
+      -1,
+      -1,
+      -1,
+      0,
+      0,
+      -1,
+      -1,
       0,
       0,
       0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
       -1,
       -1,
       -1,
@@ -1747,14 +1747,14 @@
       -1,
       -1,
       -1,
+      0,
+      0,
+      0,
+      0,
+      0,
       -1,
       -1,
-      -1,
-      -1,
-      -1,
-      -1,
-      -1,
-      -1,
+      0,
       -1,
       -1,
       -1,
@@ -1968,25 +1968,25 @@
     "value": [
       0,
       262144,
+      0,
       262144,
       262144,
       262144,
       262144,
       262144,
+      0,
       262144,
       262144,
       262144,
-      262144,
-      262144,
-      262144,
-      262144,
-      262144,
-      262144,
-      262144,
-      262144,
-      262144,
-      262144,
-      262144,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
       0,
       0,
       0,
@@ -2040,7 +2040,7 @@
     "unit": "irsdk_PaceMode",
     "varType": 2,
     "value": [
-      1
+      4
     ]
   },
   "CarIdxPaceLine": {
@@ -2051,26 +2051,26 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0,
-      1,
-      1,
-      1,
-      0,
-      0,
-      1,
-      0,
-      0,
-      0,
-      1,
-      0,
-      0,
-      1,
-      1,
-      0,
-      1,
-      1,
-      1,
-      0,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
       -1,
       -1,
       -1,
@@ -2125,26 +2125,26 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0,
-      2,
-      5,
-      9,
-      8,
-      7,
-      4,
-      3,
-      6,
-      5,
-      3,
-      4,
-      2,
-      0,
-      1,
-      1,
-      8,
-      6,
-      7,
-      9,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
       -1,
       -1,
       -1,
@@ -2285,6 +2285,17 @@
     "varType": 4,
     "value": [
       0,
+      -1.0186262130737305,
+      0,
+      0,
+      0,
+      -0.42651814222335815,
+      2.2864526272314833e-8,
+      0,
+      0,
+      -0.38672882318496704,
+      -0.06277617067098618,
+      -0.20977884531021118,
       0,
       0,
       0,
@@ -2294,17 +2305,6 @@
       0,
       0,
       0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1.7196199325608674e-11,
       0,
       0,
       0,
@@ -2359,26 +2359,26 @@
     "varType": 4,
     "value": [
       -1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      2000,
+      5210.6806640625,
+      -1,
+      -1,
+      -1,
+      3478.60107421875,
+      1199.7955322265625,
+      -1,
+      -1,
+      6121.599609375,
+      5615.48095703125,
+      5177.2861328125,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
       -1,
       -1,
       -1,
@@ -2433,26 +2433,26 @@
     "varType": 2,
     "value": [
       -1,
+      3,
+      -1,
+      -1,
+      -1,
+      3,
       0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      1,
+      -1,
+      -1,
+      3,
+      4,
+      3,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
+      -1,
       -1,
       -1,
       -1,
@@ -2506,7 +2506,7 @@
     "unit": "rad",
     "varType": 4,
     "value": [
-      0
+      0.18515078723430634
     ]
   },
   "Throttle": {
@@ -2528,7 +2528,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      1
+      0.8100093007087708
     ]
   },
   "Clutch": {
@@ -2539,7 +2539,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      1
+      0
     ]
   },
   "Gear": {
@@ -2550,7 +2550,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0
+      2
     ]
   },
   "RPM": {
@@ -2561,7 +2561,7 @@
     "unit": "revs/min",
     "varType": 4,
     "value": [
-      300
+      1200.0087890625
     ]
   },
   "PlayerCarSLFirstRPM": {
@@ -2572,7 +2572,7 @@
     "unit": "revs/min",
     "varType": 4,
     "value": [
-      6400
+      6000
     ]
   },
   "PlayerCarSLShiftRPM": {
@@ -2583,7 +2583,7 @@
     "unit": "revs/min",
     "varType": 4,
     "value": [
-      7400
+      6500
     ]
   },
   "PlayerCarSLLastRPM": {
@@ -2594,7 +2594,7 @@
     "unit": "revs/min",
     "varType": 4,
     "value": [
-      7400
+      7000
     ]
   },
   "PlayerCarSLBlinkRPM": {
@@ -2605,7 +2605,7 @@
     "unit": "revs/min",
     "varType": 4,
     "value": [
-      7425
+      7500
     ]
   },
   "Lap": {
@@ -2660,7 +2660,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0
+      3
     ]
   },
   "CarDistAhead": {
@@ -2671,7 +2671,7 @@
     "unit": "m",
     "varType": 4,
     "value": [
-      500000
+      21.55377197265625
     ]
   },
   "CarDistBehind": {
@@ -2682,7 +2682,7 @@
     "unit": "m",
     "varType": 4,
     "value": [
-      500000
+      98.24846649169922
     ]
   },
   "LapBestLap": {
@@ -2693,7 +2693,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0
+      2
     ]
   },
   "LapBestLapTime": {
@@ -2704,7 +2704,7 @@
     "unit": "s",
     "varType": 4,
     "value": [
-      0
+      64.39839935302734
     ]
   },
   "LapLastLapTime": {
@@ -2715,7 +2715,7 @@
     "unit": "s",
     "varType": 4,
     "value": [
-      0
+      64.39839935302734
     ]
   },
   "LapCurrentLapTime": {
@@ -2726,7 +2726,7 @@
     "unit": "s",
     "varType": 4,
     "value": [
-      0
+      30.002099990844727
     ]
   },
   "LapLasNLapSeq": {
@@ -3012,7 +3012,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      51.666656494140625
+      27.22222900390625
     ]
   },
   "TrackTempCrew": {
@@ -3023,7 +3023,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      51.666656494140625
+      27.22222900390625
     ]
   },
   "AirTemp": {
@@ -3034,7 +3034,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      26.111112594604492
+      18.65530776977539
     ]
   },
   "TrackWetness": {
@@ -3056,7 +3056,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      1
+      3
     ]
   },
   "AirDensity": {
@@ -3067,7 +3067,7 @@
     "unit": "kg/m^3",
     "varType": 4,
     "value": [
-      1.1343913078308105
+      1.1778345108032227
     ]
   },
   "AirPressure": {
@@ -3078,7 +3078,7 @@
     "unit": "Pa",
     "varType": 4,
     "value": [
-      98020.6796875
+      99124.59375
     ]
   },
   "WindVel": {
@@ -3089,7 +3089,7 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      0.8940799832344055
+      4.749509334564209
     ]
   },
   "WindDir": {
@@ -3100,7 +3100,7 @@
     "unit": "rad",
     "varType": 4,
     "value": [
-      0
+      4.404046058654785
     ]
   },
   "RelativeHumidity": {
@@ -3111,7 +3111,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.45000001788139343
+      0.5763486623764038
     ]
   },
   "FogLevel": {
@@ -3144,7 +3144,7 @@
     "unit": "rad",
     "varType": 4,
     "value": [
-      1.1274219751358032
+      0.8916782736778259
     ]
   },
   "SolarAzimuth": {
@@ -3155,7 +3155,7 @@
     "unit": "rad",
     "varType": 4,
     "value": [
-      2.1115341186523438
+      2.872122049331665
     ]
   },
   "WeatherDeclaredWet": {
@@ -3518,7 +3518,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0
+      4
     ]
   },
   "CamCameraNumber": {
@@ -3540,7 +3540,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      10
+      11
     ]
   },
   "CamCameraState": {
@@ -3551,7 +3551,7 @@
     "unit": "irsdk_CameraState",
     "varType": 3,
     "value": [
-      83
+      81
     ]
   },
   "IsOnTrackCar": {
@@ -3584,7 +3584,7 @@
     "unit": "rad",
     "varType": 4,
     "value": [
-      9.544708251953125
+      6.719511985778809
     ]
   },
   "ShiftPowerPct": {
@@ -4018,7 +4018,7 @@
     "unit": "N*m",
     "varType": 4,
     "value": [
-      54.44570541381836
+      22.135944366455078
     ]
   },
   "SteeringWheelPeakForceNm": {
@@ -4084,7 +4084,7 @@
     "unit": "s",
     "varType": 5,
     "value": [
-      105.49999694824218
+      215.39665629069012
     ]
   },
   "ReplaySessionNum": {
@@ -4095,7 +4095,7 @@
     "unit": "",
     "varType": 2,
     "value": [
-      0
+      1
     ]
   },
   "TireLF_RumblePitch": {
@@ -4161,12 +4161,12 @@
     "unit": "N*m",
     "varType": 4,
     "value": [
-      0.6868500709533691,
-      0.6868500709533691,
-      0.6868500709533691,
-      0.6868500709533691,
-      0.6868500709533691,
-      0.6868500709533691
+      4.597567558288574,
+      4.597567558288574,
+      4.597567558288574,
+      4.597567558288574,
+      4.597567558288574,
+      4.597567558288574
     ]
   },
   "SteeringWheelTorque": {
@@ -4177,7 +4177,7 @@
     "unit": "N*m",
     "varType": 4,
     "value": [
-      0.6868500709533691
+      4.597567558288574
     ]
   },
   "VelocityZ_ST": {
@@ -4188,12 +4188,12 @@
     "unit": "m/s at 360 Hz",
     "varType": 4,
     "value": [
-      0.000001253198774975317,
-      0.000001253198774975317,
-      0.000001253198774975317,
-      0.000001253198774975317,
-      0.000001253198774975317,
-      0.000001253198774975317
+      0.000047650599299231544,
+      0.000047650599299231544,
+      0.000047650599299231544,
+      0.000047650599299231544,
+      0.000047650599299231544,
+      0.000047650599299231544
     ]
   },
   "VelocityY_ST": {
@@ -4204,12 +4204,12 @@
     "unit": "m/s at 360 Hz",
     "varType": 4,
     "value": [
-      0.00006682992534479126,
-      0.00006682992534479126,
-      0.00006682992534479126,
-      0.00006682992534479126,
-      0.00006682992534479126,
-      0.00006682992534479126
+      -0.00003349084727233276,
+      -0.00003349084727233276,
+      -0.00003349084727233276,
+      -0.00003349084727233276,
+      -0.00003349084727233276,
+      -0.00003349084727233276
     ]
   },
   "VelocityX_ST": {
@@ -4220,12 +4220,12 @@
     "unit": "m/s at 360 Hz",
     "varType": 4,
     "value": [
-      -0.000012229855201439932,
-      -0.000012229855201439932,
-      -0.000012229855201439932,
-      -0.000012229855201439932,
-      -0.000012229855201439932,
-      -0.000012229855201439932
+      0.00006495748675661162,
+      0.00006495748675661162,
+      0.00006495748675661162,
+      0.00006495748675661162,
+      0.00006495748675661162,
+      0.00006495748675661162
     ]
   },
   "VelocityZ": {
@@ -4236,7 +4236,7 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      0.000001253198774975317
+      0.000047650599299231544
     ]
   },
   "VelocityY": {
@@ -4247,7 +4247,7 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      0.00006682992534479126
+      -0.00003349084727233276
     ]
   },
   "VelocityX": {
@@ -4258,7 +4258,7 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      -0.000012229855201439932
+      0.00006495748675661162
     ]
   },
   "YawRate_ST": {
@@ -4269,12 +4269,12 @@
     "unit": "rad/s",
     "varType": 4,
     "value": [
-      -0.000002478115220583277,
-      -0.000002478115220583277,
-      -0.000002478115220583277,
-      -0.000002478115220583277,
-      -0.000002478115220583277,
-      -0.000002478115220583277
+      -0.00017928519810084254,
+      -0.00017928519810084254,
+      -0.00017928519810084254,
+      -0.00017928519810084254,
+      -0.00017928519810084254,
+      -0.00017928519810084254
     ]
   },
   "PitchRate_ST": {
@@ -4285,12 +4285,12 @@
     "unit": "rad/s",
     "varType": 4,
     "value": [
-      0.000004369343059806852,
-      0.000004369343059806852,
-      0.000004369343059806852,
-      0.000004369343059806852,
-      0.000004369343059806852,
-      0.000004369343059806852
+      -0.000005261541446088813,
+      -0.000005261541446088813,
+      -0.000005261541446088813,
+      -0.000005261541446088813,
+      -0.000005261541446088813,
+      -0.000005261541446088813
     ]
   },
   "RollRate_ST": {
@@ -4301,12 +4301,12 @@
     "unit": "rad/s",
     "varType": 4,
     "value": [
-      0.00007340356387430802,
-      0.00007340356387430802,
-      0.00007340356387430802,
-      0.00007340356387430802,
-      0.00007340356387430802,
-      0.00007340356387430802
+      0.0005906032165512443,
+      0.0005906032165512443,
+      0.0005906032165512443,
+      0.0005906032165512443,
+      0.0005906032165512443,
+      0.0005906032165512443
     ]
   },
   "YawRate": {
@@ -4317,7 +4317,7 @@
     "unit": "rad/s",
     "varType": 4,
     "value": [
-      -0.000002478115220583277
+      -0.00017928519810084254
     ]
   },
   "PitchRate": {
@@ -4328,7 +4328,7 @@
     "unit": "rad/s",
     "varType": 4,
     "value": [
-      0.000004369343059806852
+      -0.000005261541446088813
     ]
   },
   "RollRate": {
@@ -4339,7 +4339,7 @@
     "unit": "rad/s",
     "varType": 4,
     "value": [
-      0.00007340356387430802
+      0.0005906032165512443
     ]
   },
   "VertAccel_ST": {
@@ -4350,12 +4350,12 @@
     "unit": "m/s^2",
     "varType": 4,
     "value": [
-      9.80521011352539,
-      9.80521011352539,
-      9.80521011352539,
-      9.80521011352539,
-      9.80521011352539,
-      9.80521011352539
+      9.808494567871094,
+      9.808494567871094,
+      9.808494567871094,
+      9.808494567871094,
+      9.808494567871094,
+      9.808494567871094
     ]
   },
   "LatAccel_ST": {
@@ -4366,12 +4366,12 @@
     "unit": "m/s^2",
     "varType": 4,
     "value": [
-      -0.10581225156784058,
-      -0.10581225156784058,
-      -0.10581225156784058,
-      -0.10581225156784058,
-      -0.10581225156784058,
-      -0.10581225156784058
+      0.2070169895887375,
+      0.2070169895887375,
+      0.2070169895887375,
+      0.2070169895887375,
+      0.2070169895887375,
+      0.2070169895887375
     ]
   },
   "LongAccel_ST": {
@@ -4382,12 +4382,12 @@
     "unit": "m/s^2",
     "varType": 4,
     "value": [
-      -0.1281254142522812,
-      -0.1281254142522812,
-      -0.1281254142522812,
-      -0.1281254142522812,
-      -0.1281254142522812,
-      -0.1281254142522812
+      -0.10650390386581421,
+      -0.10650390386581421,
+      -0.10650390386581421,
+      -0.10650390386581421,
+      -0.10650390386581421,
+      -0.10650390386581421
     ]
   },
   "VertAccel": {
@@ -4398,7 +4398,7 @@
     "unit": "m/s^2",
     "varType": 4,
     "value": [
-      9.80521011352539
+      9.808494567871094
     ]
   },
   "LatAccel": {
@@ -4409,7 +4409,7 @@
     "unit": "m/s^2",
     "varType": 4,
     "value": [
-      -0.10581225156784058
+      0.2070169895887375
     ]
   },
   "LongAccel": {
@@ -4420,7 +4420,7 @@
     "unit": "m/s^2",
     "varType": 4,
     "value": [
-      -0.1281254142522812
+      -0.10650390386581421
     ]
   },
   "dcStarter": {
@@ -4434,77 +4434,33 @@
       false
     ]
   },
-  "dcTractionControlToggle": {
+  "dcDashPage": {
     "countAsTime": false,
     "length": 1,
-    "name": "dcTractionControlToggle",
-    "description": "In car traction control active",
-    "unit": "",
-    "varType": 1,
-    "value": [
-      false
-    ]
-  },
-  "dcPitSpeedLimiterToggle": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dcPitSpeedLimiterToggle",
-    "description": "In car traction control active",
-    "unit": "",
-    "varType": 1,
-    "value": [
-      false
-    ]
-  },
-  "dcHeadlightFlash": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dcHeadlightFlash",
-    "description": "In car headlight flash control active",
-    "unit": "",
-    "varType": 1,
-    "value": [
-      false
-    ]
-  },
-  "dpRFTireChange": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dpRFTireChange",
-    "description": "Pitstop rf tire change request",
+    "name": "dcDashPage",
+    "description": "In car dash display page adjustment",
     "unit": "",
     "varType": 4,
     "value": [
       0
     ]
   },
-  "dpLFTireChange": {
+  "dcTearOffVisor": {
     "countAsTime": false,
     "length": 1,
-    "name": "dpLFTireChange",
-    "description": "Pitstop lf tire change request",
+    "name": "dcTearOffVisor",
+    "description": "In car tear off visor film",
     "unit": "",
-    "varType": 4,
+    "varType": 1,
     "value": [
-      0
+      false
     ]
   },
-  "dpRRTireChange": {
+  "dpTireChange": {
     "countAsTime": false,
     "length": 1,
-    "name": "dpRRTireChange",
-    "description": "Pitstop rr tire change request",
-    "unit": "",
-    "varType": 4,
-    "value": [
-      0
-    ]
-  },
-  "dpLRTireChange": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dpLRTireChange",
-    "description": "Pitstop lr tire change request",
+    "name": "dpTireChange",
+    "description": "Pitstop all tire change request",
     "unit": "",
     "varType": 4,
     "value": [
@@ -4522,39 +4478,6 @@
       0
     ]
   },
-  "dpFuelAutoFillEnabled": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dpFuelAutoFillEnabled",
-    "description": "Pitstop auto fill fuel system enabled",
-    "unit": "",
-    "varType": 4,
-    "value": [
-      0
-    ]
-  },
-  "dpFuelAutoFillActive": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dpFuelAutoFillActive",
-    "description": "Pitstop auto fill fuel next stop flag",
-    "unit": "",
-    "varType": 4,
-    "value": [
-      0
-    ]
-  },
-  "dpWindshieldTearoff": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dpWindshieldTearoff",
-    "description": "Pitstop windshield tearoff",
-    "unit": "",
-    "varType": 4,
-    "value": [
-      0
-    ]
-  },
   "dpFuelAddKg": {
     "countAsTime": false,
     "length": 1,
@@ -4564,28 +4487,6 @@
     "varType": 4,
     "value": [
       0
-    ]
-  },
-  "dcToggleWindshieldWipers": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dcToggleWindshieldWipers",
-    "description": "In car turn wipers on or off",
-    "unit": "",
-    "varType": 1,
-    "value": [
-      false
-    ]
-  },
-  "dcTriggerWindshieldWipers": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dcTriggerWindshieldWipers",
-    "description": "In car momentarily turn on wipers",
-    "unit": "",
-    "varType": 1,
-    "value": [
-      false
     ]
   },
   "dpFastRepair": {
@@ -4654,149 +4555,6 @@
       0
     ]
   },
-  "dcTractionControl": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dcTractionControl",
-    "description": "In car traction control adjustment",
-    "unit": "",
-    "varType": 4,
-    "value": [
-      0
-    ]
-  },
-  "dcThrottleShape": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "dcThrottleShape",
-    "description": "In car throttle shape adjustment",
-    "unit": "",
-    "varType": 4,
-    "value": [
-      0
-    ]
-  },
-  "FuelUsePerHour": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "FuelUsePerHour",
-    "description": "Engine fuel used instantaneous",
-    "unit": "kg/h",
-    "varType": 4,
-    "value": [
-      1.0845187902450562
-    ]
-  },
-  "Voltage": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "Voltage",
-    "description": "Engine voltage",
-    "unit": "V",
-    "varType": 4,
-    "value": [
-      13.40000057220459
-    ]
-  },
-  "WaterTemp": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "WaterTemp",
-    "description": "Engine coolant temp",
-    "unit": "C",
-    "varType": 4,
-    "value": [
-      77
-    ]
-  },
-  "WaterLevel": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "WaterLevel",
-    "description": "Engine coolant level",
-    "unit": "l",
-    "varType": 4,
-    "value": [
-      22
-    ]
-  },
-  "FuelPress": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "FuelPress",
-    "description": "Engine fuel pressure",
-    "unit": "bar",
-    "varType": 4,
-    "value": [
-      9.214148377623133e-8
-    ]
-  },
-  "OilTemp": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "OilTemp",
-    "description": "Engine oil temperature",
-    "unit": "C",
-    "varType": 4,
-    "value": [
-      77
-    ]
-  },
-  "OilPress": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "OilPress",
-    "description": "Engine oil pressure",
-    "unit": "bar",
-    "varType": 4,
-    "value": [
-      0
-    ]
-  },
-  "OilLevel": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "OilLevel",
-    "description": "Engine oil level",
-    "unit": "l",
-    "varType": 4,
-    "value": [
-      11
-    ]
-  },
-  "ManifoldPress": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "ManifoldPress",
-    "description": "Engine manifold pressure",
-    "unit": "bar",
-    "varType": 4,
-    "value": [
-      1
-    ]
-  },
-  "FuelLevel": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "FuelLevel",
-    "description": "Liters of fuel remaining",
-    "unit": "l",
-    "varType": 4,
-    "value": [
-      0
-    ]
-  },
-  "Engine0_RPM": {
-    "countAsTime": false,
-    "length": 1,
-    "name": "Engine0_RPM",
-    "description": "Engine0Engine rpm",
-    "unit": "revs/min",
-    "varType": 4,
-    "value": [
-      1.1096417118494628e-9
-    ]
-  },
   "RFbrakeLinePress": {
     "countAsTime": false,
     "length": 1,
@@ -4816,7 +4574,7 @@
     "unit": "kPa",
     "varType": 4,
     "value": [
-      158.5794219970703
+      117.21088409423828
     ]
   },
   "RFtempCL": {
@@ -4827,7 +4585,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      47.15203857421875
+      53.112274169921875
     ]
   },
   "RFtempCM": {
@@ -4838,7 +4596,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      47.00177001953125
+      51.6165771484375
     ]
   },
   "RFtempCR": {
@@ -4849,7 +4607,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      46.34674072265625
+      47.580291748046875
     ]
   },
   "RFwearL": {
@@ -4860,7 +4618,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.999973714351654
+      0.9948939681053162
     ]
   },
   "RFwearM": {
@@ -4871,7 +4629,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.9999736547470093
+      0.9948648810386658
     ]
   },
   "RFwearR": {
@@ -4882,7 +4640,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      1
+      0.9968573451042175
     ]
   },
   "LFbrakeLinePress": {
@@ -4904,7 +4662,7 @@
     "unit": "kPa",
     "varType": 4,
     "value": [
-      158.5794219970703
+      117.21088409423828
     ]
   },
   "LFtempCL": {
@@ -4915,7 +4673,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      46.842437744140625
+      54.62286376953125
     ]
   },
   "LFtempCM": {
@@ -4926,7 +4684,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      47.497589111328125
+      56.935760498046875
     ]
   },
   "LFtempCR": {
@@ -4937,7 +4695,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      47.672393798828125
+      58.19061279296875
     ]
   },
   "LFwearL": {
@@ -4948,7 +4706,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.999978244304657
+      0.9964429140090942
     ]
   },
   "LFwearM": {
@@ -4959,7 +4717,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.999963104724884
+      0.9951375722885132
     ]
   },
   "LFwearR": {
@@ -4970,7 +4728,128 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.9999631643295288
+      0.9951615929603577
+    ]
+  },
+  "FuelUsePerHour": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "FuelUsePerHour",
+    "description": "Engine fuel used instantaneous",
+    "unit": "kg/h",
+    "varType": 4,
+    "value": [
+      0.6043898463249207
+    ]
+  },
+  "Voltage": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "Voltage",
+    "description": "Engine voltage",
+    "unit": "V",
+    "varType": 4,
+    "value": [
+      13.699999809265137
+    ]
+  },
+  "WaterTemp": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "WaterTemp",
+    "description": "Engine coolant temp",
+    "unit": "C",
+    "varType": 4,
+    "value": [
+      69.24440002441406
+    ]
+  },
+  "WaterLevel": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "WaterLevel",
+    "description": "Engine coolant level",
+    "unit": "l",
+    "varType": 4,
+    "value": [
+      6.71999979019165
+    ]
+  },
+  "FuelPress": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "FuelPress",
+    "description": "Engine fuel pressure",
+    "unit": "bar",
+    "varType": 4,
+    "value": [
+      0.23999999463558197
+    ]
+  },
+  "OilTemp": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "OilTemp",
+    "description": "Engine oil temperature",
+    "unit": "C",
+    "varType": 4,
+    "value": [
+      99.24809265136719
+    ]
+  },
+  "OilPress": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "OilPress",
+    "description": "Engine oil pressure",
+    "unit": "bar",
+    "varType": 4,
+    "value": [
+      1.5749996900558472
+    ]
+  },
+  "OilLevel": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "OilLevel",
+    "description": "Engine oil level",
+    "unit": "l",
+    "varType": 4,
+    "value": [
+      3.7899999618530273
+    ]
+  },
+  "ManifoldPress": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "ManifoldPress",
+    "description": "Engine manifold pressure",
+    "unit": "bar",
+    "varType": 4,
+    "value": [
+      0.4770832359790802
+    ]
+  },
+  "FuelLevel": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "FuelLevel",
+    "description": "Liters of fuel remaining",
+    "unit": "l",
+    "varType": 4,
+    "value": [
+      0
+    ]
+  },
+  "Engine0_RPM": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "Engine0_RPM",
+    "description": "Engine0Engine rpm",
+    "unit": "revs/min",
+    "varType": 4,
+    "value": [
+      1200.00927734375
     ]
   },
   "RRbrakeLinePress": {
@@ -4992,7 +4871,7 @@
     "unit": "kPa",
     "varType": 4,
     "value": [
-      165.4741973876953
+      120.65824890136719
     ]
   },
   "RRtempCL": {
@@ -5003,7 +4882,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      47.18072509765625
+      57.273529052734375
     ]
   },
   "RRtempCM": {
@@ -5014,7 +4893,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      47.067840576171875
+      55.103973388671875
     ]
   },
   "RRtempCR": {
@@ -5025,7 +4904,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      46.205047607421875
+      50.465972900390625
     ]
   },
   "RRwearL": {
@@ -5036,7 +4915,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.9998816251754761
+      0.9976719617843628
     ]
   },
   "RRwearM": {
@@ -5047,7 +4926,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.9998816251754761
+      0.9976367950439453
     ]
   },
   "RRwearR": {
@@ -5058,7 +4937,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.9999896287918091
+      0.9987422823905945
     ]
   },
   "LRbrakeLinePress": {
@@ -5080,7 +4959,7 @@
     "unit": "kPa",
     "varType": 4,
     "value": [
-      165.4741973876953
+      120.65824890136719
     ]
   },
   "LRtempCL": {
@@ -5091,7 +4970,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      46.621978759765625
+      58.348358154296875
     ]
   },
   "LRtempCM": {
@@ -5102,7 +4981,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      47.260772705078125
+      60.894317626953125
     ]
   },
   "LRtempCR": {
@@ -5113,7 +4992,7 @@
     "unit": "C",
     "varType": 4,
     "value": [
-      47.38079833984375
+      62.80718994140625
     ]
   },
   "LRwearL": {
@@ -5124,7 +5003,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.9999949336051941
+      0.9982409477233887
     ]
   },
   "LRwearM": {
@@ -5135,7 +5014,7 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.9998874664306641
+      0.9978600740432739
     ]
   },
   "LRwearR": {
@@ -5146,7 +5025,61 @@
     "unit": "%",
     "varType": 4,
     "value": [
-      0.9998874664306641
+      0.9978691339492798
+    ]
+  },
+  "CRshockDefl": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "CRshockDefl",
+    "description": "CR shock deflection",
+    "unit": "m",
+    "varType": 4,
+    "value": [
+      0.03520914539694786
+    ]
+  },
+  "CRshockDefl_ST": {
+    "countAsTime": true,
+    "length": 6,
+    "name": "CRshockDefl_ST",
+    "description": "CR shock deflection at 360 Hz",
+    "unit": "m",
+    "varType": 4,
+    "value": [
+      0.03520914539694786,
+      0.03520914539694786,
+      0.03520914539694786,
+      0.03520914539694786,
+      0.03520914539694786,
+      0.03520914539694786
+    ]
+  },
+  "CRshockVel": {
+    "countAsTime": false,
+    "length": 1,
+    "name": "CRshockVel",
+    "description": "CR shock velocity",
+    "unit": "m/s",
+    "varType": 4,
+    "value": [
+      -0.000053934534662403166
+    ]
+  },
+  "CRshockVel_ST": {
+    "countAsTime": true,
+    "length": 6,
+    "name": "CRshockVel_ST",
+    "description": "CR shock velocity at 360 Hz",
+    "unit": "m/s",
+    "varType": 4,
+    "value": [
+      -0.000053934534662403166,
+      -0.000053934534662403166,
+      -0.000053934534662403166,
+      -0.000053934534662403166,
+      -0.000053934534662403166,
+      -0.000053934534662403166
     ]
   },
   "LRshockDefl": {
@@ -5157,7 +5090,7 @@
     "unit": "m",
     "varType": 4,
     "value": [
-      0.04980272054672241
+      0.021319255232810974
     ]
   },
   "LRshockDefl_ST": {
@@ -5168,12 +5101,12 @@
     "unit": "m",
     "varType": 4,
     "value": [
-      0.04980272054672241,
-      0.04980272054672241,
-      0.04980272054672241,
-      0.04980272054672241,
-      0.04980272054672241,
-      0.04980272054672241
+      0.021319255232810974,
+      0.021319255232810974,
+      0.021319255232810974,
+      0.021319255232810974,
+      0.021319255232810974,
+      0.021319255232810974
     ]
   },
   "LRshockVel": {
@@ -5184,7 +5117,7 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      -0.24393455684185028
+      -0.00003119996108580381
     ]
   },
   "LRshockVel_ST": {
@@ -5195,12 +5128,12 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      -0.24393455684185028,
-      -0.24393455684185028,
-      -0.24393455684185028,
-      -0.24393455684185028,
-      -0.24393455684185028,
-      -0.24393455684185028
+      -0.00003119996108580381,
+      -0.00003119996108580381,
+      -0.00003119996108580381,
+      -0.00003119996108580381,
+      -0.00003119996108580381,
+      -0.00003119996108580381
     ]
   },
   "RRshockDefl": {
@@ -5211,7 +5144,7 @@
     "unit": "m",
     "varType": 4,
     "value": [
-      0.04980272054672241
+      0.020942777395248413
     ]
   },
   "RRshockDefl_ST": {
@@ -5222,12 +5155,12 @@
     "unit": "m",
     "varType": 4,
     "value": [
-      0.04980272054672241,
-      0.04980272054672241,
-      0.04980272054672241,
-      0.04980272054672241,
-      0.04980272054672241,
-      0.04980272054672241
+      0.020942777395248413,
+      0.020942777395248413,
+      0.020942777395248413,
+      0.020942777395248413,
+      0.020942777395248413,
+      0.020942777395248413
     ]
   },
   "RRshockVel": {
@@ -5238,7 +5171,7 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      -0.2439236044883728
+      -0.00007153249316615984
     ]
   },
   "RRshockVel_ST": {
@@ -5249,12 +5182,12 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      -0.2439236044883728,
-      -0.2439236044883728,
-      -0.2439236044883728,
-      -0.2439236044883728,
-      -0.2439236044883728,
-      -0.2439236044883728
+      -0.00007153249316615984,
+      -0.00007153249316615984,
+      -0.00007153249316615984,
+      -0.00007153249316615984,
+      -0.00007153249316615984,
+      -0.00007153249316615984
     ]
   },
   "LFshockDefl": {
@@ -5265,7 +5198,7 @@
     "unit": "m",
     "varType": 4,
     "value": [
-      0.07763442397117615
+      0.05697443336248398
     ]
   },
   "LFshockDefl_ST": {
@@ -5276,12 +5209,12 @@
     "unit": "m",
     "varType": 4,
     "value": [
-      0.07763442397117615,
-      0.07763442397117615,
-      0.07763442397117615,
-      0.07763442397117615,
-      0.07763442397117615,
-      0.07763442397117615
+      0.05697443336248398,
+      0.05697443336248398,
+      0.05697443336248398,
+      0.05697443336248398,
+      0.05697443336248398,
+      0.05697443336248398
     ]
   },
   "LFshockVel": {
@@ -5292,7 +5225,7 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      -0.31060323119163513
+      -0.00013601366663351655
     ]
   },
   "LFshockVel_ST": {
@@ -5303,12 +5236,12 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      -0.31060323119163513,
-      -0.31060323119163513,
-      -0.31060323119163513,
-      -0.31060323119163513,
-      -0.31060323119163513,
-      -0.31060323119163513
+      -0.00013601366663351655,
+      -0.00013601366663351655,
+      -0.00013601366663351655,
+      -0.00013601366663351655,
+      -0.00013601366663351655,
+      -0.00013601366663351655
     ]
   },
   "RFshockDefl": {
@@ -5319,7 +5252,7 @@
     "unit": "m",
     "varType": 4,
     "value": [
-      0.07763442397117615
+      0.05694785341620445
     ]
   },
   "RFshockDefl_ST": {
@@ -5330,12 +5263,12 @@
     "unit": "m",
     "varType": 4,
     "value": [
-      0.07763442397117615,
-      0.07763442397117615,
-      0.07763442397117615,
-      0.07763442397117615,
-      0.07763442397117615,
-      0.07763442397117615
+      0.05694785341620445,
+      0.05694785341620445,
+      0.05694785341620445,
+      0.05694785341620445,
+      0.05694785341620445,
+      0.05694785341620445
     ]
   },
   "RFshockVel": {
@@ -5346,7 +5279,7 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      -0.31060320138931274
+      0.0006087475921958685
     ]
   },
   "RFshockVel_ST": {
@@ -5357,12 +5290,12 @@
     "unit": "m/s",
     "varType": 4,
     "value": [
-      -0.31060320138931274,
-      -0.31060320138931274,
-      -0.31060320138931274,
-      -0.31060320138931274,
-      -0.31060320138931274,
-      -0.31060320138931274
+      0.0006087475921958685,
+      0.0006087475921958685,
+      0.0006087475921958685,
+      0.0006087475921958685,
+      0.0006087475921958685,
+      0.0006087475921958685
     ]
   }
 }

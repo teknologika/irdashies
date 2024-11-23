@@ -1,8 +1,6 @@
 import type { Preview } from '@storybook/react';
 import '../src/theme.css';
-import React from 'react';
-import { TelemetryProvider } from '../src/widgets/context/TelemetryContext/TelemetryContext';
-import { generateMockData } from '../src/bridge/iracingSdk/mock-data/generateMockData';
+import { TelemetryDecorator } from './telemetryDecorator';
 
 const preview: Preview = {
   parameters: {
@@ -10,17 +8,7 @@ const preview: Preview = {
       default: 'dark',
     },
   },
-  decorators: [
-    (Story) => {
-      return (
-        <TelemetryProvider
-          bridge={generateMockData()}
-        >
-          <Story />
-        </TelemetryProvider>
-      );
-    },
-  ],
+  decorators: [TelemetryDecorator()],
 };
 
 export default preview;
