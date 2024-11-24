@@ -94,12 +94,10 @@ export const Standings = () => {
         <tbody ref={parent}>
           {sorted.map(([classId, standings]) => (
             <React.Fragment key={classId}>
-              {numOfClasses > 1 && (
-                <DriverClassHeader
-                  className={standings[0].carClass.name}
-                  classColor={standings[0].carClass.color}
-                />
-              )}
+              <DriverClassHeader
+                className={standings[0].carClass.name}
+                classColor={standings[0].carClass.color}
+              />
               {standings.map((result) => (
                 <DriverInfoRow
                   key={result.carIdx}
