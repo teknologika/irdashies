@@ -6,13 +6,13 @@ export const useCurrentSession = () => {
 
   const currentSession = useMemo(() => {
     if (!session || !telemetry?.SessionNum?.value) {
-      return null;
+      return undefined;
     }
 
     const sessionValue = telemetry.SessionNum.value?.[0] || 0;
     const sessions = session.SessionInfo.Sessions;
 
-    return sessions.find((s) => s.SessionNum === sessionValue) || null;
+    return sessions.find((s) => s.SessionNum === sessionValue) || undefined;
   }, [session, telemetry]);
 
   return currentSession;

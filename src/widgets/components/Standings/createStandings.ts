@@ -47,6 +47,11 @@ const calculateDelta = (
   return delta;
 };
 
+/**
+ * This method will create the driver standings for the current session
+ * It will calculate the delta to the leader
+ * It will also determine if the driver has the fastest time
+ */
 const createDriverStandings = (
   session: SessionData & {
     QualifyResultsInfo?: {
@@ -98,6 +103,9 @@ const createDriverStandings = (
     .filter((s) => !!s);
 };
 
+/**
+ * This method will group the standings by class and sort them by relative speed
+ */
 const groupStandingsByClass = (standings: Standings[]) => {
   // group by class
   const groupedStandings = standings.reduce(
@@ -119,11 +127,68 @@ const groupStandingsByClass = (standings: Standings[]) => {
   return sorted;
 };
 
+/**
+ * This method will slice up the standings and return only the relevant drivers
+ * Top 3 drivers are always included for each class
+ * Within the player's class it will include the player and 5 drivers before and after
+ */
+export const sliceRelevantDrivers = <T extends { isPlayer?: boolean }>(
+  groupedStandings: [string, T[]][]
+): [string, T[]][] => {
+  // this is honestly a bit too complicated to maintain so after some testing will
+  // probably simplify it so its a bit more readable
+  return groupedStandings.map(([classIdx, standings]) => {
+    const playerIndex = standings.findIndex((driver) => driver.isPlayer);
+    if (playerIndex < 0) {
+      // if player is not in this class, return only top 3 drivers in that class
+      return [classIdx, standings.slice(0, 3)];
+    }
+
+    // if there are less than 10 drivers, return all
+    if (standings.length <= 10) return [classIdx, standings];
+
+    // take the player and 5 drivers before and after the player
+    const buffer = 3;
+    const start = Math.max(playerIndex - buffer, 0);
+    let end = Math.min(playerIndex + buffer + 1, standings.length);
+
+    if (playerIndex <= 3) {
+      // if player is in top 3, include more drivers at the end
+      end = Math.min(
+        playerIndex + buffer + 3 - playerIndex + 1,
+        standings.length
+      );
+    }
+
+    const sliced = standings.slice(start, end);
+
+    if (playerIndex > 3) {
+      // add back top 3 but don't include overlapping indexes
+      // reverse to add in correct order when doing array unshift
+      standings
+        .slice(0, 3)
+        .reverse()
+        .forEach((driver) => {
+          if (!sliced.includes(driver)) sliced.unshift(driver);
+        });
+    }
+
+    return [classIdx, sliced];
+  });
+};
+
+/**
+ * This method will create the standings for the current session
+ * It will group the standings by class and slice the relevant drivers
+ */
 export const createStandings = (
-  session: SessionData,
-  telemetry: TelemetryVarList,
-  currentSession: SessionInfo
+  session?: SessionData,
+  telemetry?: TelemetryVarList,
+  currentSession?: SessionInfo
 ) => {
+  if (!session || !telemetry || !currentSession) return [];
+
   const standings = createDriverStandings(session, telemetry, currentSession);
-  return groupStandingsByClass(standings);
+  const grouped = groupStandingsByClass(standings);
+  return sliceRelevantDrivers(grouped);
 };

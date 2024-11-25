@@ -21,3 +21,15 @@ export const MultiClassPCCWithClio: Story = {
 export const SupercarsRace: Story = {
   decorators: [TelemetryDecorator('/test-data/1732274253573')],
 };
+
+export const AdvancedMX5: Story = {
+  decorators: [TelemetryDecorator('/test-data/1732260478001')],
+};
+
+export const GT3Practice: Story = {
+  decorators: [TelemetryDecorator('/test-data/1732355190142')],
+};
+
+export const GT3Race: Story = {
+  decorators: [TelemetryDecorator('/test-data/1732359661942')],
+};

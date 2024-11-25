@@ -7,14 +7,14 @@ import type { SessionData, TelemetryVarList } from '@irsdk-node/types';
 vi.mock('../TelemetryContext');
 
 describe('useCurrentSession', () => {
-  it('returns null if session is not available', () => {
+  it('returns undefined if session is not available', () => {
     vi.mocked(useTelemetry).mockReturnValue({
       session: {} as SessionData,
       telemetry: {} as TelemetryVarList,
     });
     const { result } = renderHook(() => useCurrentSession());
 
-    expect(result.current).toBeNull();
+    expect(result.current).toBeUndefined();
   });
 
   it('returns the correct session if session and telemetry are available', () => {
@@ -40,7 +40,7 @@ describe('useCurrentSession', () => {
     expect(result.current).toEqual({ SessionNum: 2, name: 'Session 2' });
   });
 
-  it('returns null if no matching session is found', () => {
+  it('returns undefined if no matching session is found', () => {
     const mockSession = {
       SessionInfo: {
         Sessions: [
@@ -60,10 +60,10 @@ describe('useCurrentSession', () => {
 
     const { result } = renderHook(() => useCurrentSession());
 
-    expect(result.current).toBeNull();
+    expect(result.current).toBeUndefined();
   });
 
-  it('returns null if telemetry session number is not available', () => {
+  it('returns undefined if telemetry session number is not available', () => {
     const mockSession = {
       SessionInfo: {
         Sessions: [
@@ -83,6 +83,6 @@ describe('useCurrentSession', () => {
 
     const { result } = renderHook(() => useCurrentSession());
 
-    expect(result.current).toBeNull();
+    expect(result.current).toBeUndefined();
   });
 });

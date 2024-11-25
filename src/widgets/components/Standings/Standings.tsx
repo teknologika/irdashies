@@ -5,17 +5,15 @@ import {
 import { DriverRatingBadge } from './DriverRatingBadge/DriverRatingBadge';
 import { DriverInfoRow } from './DriverInfoRow/DriverInfoRow';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import React from 'react';
 import { DriverClassHeader } from './DriverClassHeader/DriverClassHeader';
 import { SessionBar } from './SessionBar/SessionBar';
 import { createStandings } from './createStandings';
+import { Fragment } from 'react/jsx-runtime';
 
 export const Standings = () => {
   const [parent] = useAutoAnimate();
   const { session, telemetry } = useTelemetry();
   const currentSession = useCurrentSession();
-
-  if (!session || !telemetry || !currentSession) return <></>;
 
   const classes = createStandings(session, telemetry, currentSession);
 
@@ -25,7 +23,7 @@ export const Standings = () => {
       <table className="w-full table-auto text-xs border-separate border-spacing-y-0.5">
         <tbody ref={parent}>
           {classes.map(([classId, standings]) => (
-            <React.Fragment key={classId}>
+            <Fragment key={classId}>
               <DriverClassHeader
                 className={standings[0].carClass.name}
                 classColor={standings[0].carClass.color}
@@ -51,7 +49,7 @@ export const Standings = () => {
                   }
                 />
               ))}
-            </React.Fragment>
+            </Fragment>
           ))}
         </tbody>
       </table>
