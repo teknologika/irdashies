@@ -12,8 +12,8 @@ describe('colors', () => {
 
     it('should return the default colors for an unknown color', () => {
       expect(getTailwindColor(0x123456)).toEqual({
-        driverIcon: 'bg-gray-500 border-gray-400',
-        classHeader: 'bg-gray-400 border-gray-400',
+        driverIcon: 'bg-sky-800 border-sky-500',
+        classHeader: 'bg-sky-500 border-sky-500',
       });
     });
   });

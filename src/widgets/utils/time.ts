@@ -12,3 +12,17 @@ export const formatTime = (seconds?: number): string => {
 
   return formattedTime;
 };
+
+export const formatTimeShort = (seconds?: number): string => {
+  if (!seconds) return '';
+  if (seconds < 0) return '';
+
+  const totalSeconds = Math.floor(seconds); // Get total whole seconds
+  const minutes = Math.floor(totalSeconds / 60); // Get minutes
+  const remainingSeconds = totalSeconds % 60; // Get remaining seconds
+
+  // Format as mm:ss
+  const formattedTime = `${minutes}:${String(remainingSeconds).padStart(2, '0')}`;
+
+  return formattedTime;
+};

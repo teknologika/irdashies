@@ -33,3 +33,7 @@ export const GT3Practice: Story = {
 export const GT3Race: Story = {
   decorators: [TelemetryDecorator('/test-data/1732359661942')],
 };
+
+export const LegendsQualifying: Story = {
+  decorators: [TelemetryDecorator('/test-data/1731732047131')],
+};
