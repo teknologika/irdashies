@@ -10,8 +10,8 @@ export const getTailwindColor = (
     { driverIcon: string; classHeader: string }
   > = {
     '#ffda59': {
-      driverIcon: 'bg-yellow-700 border-yellow-600',
-      classHeader: 'bg-yellow-600 border-yellow-600',
+      driverIcon: 'bg-orange-800 border-orange-500',
+      classHeader: 'bg-orange-500 border-orange-500',
     },
     '#33ceff': {
       driverIcon: 'bg-blue-800 border-blue-500',
@@ -26,8 +26,8 @@ export const getTailwindColor = (
       classHeader: 'bg-purple-500 border-purple-500',
     },
     '#ffffff': {
-      driverIcon: 'bg-gray-500 border-gray-400',
-      classHeader: 'bg-gray-400 border-gray-400',
+      driverIcon: 'bg-sky-800 border-sky-500',
+      classHeader: 'bg-sky-500 border-sky-500',
     },
   };
 

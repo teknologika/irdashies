@@ -35,11 +35,13 @@ export const DriverInfoRow = ({
   return (
     <tr
       key={carIdx}
-      className={`odd:bg-slate-800/70 even:bg-slate-900/70 text-xs text-white
-         ${isPlayer ? 'text-yellow-500' : ''}`}
+      className={[
+        `odd:bg-slate-800/70 even:bg-slate-900/70 text-xs text-white`,
+        isPlayer ? 'text-amber-500' : '',
+      ].join(' ')}
     >
       <td
-        className={`text-center px-2 ${isPlayer ? 'bg-yellow-600 text-white' : ''}`}
+        className={`text-center px-2 ${isPlayer ? `${getTailwindColor(classColor).classHeader} text-white` : ''}`}
       >
         {position}
       </td>
@@ -50,7 +52,7 @@ export const DriverInfoRow = ({
       </td>
       <td className={`px-2 w-full`}>{name}</td>
       <td>{badge}</td>
-      <td className="px-2">{delta?.toFixed(1)}</td>
+      <td className={`px-2`}>{delta?.toFixed(1)}</td>
       <td className={`px-2 ${hasFastestTime ? 'text-purple-400' : ''}`}>
         {fastestTimeString}
       </td>
