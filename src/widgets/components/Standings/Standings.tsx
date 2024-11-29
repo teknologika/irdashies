@@ -16,7 +16,7 @@ export const Standings = () => {
   const currentSession = useCurrentSession();
 
   const classes = createStandings(session, telemetry, currentSession, {
-    sliceRelevantDrivers: { buffer: 30 },
+    sliceRelevantDrivers: { buffer: 3 },
   });
 
   return (
