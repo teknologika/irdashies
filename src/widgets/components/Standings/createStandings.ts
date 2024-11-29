@@ -19,6 +19,8 @@ export interface Standings {
   fastestTime: number;
   hasFastestTime: boolean;
   lastTime: number;
+  onPitRoad: boolean;
+  onTrack: boolean;
   carClass: {
     id: number;
     color: number;
@@ -92,6 +94,8 @@ const createDriverStandings = (
         fastestTime: result.FastestTime,
         hasFastestTime: result.CarIdx === fastestDriverIdx,
         lastTime: result.LastTime,
+        onPitRoad: telemetry.CarIdxOnPitRoad?.value?.[result.CarIdx] ?? false,
+        onTrack: telemetry.CarIdxTrackSurface?.value?.[result.CarIdx] > -1,
         carClass: {
           id: driver.CarClassID,
           color: driver.CarClassColor,
@@ -133,7 +137,8 @@ const groupStandingsByClass = (standings: Standings[]) => {
  * Within the player's class it will include the player and 5 drivers before and after
  */
 export const sliceRelevantDrivers = <T extends { isPlayer?: boolean }>(
-  groupedStandings: [string, T[]][]
+  groupedStandings: [string, T[]][],
+  { buffer = 3 } = {}
 ): [string, T[]][] => {
   // this is honestly a bit too complicated to maintain so after some testing will
   // probably simplify it so its a bit more readable
@@ -147,8 +152,7 @@ export const sliceRelevantDrivers = <T extends { isPlayer?: boolean }>(
     // if there are less than 10 drivers, return all
     if (standings.length <= 10) return [classIdx, standings];
 
-    // take the player and 5 drivers before and after the player
-    const buffer = 3;
+    // take the player and a buffer of drivers before and after the player
     const start = Math.max(playerIndex - buffer, 0);
     let end = Math.min(playerIndex + buffer + 1, standings.length);
 
@@ -184,11 +188,16 @@ export const sliceRelevantDrivers = <T extends { isPlayer?: boolean }>(
 export const createStandings = (
   session?: SessionData,
   telemetry?: TelemetryVarList,
-  currentSession?: SessionInfo
+  currentSession?: SessionInfo,
+  options?: {
+    sliceRelevantDrivers?: {
+      buffer?: number;
+    };
+  }
 ) => {
   if (!session || !telemetry || !currentSession) return [];
 
   const standings = createDriverStandings(session, telemetry, currentSession);
   const grouped = groupStandingsByClass(standings);
-  return sliceRelevantDrivers(grouped);
+  return sliceRelevantDrivers(grouped, options?.sliceRelevantDrivers);
 };

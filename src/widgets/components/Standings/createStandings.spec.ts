@@ -3,6 +3,7 @@ import { createStandings, sliceRelevantDrivers } from './createStandings';
 import type {
   SessionData,
   SessionInfo,
+  TelemetryVariable,
   TelemetryVarList,
 } from '@irsdk-node/types';
 
@@ -101,6 +102,57 @@ describe('createStandings', () => {
     expect(standings[1][1]).toHaveLength(1);
   });
 
+  it('should show as on pit road when CarIdx is in PitRoadLane', () => {
+    const mockTelemetryWithPitRoad: TelemetryVarList = {
+      ...mockTelemetry,
+      CarIdxOnPitRoad: {
+        value: [true],
+      } as TelemetryVariable<boolean[]>,
+    };
+
+    const standings = createStandings(
+      mockSessionData,
+      mockTelemetryWithPitRoad,
+      mockCurrentSession
+    );
+
+    expect(standings[0][1][0].onPitRoad).toBe(true);
+  });
+
+  it('should not show as on pit road when not in CarIdxOnPitRoad', () => {
+    const mockTelemetryWithPitRoad: TelemetryVarList = {
+      ...mockTelemetry,
+      CarIdxOnPitRoad: {
+        value: [false],
+      } as TelemetryVariable<boolean[]>,
+    };
+
+    const standings = createStandings(
+      mockSessionData,
+      mockTelemetryWithPitRoad,
+      mockCurrentSession
+    );
+
+    expect(standings[0][1][0].onPitRoad).toBe(false);
+  });
+
+  it('should show as onTrack when CarIdxTrackSurface is positive', () => {
+    const mockTelemetryWithConnected: TelemetryVarList = {
+      ...mockTelemetry,
+      CarIdxTrackSurface: {
+        value: [1],
+      } as TelemetryVariable<number[]>,
+    };
+
+    const standings = createStandings(
+      mockSessionData,
+      mockTelemetryWithConnected,
+      mockCurrentSession
+    );
+
+    expect(standings[0][1][0].onTrack).toBe(true);
+  });
+
   describe('sliceRelevantDrivers', () => {
     type DummyStanding = { name: string; isPlayer?: boolean };
     it('should return only top 3 drivers for class without player', () => {
@@ -108,21 +160,21 @@ describe('createStandings', () => {
         [
           'GT3',
           [
-            { name: 'Bob' },
-            { name: 'Alice' },
-            { name: 'Charlie' },
-            { name: 'David' },
-            { name: 'Eve' },
+            { name: '1. Bob' },
+            { name: '2. Alice' },
+            { name: '3. Charlie' },
+            { name: '4. David' },
+            { name: '5. Eve' },
           ],
         ],
         [
           'GT4',
           [
-            { name: 'Clark' },
-            { name: 'Richard' },
-            { name: 'Sam' },
-            { name: 'Bingo' },
-            { name: 'Tod', isPlayer: true },
+            { name: '1. Clark' },
+            { name: '2. Richard' },
+            { name: '3. Sam' },
+            { name: '4. Bingo' },
+            { name: '5. Tod', isPlayer: true },
           ],
         ],
       ];
@@ -130,15 +182,18 @@ describe('createStandings', () => {
       const filteredDrivers = sliceRelevantDrivers(results);
 
       expect(filteredDrivers).toEqual([
-        ['GT3', [{ name: 'Bob' }, { name: 'Alice' }, { name: 'Charlie' }]],
+        [
+          'GT3',
+          [{ name: '1. Bob' }, { name: '2. Alice' }, { name: '3. Charlie' }],
+        ],
         [
           'GT4',
           [
-            { name: 'Clark' },
-            { name: 'Richard' },
-            { name: 'Sam' },
-            { name: 'Bingo' },
-            { name: 'Tod', isPlayer: true },
+            { name: '1. Clark' },
+            { name: '2. Richard' },
+            { name: '3. Sam' },
+            { name: '4. Bingo' },
+            { name: '5. Tod', isPlayer: true },
           ],
         ],
       ]);
@@ -161,18 +216,18 @@ describe('createStandings', () => {
         [
           'GT3',
           [
-            { name: 'Bob' },
-            { name: 'Alice' },
-            { name: 'Charlie' },
-            { name: 'David' },
-            { name: 'Sebastian' },
-            { name: 'Nico' },
-            { name: 'Eve' },
-            { name: 'Frank' },
-            { name: 'Max' },
-            { name: 'George' },
-            { name: 'Player', isPlayer: true },
-            { name: 'Hannah' },
+            { name: '1. Bob' },
+            { name: '2. Alice' },
+            { name: '3. Charlie' },
+            { name: '4. David' },
+            { name: '5. Sebastian' },
+            { name: '6. Nico' },
+            { name: '7. Eve' },
+            { name: '8. Frank' },
+            { name: '9. Max' },
+            { name: '10. George' },
+            { name: '11. Player', isPlayer: true },
+            { name: '12. Hannah' },
           ],
         ],
       ];
@@ -183,14 +238,14 @@ describe('createStandings', () => {
         [
           'GT3',
           [
-            { name: 'Bob' },
-            { name: 'Alice' },
-            { name: 'Charlie' },
-            { name: 'Frank' },
-            { name: 'Max' },
-            { name: 'George' },
-            { name: 'Player', isPlayer: true },
-            { name: 'Hannah' },
+            { name: '1. Bob' },
+            { name: '2. Alice' },
+            { name: '3. Charlie' },
+            { name: '8. Frank' },
+            { name: '9. Max' },
+            { name: '10. George' },
+            { name: '11. Player', isPlayer: true },
+            { name: '12. Hannah' },
           ],
         ],
       ]);
@@ -201,18 +256,18 @@ describe('createStandings', () => {
         [
           'GT3',
           [
-            { name: 'Bob' },
-            { name: 'Player', isPlayer: true },
-            { name: 'Alice' },
-            { name: 'Charlie' },
-            { name: 'David' },
-            { name: 'Sebastian' },
-            { name: 'Nico' },
-            { name: 'Eve' },
-            { name: 'Frank' },
-            { name: 'Max' },
-            { name: 'George' },
-            { name: 'Hannah' },
+            { name: '1. Bob' },
+            { name: '2. Player', isPlayer: true },
+            { name: '3. Alice' },
+            { name: '4. Charlie' },
+            { name: '5. David' },
+            { name: '6. Sebastian' },
+            { name: '7. Nico' },
+            { name: '8. Eve' },
+            { name: '9. Frank' },
+            { name: '10. Max' },
+            { name: '11. George' },
+            { name: '12. Hannah' },
           ],
         ],
       ];
@@ -223,13 +278,13 @@ describe('createStandings', () => {
         [
           'GT3',
           [
-            { name: 'Bob' },
-            { name: 'Player', isPlayer: true },
-            { name: 'Alice' },
-            { name: 'Charlie' },
-            { name: 'David' },
-            { name: 'Sebastian' },
-            { name: 'Nico' },
+            { name: '1. Bob' },
+            { name: '2. Player', isPlayer: true },
+            { name: '3. Alice' },
+            { name: '4. Charlie' },
+            { name: '5. David' },
+            { name: '6. Sebastian' },
+            { name: '7. Nico' },
           ],
         ],
       ]);

@@ -13,6 +13,8 @@ type DriverRowInfoProps = {
   badge: React.ReactNode;
   lastTime?: number;
   fastestTime?: number;
+  onPitRoad?: boolean;
+  onTrack?: boolean;
 };
 
 export const DriverInfoRow = ({
@@ -27,6 +29,8 @@ export const DriverInfoRow = ({
   badge,
   lastTime,
   fastestTime,
+  onPitRoad,
+  onTrack,
 }: DriverRowInfoProps) => {
   // convert seconds to mm:ss:ms
   const lastTimeString = formatTime(lastTime);
@@ -37,6 +41,7 @@ export const DriverInfoRow = ({
       key={carIdx}
       className={[
         `odd:bg-slate-800/70 even:bg-slate-900/70 text-xs text-white`,
+        !onTrack ? 'text-opacity-60' : '',
         isPlayer ? 'text-amber-500' : '',
       ].join(' ')}
     >
@@ -50,7 +55,16 @@ export const DriverInfoRow = ({
       >
         #{carNumber}
       </td>
-      <td className={`px-2 w-full`}>{name}</td>
+      <td className={`px-2 w-full`}>
+        <div className="flex justify-between align-center">
+          <span>{name}</span>
+          {onPitRoad && (
+            <span className="text-[10px] border-yellow-500 border-2 rounded-md px-2">
+              PIT
+            </span>
+          )}
+        </div>
+      </td>
       <td>{badge}</td>
       <td className={`px-2`}>{delta?.toFixed(1)}</td>
       <td className={`px-2 ${hasFastestTime ? 'text-purple-400' : ''}`}>

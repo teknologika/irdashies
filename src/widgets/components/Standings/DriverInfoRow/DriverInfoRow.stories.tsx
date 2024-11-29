@@ -20,53 +20,45 @@ export const Primary: Story = {
     fastestTime: 111.111,
     lastTime: 112.225,
     badge: <DriverRatingBadge license="A 4.99" rating={4999} />,
+    onPitRoad: false,
   },
 };
 
 export const HasFastestLap: Story = {
   args: {
-    carIdx: 1,
-    carNumber: '999',
-    name: 'John Doe',
-    isPlayer: false,
-    delta: 0.1,
-    position: 1,
+    ...Primary.args,
     hasFastestTime: true,
-    classColor: 16777215,
-    fastestTime: 111.111,
-    lastTime: 112.225,
-    badge: <DriverRatingBadge license="A 4.99" rating={4999} />,
   },
 };
 
 export const LastLapIsFastestLap: Story = {
   args: {
-    carIdx: 1,
-    carNumber: '999',
-    name: 'John Doe',
-    isPlayer: false,
-    delta: 0.1,
-    position: 1,
+    ...Primary.args,
     hasFastestTime: true,
-    classColor: 16777215,
     fastestTime: 111.111,
     lastTime: 111.111,
-    badge: <DriverRatingBadge license="A 4.99" rating={4999} />,
   },
 };
 
 export const LastLapIsBestTime: Story = {
   args: {
-    carIdx: 1,
-    carNumber: '999',
-    name: 'John Doe',
-    isPlayer: false,
-    delta: 0.1,
-    position: 1,
+    ...Primary.args,
     hasFastestTime: false,
-    classColor: 16777215,
     fastestTime: 111.111,
     lastTime: 111.111,
-    badge: <DriverRatingBadge license="A 4.99" rating={4999} />,
+  },
+};
+
+export const OnPitRoad: Story = {
+  args: {
+    ...Primary.args,
+    onPitRoad: true,
+  },
+};
+
+export const NotOnTrack: Story = {
+  args: {
+    ...Primary.args,
+    onTrack: false,
   },
 };

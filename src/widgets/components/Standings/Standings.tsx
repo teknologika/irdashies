@@ -15,7 +15,9 @@ export const Standings = () => {
   const { session, telemetry } = useTelemetry();
   const currentSession = useCurrentSession();
 
-  const classes = createStandings(session, telemetry, currentSession);
+  const classes = createStandings(session, telemetry, currentSession, {
+    sliceRelevantDrivers: { buffer: 30 },
+  });
 
   return (
     <div className="w-full h-full">
@@ -41,6 +43,8 @@ export const Standings = () => {
                   position={result.position}
                   lastTime={result.lastTime}
                   fastestTime={result.fastestTime}
+                  onPitRoad={result.onPitRoad}
+                  onTrack={result.onTrack}
                   badge={
                     <DriverRatingBadge
                       license={result.driver?.license}
