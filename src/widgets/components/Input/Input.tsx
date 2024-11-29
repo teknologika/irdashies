@@ -1,9 +1,14 @@
 import { InputContainer } from './InputContainer/InputContainer';
 import { useTelemetry } from '../../context/TelemetryContext/TelemetryContext';
-import { getSingleNumberValue } from '../../utils/telemetryUtils';
+import { useCallback } from 'react';
 
 export const Input = () => {
   const { telemetry } = useTelemetry();
+  const getSingleNumberValue = useCallback(
+    (telemetryValue?: { value: number[] }) => telemetryValue?.value?.[0] ?? 0,
+    []
+  );
+
   return (
     <InputContainer
       brake={getSingleNumberValue(telemetry?.Brake)}

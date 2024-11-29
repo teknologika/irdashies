@@ -2,8 +2,11 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { TelemetryProvider, useTelemetry } from './TelemetryContext';
-import type { IrSdkBridge } from '../../../bridge/iracingSdk/irSdkBridge.type';
-import type { SessionData, TelemetryVarList } from '@irsdk-node/types';
+import type {
+  IrSdkBridge,
+  Session,
+  Telemetry,
+} from '../../../bridge/iracingSdk';
 
 const mockBridge: IrSdkBridge = {
   onTelemetry: vi.fn(),
@@ -49,7 +52,7 @@ describe('TelemetryContext', () => {
           varType: 4,
           value: [0.5],
         },
-      } as TelemetryVarList)
+      } as Telemetry)
     );
 
     render(
@@ -68,7 +71,7 @@ describe('TelemetryContext', () => {
         WeekendInfo: {
           TrackName: 'Mount Panorama',
         },
-      } as SessionData)
+      } as Session)
     );
 
     render(

@@ -1,8 +1,8 @@
-import type { SessionData, TelemetryVarList } from '@irsdk-node/types';
+import type { Session, Telemetry } from './types';
 
 export interface IrSdkBridge {
-  onTelemetry: (callback: (value: TelemetryVarList) => void) => void;
-  onSessionData: (callback: (value: SessionData) => void) => void;
+  onTelemetry: (callback: (value: Telemetry) => void) => void;
+  onSessionData: (callback: (value: Session) => void) => void;
   onRunningState: (callback: (value: boolean) => void) => void;
   stop: () => void;
 }

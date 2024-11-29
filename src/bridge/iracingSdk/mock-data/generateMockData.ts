@@ -1,4 +1,4 @@
-import type { SessionData, TelemetryVarList } from '@irsdk-node/types';
+import type { Session, Telemetry } from '../types';
 import type { IrSdkBridge } from '../irSdkBridge.type';
 import mockTelemetry from './telemetry.json';
 import mockSessionInfo from './session.json';
@@ -13,24 +13,24 @@ export async function generateMockDataFromPath(path?: string) {
 }
 
 export function generateMockData(sessionData?: {
-  telemetry: TelemetryVarList;
-  sessionInfo: SessionData;
+  telemetry: Telemetry;
+  sessionInfo: Session;
 }): IrSdkBridge {
   let telemetryInterval: NodeJS.Timeout;
   let sessionInfoInterval: NodeJS.Timeout;
   let runningStateInterval: NodeJS.Timeout;
 
   const telemetry =
-    sessionData?.telemetry || (mockTelemetry as unknown as TelemetryVarList);
+    sessionData?.telemetry || (mockTelemetry as unknown as Telemetry);
   const sessionInfo =
-    sessionData?.sessionInfo || (mockSessionInfo as unknown as SessionData);
+    sessionData?.sessionInfo || (mockSessionInfo as unknown as Session);
 
   const jitterValue = (value: number): number => {
     return Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05));
   };
 
   return {
-    onTelemetry: (callback: (value: TelemetryVarList) => void) => {
+    onTelemetry: (callback: (value: Telemetry) => void) => {
       telemetryInterval = setInterval(() => {
         telemetry.CarIdxPosition.value = randomCarPositionSwap(
           telemetry.CarIdxPosition.value
@@ -42,7 +42,7 @@ export function generateMockData(sessionData?: {
         callback({ ...telemetry });
       }, 1000 / 60);
     },
-    onSessionData: (callback: (value: SessionData) => void) => {
+    onSessionData: (callback: (value: Session) => void) => {
       callback({ ...sessionInfo });
       sessionInfoInterval = setInterval(() => {
         callback({ ...sessionInfo });

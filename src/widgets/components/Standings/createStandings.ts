@@ -1,9 +1,9 @@
 import type {
-  SessionData,
+  Session,
+  Telemetry,
   SessionInfo,
-  SessionResultsPosition,
-  TelemetryVarList,
-} from '@irsdk-node/types';
+  SessionResults,
+} from '../../../bridge/iracingSdk';
 
 export interface Standings {
   carIdx: number;
@@ -30,10 +30,10 @@ export interface Standings {
 }
 
 const calculateDelta = (
-  result: SessionResultsPosition,
-  telemetry: TelemetryVarList,
+  result: SessionResults,
+  telemetry: Telemetry,
   sessionType: string,
-  leader: SessionResultsPosition | undefined
+  leader: SessionResults | undefined
 ): number | undefined => {
   // race delta
   if (sessionType === 'Race') {
@@ -55,12 +55,8 @@ const calculateDelta = (
  * It will also determine if the driver has the fastest time
  */
 const createDriverStandings = (
-  session: SessionData & {
-    QualifyResultsInfo?: {
-      Results: SessionResultsPosition[];
-    };
-  },
-  telemetry: TelemetryVarList,
+  session: Session,
+  telemetry: Telemetry,
   currentSession: SessionInfo
 ): Standings[] => {
   const results =
@@ -186,8 +182,8 @@ export const sliceRelevantDrivers = <T extends { isPlayer?: boolean }>(
  * It will group the standings by class and slice the relevant drivers
  */
 export const createStandings = (
-  session?: SessionData,
-  telemetry?: TelemetryVarList,
+  session?: Session,
+  telemetry?: Telemetry,
   currentSession?: SessionInfo,
   options?: {
     sliceRelevantDrivers?: {

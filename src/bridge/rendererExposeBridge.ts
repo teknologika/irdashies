@@ -1,16 +1,16 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import type { TelemetryVarList, SessionData } from '@irsdk-node/types';
+import type { Telemetry, Session } from './iracingSdk';
 import type { IrSdkBridge } from './iracingSdk/irSdkBridge.type';
 import { DashboardLayout } from '../storage/dashboards';
 import { DashboardBridge } from './dashboard/dashboardBridge.type';
 
 export function exposeBridge() {
   contextBridge.exposeInMainWorld('irsdkBridge', {
-    onTelemetry: (callback: (value: TelemetryVarList) => void) =>
+    onTelemetry: (callback: (value: Telemetry) => void) =>
       ipcRenderer.on('telemetry', (_, value) => {
         callback(value);
       }),
-    onSessionData: (callback: (value: SessionData) => void) =>
+    onSessionData: (callback: (value: Session) => void) =>
       ipcRenderer.on('sessionData', (_, value) => {
         callback(value);
       }),

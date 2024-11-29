@@ -21,6 +21,7 @@ export const Primary: Story = {
     lastTime: 112.225,
     badge: <DriverRatingBadge license="A 4.99" rating={4999} />,
     onPitRoad: false,
+    onTrack: true,
   },
 };
 

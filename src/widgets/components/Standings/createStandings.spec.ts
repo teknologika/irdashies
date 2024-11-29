@@ -1,14 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { createStandings, sliceRelevantDrivers } from './createStandings';
 import type {
-  SessionData,
+  Session,
   SessionInfo,
-  TelemetryVariable,
-  TelemetryVarList,
-} from '@irsdk-node/types';
+  Telemetry,
+} from '../../../bridge/iracingSdk';
 
 describe('createStandings', () => {
-  const mockSessionData: SessionData = {
+  const mockSessionData: Session = {
     DriverInfo: {
       DriverCarIdx: 1,
       Drivers: [
@@ -57,13 +56,13 @@ describe('createStandings', () => {
         },
       ],
     },
-  } as SessionData;
+  } as Session;
 
-  const mockTelemetry: TelemetryVarList = {
+  const mockTelemetry: Telemetry = {
     CarIdxF2Time: {
       value: [0, 10],
     },
-  } as TelemetryVarList;
+  } as Telemetry;
 
   const mockCurrentSession: SessionInfo =
     mockSessionData.SessionInfo.Sessions[0];
@@ -103,12 +102,12 @@ describe('createStandings', () => {
   });
 
   it('should show as on pit road when CarIdx is in PitRoadLane', () => {
-    const mockTelemetryWithPitRoad: TelemetryVarList = {
+    const mockTelemetryWithPitRoad = {
       ...mockTelemetry,
       CarIdxOnPitRoad: {
         value: [true],
-      } as TelemetryVariable<boolean[]>,
-    };
+      },
+    } as Telemetry;
 
     const standings = createStandings(
       mockSessionData,
@@ -120,12 +119,12 @@ describe('createStandings', () => {
   });
 
   it('should not show as on pit road when not in CarIdxOnPitRoad', () => {
-    const mockTelemetryWithPitRoad: TelemetryVarList = {
+    const mockTelemetryWithPitRoad = {
       ...mockTelemetry,
       CarIdxOnPitRoad: {
         value: [false],
-      } as TelemetryVariable<boolean[]>,
-    };
+      },
+    } as Telemetry;
 
     const standings = createStandings(
       mockSessionData,
@@ -137,12 +136,12 @@ describe('createStandings', () => {
   });
 
   it('should show as onTrack when CarIdxTrackSurface is positive', () => {
-    const mockTelemetryWithConnected: TelemetryVarList = {
+    const mockTelemetryWithConnected = {
       ...mockTelemetry,
       CarIdxTrackSurface: {
         value: [1],
-      } as TelemetryVariable<number[]>,
-    };
+      },
+    } as Telemetry;
 
     const standings = createStandings(
       mockSessionData,
