@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { useTelemetry } from '../../../context/TelemetryContext';
 import type { Session, Telemetry } from '../../../../bridge/iracingSdk';
 
-vi.mock('../TelemetryContext');
+vi.mock('../../../context/TelemetryContext');
 
 describe('useCurrentSession', () => {
   it('returns undefined if session is not available', () => {
