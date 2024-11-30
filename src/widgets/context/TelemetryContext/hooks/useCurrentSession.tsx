@@ -3,9 +3,8 @@ import { useTelemetry } from '../TelemetryContext';
 
 export const useCurrentSession = () => {
   const { session, telemetry } = useTelemetry();
-
   const currentSession = useMemo(() => {
-    if (!session || !telemetry?.SessionNum?.value) {
+    if (!session?.SessionInfo?.Sessions || !telemetry?.SessionNum?.value) {
       return undefined;
     }
 
@@ -13,7 +12,7 @@ export const useCurrentSession = () => {
     const sessions = session.SessionInfo.Sessions;
 
     return sessions.find((s) => s.SessionNum === sessionValue) || undefined;
-  }, [session, telemetry]);
+  }, [session?.SessionInfo?.Sessions, telemetry?.SessionNum?.value]);
 
   return currentSession;
 };

@@ -9,44 +9,61 @@ export async function generateMockDataFromPath(path?: string) {
   }
   const telemetry = await import(/* @vite-ignore */ `${path}/telemetry.json`);
   const sessionInfo = await import(/* @vite-ignore */ `${path}/session.json`);
-  return generateMockData({ telemetry, sessionInfo });
+  return generateMockData({
+    telemetry: telemetry.default,
+    sessionInfo: sessionInfo.default,
+  });
 }
 
 export function generateMockData(sessionData?: {
-  telemetry: Telemetry;
-  sessionInfo: Session;
+  telemetry: Telemetry | Telemetry[];
+  sessionInfo: Session | Session[];
 }): IrSdkBridge {
   let telemetryInterval: NodeJS.Timeout;
   let sessionInfoInterval: NodeJS.Timeout;
   let runningStateInterval: NodeJS.Timeout;
 
-  const telemetry =
-    sessionData?.telemetry || (mockTelemetry as unknown as Telemetry);
-  const sessionInfo =
-    sessionData?.sessionInfo || (mockSessionInfo as unknown as Session);
+  const telemetry = sessionData?.telemetry;
+  const sessionInfo = sessionData?.sessionInfo;
 
-  const jitterValue = (value: number): number => {
-    return Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05));
-  };
+  let telemetryIdx = 0;
+  let sessionIdx = 0;
 
   return {
     onTelemetry: (callback: (value: Telemetry) => void) => {
       telemetryInterval = setInterval(() => {
-        telemetry.CarIdxPosition.value = randomCarPositionSwap(
-          telemetry.CarIdxPosition.value
-        );
-        telemetry.Brake.value[0] = jitterValue(telemetry['Brake'].value[0]);
-        telemetry.Throttle.value[0] = jitterValue(telemetry.Throttle.value[0]);
-        telemetry.Gear.value[0] = 3;
-        telemetry.Speed.value[0] = 44;
-        callback({ ...telemetry });
+        let t = Array.isArray(telemetry)
+          ? telemetry[telemetryIdx % telemetry.length]
+          : telemetry;
+        if (!t) {
+          t = mockTelemetry as unknown as Telemetry;
+          t.CarIdxPosition.value = randomCarPositionSwap(
+            t.CarIdxPosition.value
+          );
+          t.Brake.value[0] = jitterValue(t['Brake'].value[0]);
+          t.Throttle.value[0] = jitterValue(t.Throttle.value[0]);
+          t.Gear.value[0] = 3;
+          t.Speed.value[0] = 44;
+        }
+
+        telemetryIdx = telemetryIdx + 1;
+        callback({ ...t });
       }, 1000 / 60);
     },
     onSessionData: (callback: (value: Session) => void) => {
-      callback({ ...sessionInfo });
-      sessionInfoInterval = setInterval(() => {
-        callback({ ...sessionInfo });
-      }, 1000);
+      // callback({ ...sessionInfo });
+      const updateSessionData = () => {
+        let s = Array.isArray(sessionInfo)
+          ? sessionInfo[sessionIdx % sessionInfo.length]
+          : sessionInfo;
+
+        if (!s) s = mockSessionInfo as unknown as Session;
+        sessionIdx = sessionIdx + 1;
+
+        callback(s);
+      };
+      updateSessionData();
+      sessionInfoInterval = setInterval(updateSessionData, 2000);
     },
     onRunningState: (callback: (value: boolean) => void) => {
       runningStateInterval = setInterval(() => {
@@ -61,7 +78,11 @@ export function generateMockData(sessionData?: {
   };
 }
 
-function randomCarPositionSwap(arr: number[]) {
+const jitterValue = (value: number): number => {
+  return Math.max(0, Math.min(1, value + Math.random() * 0.1 - 0.05));
+};
+
+function randomCarPositionSwap<T>(arr: T[]) {
   if (arr.length < 2) {
     console.log('Array is too short to swap adjacent elements.');
     return arr;
