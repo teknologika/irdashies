@@ -1,8 +1,9 @@
 import { getTailwindColor } from '../../../utils/colors';
 
 type DriverClassHeaderProps = {
-  className: string;
-  classColor: number;
+  className: string | undefined;
+  classColor: number | undefined;
+  totalDrivers: number | undefined;
 };
 
 export const DriverClassHeader = ({

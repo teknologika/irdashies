@@ -1,5 +1,5 @@
 export const getTailwindColor = (
-  color: number
+  color?: number
 ): {
   driverIcon: string;
   classHeader: string;

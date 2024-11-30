@@ -5,10 +5,12 @@ import { DriverClassHeader } from './DriverClassHeader/DriverClassHeader';
 import { SessionBar } from './SessionBar/SessionBar';
 import { Fragment } from 'react/jsx-runtime';
 import { useDriverStandings } from './hooks/useDriverStandings';
+import { useCarClassStats } from './hooks/useCarClassStats';
 
 export const Standings = () => {
   const [parent] = useAutoAnimate();
   const standings = useDriverStandings({ buffer: 3 });
+  const classStats = useCarClassStats();
 
   return (
     <div className="w-full h-full">
@@ -18,8 +20,10 @@ export const Standings = () => {
           {standings.map(([classId, classStandings]) => (
             <Fragment key={classId}>
               <DriverClassHeader
-                className={classStandings[0].carClass.name}
-                classColor={classStandings[0].carClass.color}
+                key={classId}
+                className={classStats?.[classId]?.shortName}
+                classColor={classStats?.[classId]?.color}
+                totalDrivers={classStats?.[classId]?.total}
               />
               {classStandings.map((result) => (
                 <DriverInfoRow
