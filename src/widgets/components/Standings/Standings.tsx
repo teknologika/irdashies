@@ -1,36 +1,27 @@
-import {
-  useTelemetry,
-  useCurrentSession,
-} from '../../context/TelemetryContext';
 import { DriverRatingBadge } from './DriverRatingBadge/DriverRatingBadge';
 import { DriverInfoRow } from './DriverInfoRow/DriverInfoRow';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { DriverClassHeader } from './DriverClassHeader/DriverClassHeader';
 import { SessionBar } from './SessionBar/SessionBar';
-import { createStandings } from './createStandings';
 import { Fragment } from 'react/jsx-runtime';
+import { useDriverStandings } from './hooks/useDriverStandings';
 
 export const Standings = () => {
   const [parent] = useAutoAnimate();
-  const { session, telemetry } = useTelemetry();
-  const currentSession = useCurrentSession();
-
-  const classes = createStandings(session, telemetry, currentSession, {
-    sliceRelevantDrivers: { buffer: 3 },
-  });
+  const standings = useDriverStandings({ buffer: 3 });
 
   return (
     <div className="w-full h-full">
       <SessionBar />
       <table className="w-full table-auto text-xs border-separate border-spacing-y-0.5">
         <tbody ref={parent}>
-          {classes.map(([classId, standings]) => (
+          {standings.map(([classId, classStandings]) => (
             <Fragment key={classId}>
               <DriverClassHeader
-                className={standings[0].carClass.name}
-                classColor={standings[0].carClass.color}
+                className={classStandings[0].carClass.name}
+                classColor={classStandings[0].carClass.color}
               />
-              {standings.map((result) => (
+              {classStandings.map((result) => (
                 <DriverInfoRow
                   key={result.carIdx}
                   carIdx={result.carIdx}

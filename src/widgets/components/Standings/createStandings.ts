@@ -3,6 +3,7 @@ import type {
   Telemetry,
   SessionInfo,
   SessionResults,
+  Driver,
 } from '../../../bridge/iracingSdk';
 
 export interface Standings {
@@ -30,18 +31,21 @@ export interface Standings {
 }
 
 const calculateDelta = (
-  result: SessionResults,
-  telemetry: Telemetry,
-  sessionType: string,
-  leader: SessionResults | undefined
+  carIdx: number,
+  carFastestTime: number,
+  carIdxF2Time: number[], // map of car index and race time behind leader
+  sessionType: string | undefined,
+  leaderFastestTime: number | undefined
 ): number | undefined => {
   // race delta
   if (sessionType === 'Race') {
-    return telemetry.CarIdxF2Time.value?.[result.CarIdx];
+    return carIdxF2Time?.[carIdx];
   }
 
   // non-race delta
-  let delta = leader ? result.FastestTime - leader.FastestTime : undefined;
+  let delta = leaderFastestTime
+    ? carFastestTime - leaderFastestTime
+    : undefined;
 
   // if delta is negative, set it to undefined then hide from UI
   if (delta && delta <= 0) delta = undefined;
@@ -54,19 +58,35 @@ const calculateDelta = (
  * It will calculate the delta to the leader
  * It will also determine if the driver has the fastest time
  */
-const createDriverStandings = (
-  session: Session,
-  telemetry: Telemetry,
-  currentSession: SessionInfo
+export const createDriverStandings = (
+  session: {
+    playerIdx?: number;
+    drivers?: Driver[];
+    qualifyingResults?: SessionResults[];
+  },
+  telemetry: {
+    carIdxF2TimeValue?: number[];
+    carIdxOnPitRoadValue?: boolean[];
+    carIdxTrackSurfaceValue?: number[];
+  },
+  currentSession: {
+    resultsPositions?: SessionResults[];
+    resultsFastestLap?: {
+      CarIdx: number;
+      FastestLap: number;
+      FastestTime: number;
+    }[];
+    sessionType?: string;
+  }
 ): Standings[] => {
   const results =
-    currentSession.ResultsPositions ?? session.QualifyResultsInfo?.Results;
-  const fastestDriverIdx = currentSession.ResultsFastestLap?.[0]?.CarIdx;
+    currentSession.resultsPositions ?? session.qualifyingResults ?? [];
+  const fastestDriverIdx = currentSession.resultsFastestLap?.[0]?.CarIdx;
   const fastestDriver = results?.find((r) => r.CarIdx === fastestDriverIdx);
 
   return results
-    ?.map((result) => {
-      const driver = session.DriverInfo?.Drivers.find(
+    .map((result) => {
+      const driver = session.drivers?.find(
         (driver) => driver.CarIdx === result.CarIdx
       );
 
@@ -75,12 +95,13 @@ const createDriverStandings = (
         carIdx: result.CarIdx,
         position: result.ClassPosition + 1,
         delta: calculateDelta(
-          result,
-          telemetry,
-          currentSession.SessionType,
-          fastestDriver
+          result.CarIdx,
+          result.FastestTime,
+          telemetry.carIdxF2TimeValue ?? [],
+          currentSession?.sessionType,
+          fastestDriver?.FastestTime
         ),
-        isPlayer: result.CarIdx === session.DriverInfo.DriverCarIdx,
+        isPlayer: result.CarIdx === session.playerIdx,
         driver: {
           name: driver.UserName,
           carNum: driver.CarNumber,
@@ -90,8 +111,9 @@ const createDriverStandings = (
         fastestTime: result.FastestTime,
         hasFastestTime: result.CarIdx === fastestDriverIdx,
         lastTime: result.LastTime,
-        onPitRoad: telemetry.CarIdxOnPitRoad?.value?.[result.CarIdx] ?? false,
-        onTrack: telemetry.CarIdxTrackSurface?.value?.[result.CarIdx] > -1,
+        onPitRoad: telemetry?.carIdxOnPitRoadValue?.[result.CarIdx] ?? false,
+        onTrack:
+          (telemetry?.carIdxTrackSurfaceValue?.[result.CarIdx] ?? -1) > -1,
         carClass: {
           id: driver.CarClassID,
           color: driver.CarClassColor,
@@ -106,7 +128,7 @@ const createDriverStandings = (
 /**
  * This method will group the standings by class and sort them by relative speed
  */
-const groupStandingsByClass = (standings: Standings[]) => {
+export const groupStandingsByClass = (standings: Standings[]) => {
   // group by class
   const groupedStandings = standings.reduce(
     (acc, result) => {
@@ -191,9 +213,24 @@ export const createStandings = (
     };
   }
 ) => {
-  if (!session || !telemetry || !currentSession) return [];
+  const standings = createDriverStandings(
+    {
+      playerIdx: session?.DriverInfo?.DriverCarIdx,
+      drivers: session?.DriverInfo?.Drivers,
+      qualifyingResults: session?.QualifyResultsInfo?.Results,
+    },
+    {
+      carIdxF2TimeValue: telemetry?.CarIdxF2Time?.value,
+      carIdxOnPitRoadValue: telemetry?.CarIdxOnPitRoad?.value,
+      carIdxTrackSurfaceValue: telemetry?.CarIdxTrackSurface?.value,
+    },
+    {
+      resultsPositions: currentSession?.ResultsPositions,
+      resultsFastestLap: currentSession?.ResultsFastestLap,
+      sessionType: currentSession?.SessionType,
+    }
+  );
 
-  const standings = createDriverStandings(session, telemetry, currentSession);
   const grouped = groupStandingsByClass(standings);
   return sliceRelevantDrivers(grouped, options?.sliceRelevantDrivers);
 };
