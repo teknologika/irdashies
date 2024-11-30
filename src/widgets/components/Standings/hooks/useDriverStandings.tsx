@@ -1,13 +1,11 @@
 import { useMemo } from 'react';
-import {
-  useCurrentSession,
-  useTelemetry,
-} from '../../../context/TelemetryContext';
+import { useTelemetry } from '../../../context/TelemetryContext';
 import {
   createDriverStandings,
   groupStandingsByClass,
   sliceRelevantDrivers,
 } from '../createStandings';
+import { useCurrentSession } from './useCurrentSession';
 
 export const useDriverStandings = ({ buffer }: { buffer: number }) => {
   const { telemetry, session } = useTelemetry();

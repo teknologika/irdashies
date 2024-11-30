@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { useCurrentSession } from './useCurrentSession';
 import { describe, expect, it, vi } from 'vitest';
-import { useTelemetry } from '../TelemetryContext';
+import { useTelemetry } from '../../../context/TelemetryContext';
 import type { Session, Telemetry } from '../../../../bridge/iracingSdk';
 
 vi.mock('../TelemetryContext');

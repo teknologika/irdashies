@@ -4,8 +4,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { DriverClassHeader } from './DriverClassHeader/DriverClassHeader';
 import { SessionBar } from './SessionBar/SessionBar';
 import { Fragment } from 'react/jsx-runtime';
-import { useDriverStandings } from './hooks/useDriverStandings';
-import { useCarClassStats } from './hooks/useCarClassStats';
+import { useCarClassStats, useDriverStandings } from './hooks';
 
 export const Standings = () => {
   const [parent] = useAutoAnimate();

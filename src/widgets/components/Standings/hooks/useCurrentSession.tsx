@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useTelemetry } from '../TelemetryContext';
+import { useTelemetry } from '../../../context/TelemetryContext';
 
 export const useCurrentSession = () => {
   const { session, telemetry } = useTelemetry();

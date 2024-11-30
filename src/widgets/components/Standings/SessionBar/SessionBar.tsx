@@ -1,9 +1,9 @@
 import { formatTimeShort } from '../../../utils/time';
 import {
-  useDriverIncidents,
   useCurrentSession,
+  useDriverIncidents,
   useSessionLapCount,
-} from '../../../context/TelemetryContext';
+} from '../hooks';
 
 export const SessionBar = () => {
   const session = useCurrentSession();

@@ -1,4 +1,4 @@
-import { useTelemetry } from '../TelemetryContext';
+import { useTelemetry } from '../../../context/TelemetryContext';
 import { useCurrentSession } from './useCurrentSession';
 import { useMemo } from 'react';
 
