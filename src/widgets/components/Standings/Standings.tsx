@@ -40,6 +40,7 @@ export const Standings = () => {
                   fastestTime={result.fastestTime}
                   onPitRoad={result.onPitRoad}
                   onTrack={result.onTrack}
+                  radioActive={result.radioActive}
                   badge={
                     <DriverRatingBadge
                       license={result.driver?.license}
