@@ -28,6 +28,7 @@ export interface Standings {
     name: string;
     relativeSpeed: number;
   };
+  radioActive?: boolean;
 }
 
 const calculateDelta = (
@@ -68,6 +69,7 @@ export const createDriverStandings = (
     carIdxF2TimeValue?: number[];
     carIdxOnPitRoadValue?: boolean[];
     carIdxTrackSurfaceValue?: number[];
+    radioTransmitCarIdx?: number[];
   },
   currentSession: {
     resultsPositions?: SessionResults[];
@@ -120,6 +122,7 @@ export const createDriverStandings = (
           name: driver.CarClassShortName,
           relativeSpeed: driver.CarClassRelSpeed,
         },
+        radioActive: telemetry.radioTransmitCarIdx?.includes(result.CarIdx),
       };
     })
     .filter((s) => !!s);
@@ -223,6 +226,7 @@ export const createStandings = (
       carIdxF2TimeValue: telemetry?.CarIdxF2Time?.value,
       carIdxOnPitRoadValue: telemetry?.CarIdxOnPitRoad?.value,
       carIdxTrackSurfaceValue: telemetry?.CarIdxTrackSurface?.value,
+      radioTransmitCarIdx: telemetry?.RadioTransmitCarIdx?.value,
     },
     {
       resultsPositions: currentSession?.ResultsPositions,

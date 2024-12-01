@@ -22,6 +22,7 @@ export const useDriverStandings = ({ buffer }: { buffer: number }) => {
         carIdxF2TimeValue: telemetry?.CarIdxF2Time?.value,
         carIdxOnPitRoadValue: telemetry?.CarIdxOnPitRoad?.value,
         carIdxTrackSurfaceValue: telemetry?.CarIdxTrackSurface?.value,
+        radioTransmitCarIdx: telemetry?.RadioTransmitCarIdx?.value,
       },
       {
         resultsPositions: currentSession?.ResultsPositions,
@@ -38,6 +39,7 @@ export const useDriverStandings = ({ buffer }: { buffer: number }) => {
     telemetry?.CarIdxF2Time?.value,
     telemetry?.CarIdxOnPitRoad?.value,
     telemetry?.CarIdxTrackSurface?.value,
+    telemetry?.RadioTransmitCarIdx?.value,
     currentSession?.ResultsPositions,
     currentSession?.ResultsFastestLap,
     currentSession?.SessionType,

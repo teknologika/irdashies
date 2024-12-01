@@ -63,3 +63,10 @@ export const NotOnTrack: Story = {
     onTrack: false,
   },
 };
+
+export const RadioActive: Story = {
+  args: {
+    ...Primary.args,
+    radioActive: true,
+  },
+};

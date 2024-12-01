@@ -1,5 +1,7 @@
+import { Broadcast } from '@phosphor-icons/react';
 import { getTailwindColor } from '../../../utils/colors';
 import { formatTime } from '../../../utils/time';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 type DriverRowInfoProps = {
   carIdx: number;
@@ -15,6 +17,7 @@ type DriverRowInfoProps = {
   fastestTime?: number;
   onPitRoad?: boolean;
   onTrack?: boolean;
+  radioActive?: boolean;
 };
 
 export const DriverInfoRow = ({
@@ -31,6 +34,7 @@ export const DriverInfoRow = ({
   fastestTime,
   onPitRoad,
   onTrack,
+  radioActive,
 }: DriverRowInfoProps) => {
   // convert seconds to mm:ss:ms
   const lastTimeString = formatTime(lastTime);
@@ -57,9 +61,17 @@ export const DriverInfoRow = ({
       </td>
       <td className={`px-2 w-full`}>
         <div className="flex justify-between align-center">
-          <span>{name}</span>
+          <div className="inline">
+            <span className="whitespace-nowrap">{name}</span>
+            {radioActive && (
+              <Broadcast
+                size={16}
+                className="ml-2 inline mb-[2px] animate-pulse text-ping-500"
+              />
+            )}
+          </div>
           {onPitRoad && (
-            <span className="text-xs border-yellow-500 border-2 rounded-md px-2">
+            <span className="animate-pulse text-xs border-yellow-500 border-2 rounded-md px-2">
               PIT
             </span>
           )}
