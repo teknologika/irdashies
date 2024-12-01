@@ -1,3 +1,4 @@
+import { Barbell, Users } from '@phosphor-icons/react';
 import { getTailwindColor } from '../../../utils/colors';
 
 type DriverClassHeaderProps = {
@@ -32,9 +33,17 @@ export const DriverClassHeader = ({
             {className}
           </span>
           <span
-            className={`${getTailwindColor(classColor).driverIcon} px-2 py-1  font-light flex items-center`}
+            className={`${getTailwindColor(classColor).driverIcon} px-2 py-1  font-light flex items-center gap-1`}
           >
-            {sof ? `${sof?.toFixed(0)} ` : ''} ({totalDrivers})
+            {sof ? (
+              <>
+                <Barbell /> <span>{sof?.toFixed(0)}</span>
+              </>
+            ) : (
+              ''
+            )}{' '}
+            <Users />
+            <span>{totalDrivers}</span>
           </span>
         </div>
       </td>
