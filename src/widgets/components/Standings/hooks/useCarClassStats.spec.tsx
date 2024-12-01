@@ -14,16 +14,31 @@ describe('useCarClassStats', () => {
           CarClassID: '1',
           CarClassColor: 123456,
           CarClassShortName: 'GT3',
+          IRating: 1000,
         },
         {
           CarClassID: '1',
           CarClassColor: 123456,
           CarClassShortName: 'GT3',
+          IRating: 2000,
+        },
+        {
+          CarClassID: '1',
+          CarClassColor: 123456,
+          CarClassShortName: 'GT3',
+          IRating: 2250,
+        },
+        {
+          CarClassID: '1',
+          CarClassColor: 123456,
+          CarClassShortName: 'GT3',
+          IRating: 1950,
         },
         {
           CarClassID: '2',
           CarClassColor: 654321,
           CarClassShortName: 'LMP2',
+          IRating: 3000,
         },
       ],
     },
@@ -37,14 +52,16 @@ describe('useCarClassStats', () => {
 
     expect(result.current).toEqual({
       '1': {
-        total: 2,
+        total: 4,
         color: 123456,
         shortName: 'GT3',
+        sof: 1800,
       },
       '2': {
         total: 1,
         color: 654321,
         shortName: 'LMP2',
+        sof: 3000,
       },
     });
   });

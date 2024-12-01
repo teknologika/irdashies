@@ -14,7 +14,7 @@ export const Standings = () => {
   return (
     <div className="w-full h-full">
       <SessionBar />
-      <table className="w-full table-auto text-xs border-separate border-spacing-y-0.5">
+      <table className="w-full table-auto text-sm border-separate border-spacing-y-0.5">
         <tbody ref={parent}>
           {standings.map(([classId, classStandings]) => (
             <Fragment key={classId}>
@@ -23,6 +23,7 @@ export const Standings = () => {
                 className={classStats?.[classId]?.shortName}
                 classColor={classStats?.[classId]?.color}
                 totalDrivers={classStats?.[classId]?.total}
+                sof={classStats?.[classId]?.sof}
               />
               {classStandings.map((result) => (
                 <DriverInfoRow

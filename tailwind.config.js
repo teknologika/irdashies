@@ -6,6 +6,10 @@ module.exports = {
       fontFamily: {
         sans: ['"Lato"', 'sans-serif'],
       },
+      fontSize: {
+        xs: '10px',
+        sm: '12px',
+      },
     },
   },
   plugins: [],

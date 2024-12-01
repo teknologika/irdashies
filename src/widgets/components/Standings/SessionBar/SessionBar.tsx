@@ -10,7 +10,7 @@ export const SessionBar = () => {
   const { incidentLimit, incidents } = useDriverIncidents();
   const { total, current, timeElapsed, timeRemaining } = useSessionLapCount();
   return (
-    <div className="bg-slate-900/70 text-xs px-3 py-1 flex justify-between">
+    <div className="bg-slate-900/70 text-sm px-3 py-1 flex justify-between">
       <div>{session?.SessionName}</div>
       {total > 0 ? (
         <div>

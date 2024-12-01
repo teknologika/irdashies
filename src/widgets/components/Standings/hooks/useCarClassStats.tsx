@@ -1,6 +1,13 @@
 import { useMemo } from 'react';
 import { useTelemetry } from '../../../context/TelemetryContext';
 
+export type CarClassStats = {
+  shortName: string;
+  color: number;
+  total: number;
+  sof: number;
+};
+
 export const useCarClassStats = () => {
   const { session } = useTelemetry();
   const classStats = useMemo(() => {
@@ -12,6 +19,10 @@ export const useCarClassStats = () => {
             [driver.CarClassID]: {
               ...acc[driver.CarClassID],
               total: acc[driver.CarClassID].total + 1,
+              sof:
+                (acc[driver.CarClassID].sof * acc[driver.CarClassID].total +
+                  driver.IRating) /
+                (acc[driver.CarClassID].total + 1),
             },
           };
         }
@@ -22,10 +33,11 @@ export const useCarClassStats = () => {
             total: 1,
             color: driver.CarClassColor,
             shortName: driver.CarClassShortName,
+            sof: driver.IRating,
           },
         };
       },
-      {} as Record<string, { total: number; color: number; shortName: string }>
+      {} as Record<string, CarClassStats>
     );
   }, [session?.DriverInfo?.Drivers]);
 

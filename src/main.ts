@@ -3,6 +3,7 @@ import { iRacingSDKSetup } from './bridge/iracingSdk/setup';
 import { getOrCreateDefaultDashboard } from './storage/dashboards';
 import { createWidgets, setupTaskbar, trackWindowMovement } from './app';
 import { publishDashboardUpdates } from './bridge/dashboard/dashboardBridge';
+import { createSettingsWindow } from './app/createSettingsWindow';
 
 // @ts-expect-error no types for squirrel
 import started from 'electron-squirrel-startup';
@@ -15,6 +16,7 @@ app.on('ready', () => {
   createWidgets(dashboard.widgets).forEach(({ widget, window }) =>
     trackWindowMovement(widget, window)
   );
+  createSettingsWindow();
 
   setupTaskbar();
   iRacingSDKSetup();

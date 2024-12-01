@@ -40,7 +40,7 @@ export const DriverInfoRow = ({
     <tr
       key={carIdx}
       className={[
-        `odd:bg-slate-800/70 even:bg-slate-900/70 text-xs text-white`,
+        `odd:bg-slate-800/70 even:bg-slate-900/70 text-sm text-white`,
         !onTrack ? 'text-opacity-60' : '',
         isPlayer ? 'text-amber-500' : '',
       ].join(' ')}
@@ -59,7 +59,7 @@ export const DriverInfoRow = ({
         <div className="flex justify-between align-center">
           <span>{name}</span>
           {onPitRoad && (
-            <span className="text-[10px] border-yellow-500 border-2 rounded-md px-2">
+            <span className="text-xs border-yellow-500 border-2 rounded-md px-2">
               PIT
             </span>
           )}
