@@ -19,7 +19,7 @@ export const SessionBar = () => {
       ) : (
         <div>
           {timeElapsed
-            ? `${formatTimeShort(timeElapsed)}/${formatTimeShort(timeRemaining)}m`
+            ? `${formatTimeShort(timeElapsed)} / ${formatTimeShort(timeRemaining)} m`
             : ''}
         </div>
       )}

@@ -22,6 +22,7 @@ export const formatTimeShort = (seconds?: number): string => {
   const remainingSeconds = totalSeconds % 60; // Get remaining seconds
 
   // Format as mm:ss
+  if (remainingSeconds === 0) return `${minutes}`; // Only minutes if no seconds
   const formattedTime = `${minutes}:${String(remainingSeconds).padStart(2, '0')}`;
 
   return formattedTime;
