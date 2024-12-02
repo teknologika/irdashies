@@ -1,9 +1,18 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryFn, StoryObj } from '@storybook/react';
 import { DriverInfoRow } from './DriverInfoRow';
 import { DriverRatingBadge } from '../DriverRatingBadge/DriverRatingBadge';
 
 export default {
   component: DriverInfoRow,
+  decorators: [
+    (Story: StoryFn) => (
+      <table className="w-full">
+        <tbody>
+          <Story />
+        </tbody>
+      </table>
+    ),
+  ],
 } as Meta;
 
 type Story = StoryObj<typeof DriverInfoRow>;

@@ -1,7 +1,6 @@
-import { Broadcast } from '@phosphor-icons/react';
+import { SpeakerHigh } from '@phosphor-icons/react';
 import { getTailwindColor } from '../../../utils/colors';
 import { formatTime } from '../../../utils/time';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 type DriverRowInfoProps = {
   carIdx: number;
@@ -61,14 +60,14 @@ export const DriverInfoRow = ({
       </td>
       <td className={`px-2 w-full`}>
         <div className="flex justify-between align-center">
-          <div className="inline">
-            <span className="whitespace-nowrap">{name}</span>
-            {radioActive && (
-              <Broadcast
-                size={16}
-                className="ml-2 inline mb-[2px] animate-pulse text-ping-500"
-              />
-            )}
+          <div className="flex">
+            <span
+              className={`animate-pulse transition-[width] duration-300 ${radioActive ? 'w-4 mr-1' : 'w-0 overflow-hidden'}`}
+            >
+              <SpeakerHigh className="mt-[1px]" size={16} />
+            </span>
+            {/* )} */}
+            <span>{name}</span>
           </div>
           {onPitRoad && (
             <span className="animate-pulse text-xs border-yellow-500 border-2 rounded-md px-2">
