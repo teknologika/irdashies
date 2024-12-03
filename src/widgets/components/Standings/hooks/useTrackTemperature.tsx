@@ -8,7 +8,7 @@ export const useTrackTemperature = () => {
     const trackTemp = telemetry?.TrackTempCrew?.value[0] ?? 0;
 
     if (!trackTemp) return '';
-    return `${trackTemp.toFixed(0)}°C`;
+    return `${trackTemp.toFixed(0)}°${telemetry?.TrackTempCrew?.unit}`;
   }, [telemetry?.TrackTempCrew?.value?.[0]]);
 
   return { trackTemp };
