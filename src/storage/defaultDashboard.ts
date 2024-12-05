@@ -22,5 +22,15 @@ export const defaultDashboard: DashboardLayout = {
         height: 120,
       },
     },
+    {
+      id: 'relative',
+      enabled: false,
+      layout: {
+        x: 1135,
+        y: 759,
+        width: 343,
+        height: 296,
+      },
+    },
   ],
 };

@@ -4,6 +4,7 @@ import { TelemetryProvider } from './context/TelemetryContext/TelemetryContext';
 import { Input } from './components/Input';
 import { Standings } from './components/Standings/Standings';
 import { Settings } from './components/Settings/Settings';
+import { Relative } from './components/Standings/Relative';
 import {
   DashboardProvider,
   useDashboard,
@@ -26,6 +27,7 @@ declare global {
 const WIDGET_MAP: Record<string, (config: any) => JSX.Element> = {
   standings: Standings,
   input: Input,
+  relative: Relative,
   settings: Settings,
 };
 
