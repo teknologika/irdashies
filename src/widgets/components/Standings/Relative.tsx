@@ -2,6 +2,8 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { DriverInfoRow } from './DriverInfoRow/DriverInfoRow';
 import { useDriverRelatives } from './hooks/useDriverRelatives';
 import { DriverRatingBadge } from './DriverRatingBadge/DriverRatingBadge';
+import { SessionBar } from './SessionBar/SessionBar';
+import { SessionFooter } from './SessionFooter/SessionFooter';
 
 export const Relative = () => {
   const standings = useDriverRelatives({ buffer: 3 });
@@ -9,7 +11,8 @@ export const Relative = () => {
 
   return (
     <div className="w-full h-full">
-      <table className="w-full table-auto text-sm border-separate border-spacing-y-0.5 mb-3">
+      <SessionBar />
+      <table className="w-full table-auto text-sm border-separate border-spacing-y-0.5 mb-3 mt-3">
         <tbody ref={parent}>
           {standings.map((result) => (
             <DriverInfoRow
@@ -35,6 +38,7 @@ export const Relative = () => {
           ))}
         </tbody>
       </table>
+      <SessionFooter />
     </div>
   );
 };
