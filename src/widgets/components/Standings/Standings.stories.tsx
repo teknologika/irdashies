@@ -41,3 +41,7 @@ export const LegendsQualifying: Story = {
 export const TestingCustomSessionData: Story = {
   decorators: [TelemetryDecorator('/test-data/GT3 Sprint Arrays')],
 };
+
+export const PCCRaceWithMicUse: Story = {
+  decorators: [TelemetryDecorator('/test-data/1733030013074')],
+};

@@ -93,3 +93,4 @@ out/
 
 *storybook.log
 test-data/*.png
+test-data/unused
