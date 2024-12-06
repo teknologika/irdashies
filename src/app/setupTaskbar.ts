@@ -1,11 +1,12 @@
 import { nativeImage, Tray, Menu, app, BrowserWindow } from 'electron';
 import { createSettingsWindow } from './createSettingsWindow';
+import { TelemetrySink } from '../bridge/iracingSdk/telemetrySink';
 
 class Taskbar {
   private tray: Tray;
   private isLocked: boolean;
 
-  constructor() {
+  constructor(private telemetrySink: TelemetrySink) {
     this.isLocked = true;
     this.tray = this.createTray();
     this.setupContextMenu();
@@ -44,6 +45,12 @@ class Taskbar {
         },
       },
       {
+        label: 'Record Telemetry',
+        click: async () => {
+          await this.telemetrySink.startRecording();
+        },
+      },
+      {
         label: 'Quit',
         click: () => {
           app.quit();
@@ -67,6 +74,6 @@ class Taskbar {
   }
 }
 
-export const setupTaskbar = () => {
-  new Taskbar();
+export const setupTaskbar = (telemetrySink: TelemetrySink) => {
+  new Taskbar(telemetrySink);
 };

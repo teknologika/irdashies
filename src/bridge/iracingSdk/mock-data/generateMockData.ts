@@ -3,15 +3,21 @@ import type { IrSdkBridge } from '../irSdkBridge.type';
 import mockTelemetry from './telemetry.json';
 import mockSessionInfo from './session.json';
 
-export async function generateMockDataFromPath(path?: string) {
+export async function generateMockDataFromPath(
+  path?: string
+): Promise<IrSdkBridge> {
   if (!path) {
     return generateMockData();
   }
-  const telemetry = await import(/* @vite-ignore */ `${path}/telemetry.json`);
-  const sessionInfo = await import(/* @vite-ignore */ `${path}/session.json`);
+
+  const telemetry = (await import(/* @vite-ignore */ `${path}/telemetry.json`))
+    .default;
+  const sessionInfo = (await import(/* @vite-ignore */ `${path}/session.json`))
+    .default;
+
   return generateMockData({
-    telemetry: telemetry.default,
-    sessionInfo: sessionInfo.default,
+    telemetry,
+    sessionInfo,
   });
 }
 

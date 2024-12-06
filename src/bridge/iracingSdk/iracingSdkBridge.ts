@@ -1,9 +1,10 @@
 import { BrowserWindow } from 'electron';
 import { IRacingSDK } from 'irsdk-node';
+import { TelemetrySink } from './telemetrySink';
 
 const TIMEOUT = 1000;
 
-export async function publishIRacingSDKEvents() {
+export async function publishIRacingSDKEvents(telemetrySink: TelemetrySink) {
   console.log('Loading iRacing SDK bridge...');
 
   setInterval(async () => {
@@ -27,6 +28,9 @@ export async function publishIRacingSDKEvents() {
         const telemetry = sdk.getTelemetry();
         const session = sdk.getSessionData();
         await new Promise((resolve) => setTimeout(resolve, 1000 / 60));
+
+        if (telemetry) telemetrySink.addTelemetry(telemetry);
+        if (session) telemetrySink.addSession(session);
 
         BrowserWindow.getAllWindows().forEach((window) => {
           if (telemetry) window.webContents.send('telemetry', telemetry);

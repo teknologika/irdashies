@@ -1,4 +1,6 @@
-export async function iRacingSDKSetup() {
+import { TelemetrySink } from './telemetrySink';
+
+export async function iRacingSDKSetup(telemetrySink: TelemetrySink) {
   try {
     const module =
       process.platform === 'darwin'
@@ -6,7 +8,7 @@ export async function iRacingSDKSetup() {
         : await import('./iracingSdkBridge');
 
     const { publishIRacingSDKEvents } = module;
-    await publishIRacingSDKEvents();
+    await publishIRacingSDKEvents(telemetrySink);
   } catch (err) {
     console.error(`Failed to load bridge`);
     throw err;

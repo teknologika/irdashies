@@ -7,6 +7,7 @@ import { createSettingsWindow } from './app/createSettingsWindow';
 
 // @ts-expect-error no types for squirrel
 import started from 'electron-squirrel-startup';
+import { TelemetrySink } from './bridge/iracingSdk/telemetrySink';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) app.quit();
@@ -16,10 +17,11 @@ app.on('ready', () => {
   createWidgets(dashboard.widgets).forEach(({ widget, window }) =>
     trackWindowMovement(widget, window)
   );
-  createSettingsWindow();
 
-  setupTaskbar();
-  iRacingSDKSetup();
+  const telemetrySink = new TelemetrySink();
+
+  setupTaskbar(telemetrySink);
+  iRacingSDKSetup(telemetrySink);
   publishDashboardUpdates();
 });
 
