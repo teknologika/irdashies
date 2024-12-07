@@ -24,7 +24,7 @@ export const Relative = () => {
               isPlayer={result.isPlayer}
               hasFastestTime={result.hasFastestTime}
               delta={result.delta}
-              position={result.position}
+              position={result.classPosition}
               onPitRoad={result.onPitRoad}
               onTrack={result.onTrack}
               radioActive={result.radioActive}

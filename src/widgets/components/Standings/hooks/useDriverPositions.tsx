@@ -118,13 +118,13 @@ export const useDriverStandings = () => {
       // If the driver is not in the standings, use the car number as position
       // This is a crappy workaround for drivers that are not in the standings
       // carIdx is also not available in qualifying (might be just lone qualifying thing)
-      let position = driverPos.position;
-      if (position <= 0) position = driver.carIdx || driver.carNumRaw;
+      let classPosition = driverPos.position;
+      if (classPosition <= 0) classPosition = driver.carIdx || driver.carNumRaw;
 
       return {
         carIdx: driver.carIdx,
-        position: position,
-        overallPosition: driverPos.position,
+        position: driverPos.position,
+        classPosition,
         delta: driverPos.delta,
         isPlayer: playerCarIdx === driver.carIdx,
         driver: {
@@ -143,9 +143,7 @@ export const useDriverStandings = () => {
       };
     });
 
-    return standings
-      .filter((s) => !!s)
-      .sort((a, b) => a.overallPosition - b.overallPosition);
+    return standings.filter((s) => !!s).sort((a, b) => a.position - b.position);
   }, [driverPositions, drivers]);
 
   return driverStandings;

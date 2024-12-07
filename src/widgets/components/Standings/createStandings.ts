@@ -8,8 +8,8 @@ import type {
 
 export interface Standings {
   carIdx: number;
-  position: number;
-  overallPosition?: number;
+  position?: number;
+  classPosition: number;
   delta?: number;
   isPlayer: boolean;
   driver: {
@@ -96,7 +96,8 @@ export const createDriverStandings = (
       if (!driver) return null;
       return {
         carIdx: result.CarIdx,
-        position: result.ClassPosition + 1,
+        position: result.Position,
+        classPosition: result.ClassPosition + 1,
         delta: calculateDelta(
           result.CarIdx,
           result.FastestTime,

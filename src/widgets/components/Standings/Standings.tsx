@@ -36,7 +36,7 @@ export const Standings = () => {
                   isPlayer={result.isPlayer}
                   hasFastestTime={result.hasFastestTime}
                   delta={result.delta}
-                  position={result.position}
+                  position={result.classPosition}
                   lastTime={result.lastTime}
                   fastestTime={result.fastestTime}
                   onPitRoad={result.onPitRoad}
