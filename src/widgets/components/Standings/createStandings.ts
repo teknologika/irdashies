@@ -9,6 +9,7 @@ import type {
 export interface Standings {
   carIdx: number;
   position: number;
+  overallPosition?: number;
   delta?: number;
   isPlayer: boolean;
   driver: {
