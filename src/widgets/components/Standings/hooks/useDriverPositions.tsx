@@ -11,6 +11,7 @@ export const useDriverPositions = () => {
     const carIdxBestLap = telemetry?.CarIdxBestLapTime?.value ?? [];
     const carIdxLastLap = telemetry?.CarIdxLastLapTime?.value ?? [];
     const carIdxF2Time = telemetry?.CarIdxF2Time?.value ?? [];
+    const carIdxLapNum = telemetry?.CarIdxLap?.value ?? [];
 
     const positions = carIdxPosition.map((position, carIdx) => ({
       carIdx,
@@ -19,6 +20,7 @@ export const useDriverPositions = () => {
       delta: carIdxF2Time[carIdx], // only to leader currently, need to handle non-race sessions
       bestLap: carIdxBestLap[carIdx],
       lastLap: carIdxLastLap[carIdx],
+      lapNum: carIdxLapNum[carIdx],
     }));
 
     return positions;
@@ -124,6 +126,7 @@ export const useDriverStandings = () => {
       return {
         carIdx: driver.carIdx,
         position: driverPos.position,
+        lap: driverPos.lapNum,
         classPosition,
         delta: driverPos.delta,
         isPlayer: playerCarIdx === driver.carIdx,

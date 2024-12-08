@@ -10,6 +10,7 @@ export interface Standings {
   carIdx: number;
   position?: number;
   classPosition: number;
+  lap?: number;
   delta?: number;
   isPlayer: boolean;
   driver: {
