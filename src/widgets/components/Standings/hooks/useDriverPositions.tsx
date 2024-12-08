@@ -74,12 +74,12 @@ export const useCarState = () => {
   const trackSurfacesCarIndexes = useMemo(() => {
     const carIndexes = telemetry?.CarIdxTrackSurface?.value ?? [];
     return carIndexes.map((value) => value > -1);
-  }, [telemetry?.CarIdxTrackSurface?.value?.[0]]);
+  }, [telemetry?.CarIdxTrackSurface?.value]);
 
   const pitRoadCarIndexes = useMemo(() => {
     const carIndexes = telemetry?.CarIdxOnPitRoad?.value ?? [];
     return carIndexes;
-  }, [telemetry?.CarIdxOnPitRoad?.value?.[0]]);
+  }, [telemetry?.CarIdxOnPitRoad?.value]);
 
   // turn two arrays to one array with object of index and boolean values
   return trackSurfacesCarIndexes.map((onTrack, index) => ({
