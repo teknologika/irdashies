@@ -24,11 +24,11 @@ export const defaultDashboard: DashboardLayout = {
     },
     {
       id: 'relative',
-      enabled: false,
+      enabled: true,
       layout: {
         x: 1135,
         y: 759,
-        width: 343,
+        width: 400,
         height: 296,
       },
     },
