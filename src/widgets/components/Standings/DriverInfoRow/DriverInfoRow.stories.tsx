@@ -79,3 +79,24 @@ export const RadioActive: Story = {
     radioActive: true,
   },
 };
+
+export const IsPlayer: Story = {
+  args: {
+    ...Primary.args,
+    isPlayer: true,
+  },
+};
+
+export const IsLapped: Story = {
+  args: {
+    ...Primary.args,
+    isLapped: true,
+  },
+};
+
+export const IsLappingAhead: Story = {
+  args: {
+    ...Primary.args,
+    isLappingAhead: true,
+  },
+};

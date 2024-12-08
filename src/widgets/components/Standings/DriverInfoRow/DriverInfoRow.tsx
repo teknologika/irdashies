@@ -17,6 +17,8 @@ type DriverRowInfoProps = {
   onPitRoad?: boolean;
   onTrack?: boolean;
   radioActive?: boolean;
+  isLapped?: boolean;
+  isLappingAhead?: boolean;
 };
 
 export const DriverInfoRow = ({
@@ -34,6 +36,8 @@ export const DriverInfoRow = ({
   onPitRoad,
   onTrack,
   radioActive,
+  isLapped,
+  isLappingAhead,
 }: DriverRowInfoProps) => {
   // convert seconds to mm:ss:ms
   const lastTimeString = formatTime(lastTime);
@@ -43,18 +47,20 @@ export const DriverInfoRow = ({
     <tr
       key={carIdx}
       className={[
-        `odd:bg-slate-800/70 even:bg-slate-900/70 text-sm text-white`,
-        !onTrack ? 'text-opacity-60' : '',
-        isPlayer ? 'text-amber-500' : '',
+        `odd:bg-slate-800/70 even:bg-slate-900/70 text-sm`,
+        !onTrack ? 'text-white text-opacity-60' : '',
+        isPlayer ? 'text-amber-300' : '',
+        !isPlayer && isLapped ? 'text-blue-400' : '',
+        !isPlayer && isLappingAhead ? 'text-red-400' : '',
       ].join(' ')}
     >
       <td
-        className={`text-center px-2 ${isPlayer ? `${getTailwindColor(classColor).classHeader} text-white` : ''}`}
+        className={`text-center  text-white px-2 ${isPlayer ? `${getTailwindColor(classColor).classHeader}` : ''}`}
       >
         {position}
       </td>
       <td
-        className={`${getTailwindColor(classColor).driverIcon} bg-opacity-90 border-l-4 text-right px-1 w-10`}
+        className={`${getTailwindColor(classColor).driverIcon} text-white bg-opacity-90 border-l-4 text-right px-1 w-10`}
       >
         #{carNumber}
       </td>
