@@ -72,8 +72,7 @@ export const DriverInfoRow = ({
             >
               <SpeakerHigh className="mt-[1px]" size={16} />
             </span>
-            {/* )} */}
-            <span>{name}</span>
+            <span className="truncate">{name}</span>
           </div>
           {onPitRoad && (
             <span className="text-white animate-pulse text-xs border-yellow-500 border-2 rounded-md px-2">

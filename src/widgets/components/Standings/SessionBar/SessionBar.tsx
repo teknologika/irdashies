@@ -11,20 +11,20 @@ export const SessionBar = () => {
   const { total, current, timeElapsed, timeRemaining } = useSessionLapCount();
   return (
     <div className="bg-slate-900/70 text-sm px-3 py-1 flex justify-between">
-      <div>{session?.SessionName}</div>
-      {total > 0 && (
-        <div>
-          {current} / {total} laps
+      <div className="flex flex-1 flex-grow">{session?.SessionName}</div>
+      {current > 0 && (
+        <div className="flex flex-1 flex-grow justify-center">
+          L {current} {total ? ` / ${total}` : ''}
         </div>
       )}
       {timeRemaining <= 86400 && ( // 86400 seconds = 24 hours
-        <div>
+        <div className="flex flex-1 flex-grow justify-center">
           {timeElapsed
             ? `${formatTimeShort(timeElapsed)} / ${formatTimeShort(timeRemaining, true)} m`
             : ''}
         </div>
       )}
-      <div>
+      <div className="flex flex-1 flex-grow justify-end">
         {incidents}
         {incidentLimit ? ' / ' + incidentLimit : ''} x
       </div>

@@ -11,5 +11,12 @@ export const useTrackTemperature = () => {
     return `${trackTemp.toFixed(0)}°${telemetry?.TrackTempCrew?.unit}`;
   }, [telemetry?.TrackTempCrew?.value?.[0]]);
 
-  return { trackTemp };
+  const airTemp = useMemo(() => {
+    const trackTemp = telemetry?.AirTemp?.value[0] ?? 0;
+
+    if (!trackTemp) return '';
+    return `${trackTemp.toFixed(0)}°${telemetry?.AirTemp?.unit}`;
+  }, [telemetry?.AirTemp?.value?.[0]]);
+
+  return { trackTemp, airTemp };
 };
