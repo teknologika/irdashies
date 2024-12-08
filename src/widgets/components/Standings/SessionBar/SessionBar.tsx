@@ -12,14 +12,15 @@ export const SessionBar = () => {
   return (
     <div className="bg-slate-900/70 text-sm px-3 py-1 flex justify-between">
       <div>{session?.SessionName}</div>
-      {total > 0 ? (
+      {total > 0 && (
         <div>
           {current} / {total} laps
         </div>
-      ) : (
+      )}
+      {timeRemaining <= 86400 && ( // 86400 seconds = 24 hours
         <div>
           {timeElapsed
-            ? `${formatTimeShort(timeElapsed)} / ${formatTimeShort(timeRemaining)} m`
+            ? `${formatTimeShort(timeElapsed)} / ${formatTimeShort(timeRemaining, true)} m`
             : ''}
         </div>
       )}

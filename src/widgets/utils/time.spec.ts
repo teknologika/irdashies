@@ -84,5 +84,17 @@ describe('time', () => {
     it('should return empty string for -1 time', () => {
       expect(formatTime(-1)).toBe('');
     });
+
+    it('should return only minutes if timeSeconds is true and no remaining seconds', () => {
+      expect(formatTimeShort(60, true)).toBe('1');
+    });
+
+    it('should return minutes and seconds if timeSeconds is true and remaining seconds', () => {
+      expect(formatTimeShort(61, true)).toBe('1:01');
+    });
+
+    it('should return minutes and seconds if timeSeconds is false and no remaining seconds', () => {
+      expect(formatTimeShort(60, false)).toBe('1:00');
+    });
   });
 });

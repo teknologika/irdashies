@@ -13,7 +13,10 @@ export const formatTime = (seconds?: number): string => {
   return formattedTime;
 };
 
-export const formatTimeShort = (seconds?: number): string => {
+export const formatTimeShort = (
+  seconds?: number,
+  timeSeconds?: boolean
+): string => {
   if (!seconds) return '';
   if (seconds < 0) return '';
 
@@ -22,7 +25,7 @@ export const formatTimeShort = (seconds?: number): string => {
   const remainingSeconds = totalSeconds % 60; // Get remaining seconds
 
   // Format as mm:ss
-  if (remainingSeconds === 0) return `${minutes}`; // Only minutes if no seconds
+  if (timeSeconds && remainingSeconds === 0) return `${minutes}`; // Only minutes if no seconds
   const formattedTime = `${minutes}:${String(remainingSeconds).padStart(2, '0')}`;
 
   return formattedTime;
