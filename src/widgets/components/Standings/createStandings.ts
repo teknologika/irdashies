@@ -11,6 +11,7 @@ export interface Standings {
   position?: number;
   classPosition: number;
   lap?: number;
+  lappedState?: 'ahead' | 'behind' | 'same';
   delta?: number;
   isPlayer: boolean;
   driver: {

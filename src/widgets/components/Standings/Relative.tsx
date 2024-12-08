@@ -28,6 +28,8 @@ export const Relative = () => {
               onPitRoad={result.onPitRoad}
               onTrack={result.onTrack}
               radioActive={result.radioActive}
+              isLapped={result.lappedState === 'behind'}
+              isLappingAhead={result.lappedState === 'ahead'}
               badge={
                 <DriverRatingBadge
                   license={result.driver?.license}

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useTelemetry } from '../../../context/TelemetryContext';
 import { Standings } from '../createStandings';
+import { useCurrentSession } from './useCurrentSession';
 
 export const useDriverPositions = () => {
   const { telemetry } = useTelemetry();
@@ -106,6 +107,7 @@ export const useDriverStandings = () => {
   const radioTransmitCarIdx = useRadioTransmitCarIndex();
   const carStates = useCarState();
   const playerCarIdx = usePlayerCarIndex();
+  const currentSession = useCurrentSession();
 
   const driverStandings: Standings[] = useMemo(() => {
     const standings = drivers.map((driver) => {
@@ -116,6 +118,15 @@ export const useDriverStandings = () => {
       if (!driverPos) return undefined;
 
       const carState = carStates.find((car) => car.carIdx === driver.carIdx);
+      const playerLap =
+        driverPositions.find((pos) => pos.carIdx === playerCarIdx)?.lapNum ?? 0;
+
+      let lappedState: 'ahead' | 'behind' | 'same' | undefined = undefined;
+      if (currentSession?.SessionType === 'Race') {
+        if (driverPos.lapNum > playerLap) lappedState = 'ahead';
+        if (driverPos.lapNum < playerLap) lappedState = 'behind';
+        if (driverPos.lapNum === playerLap) lappedState = 'same';
+      }
 
       // If the driver is not in the standings, use the car number as position
       // This is a crappy workaround for drivers that are not in the standings
@@ -127,6 +138,7 @@ export const useDriverStandings = () => {
         carIdx: driver.carIdx,
         position: driverPos.position,
         lap: driverPos.lapNum,
+        lappedState,
         classPosition,
         delta: driverPos.delta,
         isPlayer: playerCarIdx === driver.carIdx,

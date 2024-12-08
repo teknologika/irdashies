@@ -76,7 +76,7 @@ export const DriverInfoRow = ({
             <span>{name}</span>
           </div>
           {onPitRoad && (
-            <span className="animate-pulse text-xs border-yellow-500 border-2 rounded-md px-2">
+            <span className="text-white animate-pulse text-xs border-yellow-500 border-2 rounded-md px-2">
               PIT
             </span>
           )}
