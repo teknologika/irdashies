@@ -43,6 +43,12 @@ npm start
 ```
 This will start the application.
 
+Look for the application in your app tray. Right-click on the icon and Lock / Unlock to resize and move overlays around.
+
+> You will need to have Node.js installed on your machine to run the application. You can download it from [here](https://nodejs.org/).
+
+> On macOS you will see mocked data from a sample session. To connect to iRacing, you will need to run the application on Windows.
+
 ## Storybook
 
 To view the components in Storybook, run the following command:
@@ -82,6 +88,12 @@ Displays the throttle, clutch, and brake input traces, as well as the current ge
 Displays standings information for the current session.
 
 ![Standings](./docs/assets/standings.png)
+
+### Relative
+
+Displays drive relative delta information for the current session.
+
+![Relative](./docs/assets/relative.png)
 
 ## Contributing
 
