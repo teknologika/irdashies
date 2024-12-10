@@ -63,7 +63,7 @@ export const useRadioTransmitCarIndex = () => {
     if (!radioTransmitCarIdx.length) return undefined;
 
     return radioTransmitCarIdx[0];
-  }, [telemetry?.RadioTransmitCarIdx?.value?.[0]]);
+  }, [telemetry?.RadioTransmitCarIdx?.value]);
 
   return radioTransmitCarIdx;
 };
@@ -159,7 +159,14 @@ export const useDriverStandings = () => {
     });
 
     return standings.filter((s) => !!s).sort((a, b) => a.position - b.position);
-  }, [driverPositions, drivers]);
+  }, [
+    carStates,
+    currentSession?.SessionType,
+    driverPositions,
+    drivers,
+    playerCarIdx,
+    radioTransmitCarIdx,
+  ]);
 
   return driverStandings;
 };

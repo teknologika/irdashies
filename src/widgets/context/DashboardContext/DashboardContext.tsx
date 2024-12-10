@@ -52,7 +52,7 @@ export const useDashboard = (): DashboardContextProps => {
   return context;
 };
 
-export const withDashboard =
-  (bridge: DashboardBridge) => (Component: React.ReactNode) => {
+export const withDashboard = (bridge: DashboardBridge) =>
+  function componentWrapper(Component: React.ReactNode) {
     return <DashboardProvider bridge={bridge}>{Component}</DashboardProvider>;
   };

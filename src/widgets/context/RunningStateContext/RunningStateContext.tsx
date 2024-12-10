@@ -11,6 +11,11 @@ interface RunningStateContextProps {
   running: boolean;
 }
 
+interface RunningStateProviderProps {
+  bridge: IrSdkBridge;
+  children: ReactNode;
+}
+
 const RunningStateContext = createContext<RunningStateContextProps | undefined>(
   undefined
 );
@@ -24,10 +29,10 @@ const RunningStateContext = createContext<RunningStateContextProps | undefined>(
  * @param children The children to render
  * @returns The running state context provider
  */
-export const RunningStateProvider: React.FC<{
-  bridge: IrSdkBridge;
-  children: ReactNode;
-}> = ({ bridge, children }) => {
+export const RunningStateProvider = ({
+  bridge,
+  children,
+}: RunningStateProviderProps) => {
   const [running, setRunning] = useState(false);
 
   useEffect(() => {

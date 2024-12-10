@@ -62,9 +62,13 @@ export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
 
     return sliced;
   }, [
-    telemetry?.CarIdxEstTime?.value,
+    driverStandings,
     telemetry?.CarIdxLapDistPct?.value,
+    telemetry?.CarIdxEstTime?.value,
+    session?.DriverInfo.Drivers,
+    session?.DriverInfo?.DriverCarIdx,
     buffer,
+    playerIndex,
   ]);
 
   return standings;

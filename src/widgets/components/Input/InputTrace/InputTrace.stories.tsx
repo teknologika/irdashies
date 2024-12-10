@@ -45,7 +45,7 @@ export const OutsideRange: Story = {
       }, 1000 / 60);
 
       return () => clearInterval(interval);
-    }, []);
+    }, [args.input.brake, args.input.throttle]);
 
     return <InputTrace input={input} />;
   },

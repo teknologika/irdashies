@@ -30,7 +30,7 @@ export const InputTrace = ({ input }: InputTraceProps) => {
 
   useEffect(() => {
     drawGraph(svgRef.current, [brakeArray, throttleArray], width, height);
-  }, [brakeArray, throttleArray]);
+  }, [brakeArray, height, throttleArray, width]);
 
   return (
     <svg

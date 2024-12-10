@@ -19,7 +19,7 @@ export const useTrackWetness = () => {
     const wetnessLevel = telemetry?.TrackWetness?.value[0] ?? 0;
 
     return wetnessLevels[wetnessLevel] ?? '';
-  }, [telemetry?.TrackWetness?.value?.[0]]);
+  }, [telemetry?.TrackWetness?.value]);
 
   return { trackWetness };
 };
