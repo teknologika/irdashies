@@ -94,3 +94,4 @@ out/
 *storybook.log
 test-data/*.png
 test-data/unused
+src/**/tracks/*.svg
