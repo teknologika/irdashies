@@ -6,6 +6,10 @@ export const useSessionLapCount = () => {
   const { telemetry } = useTelemetry();
   const currentSession = useCurrentSession();
 
+  const current = telemetry?.RaceLaps?.value?.[0] || 0;
+  const timeRemaining = telemetry?.SessionTimeTotal?.value?.[0] || 0;
+  const timeElapsed = telemetry?.SessionTimeRemain?.value?.[0] || 0;
+
   const result = useMemo(() => {
     const result = {
       current: 0,
@@ -22,17 +26,12 @@ export const useSessionLapCount = () => {
       result.total = currentSession.SessionLaps;
     }
 
-    result.current = telemetry?.RaceLaps?.value?.[0] || 0;
-    result.timeRemaining = telemetry?.SessionTimeTotal?.value?.[0] || 0;
-    result.timeElapsed = telemetry?.SessionTimeRemain?.value?.[0] || 0;
+    result.current = current;
+    result.timeRemaining = timeRemaining;
+    result.timeElapsed = timeElapsed;
 
     return result;
-  }, [
-    currentSession?.SessionLaps,
-    telemetry?.RaceLaps?.value,
-    telemetry?.SessionTimeTotal?.value,
-    telemetry?.SessionTimeRemain?.value,
-  ]);
+  }, [currentSession?.SessionLaps, current, timeRemaining, timeElapsed]);
 
   return result;
 };

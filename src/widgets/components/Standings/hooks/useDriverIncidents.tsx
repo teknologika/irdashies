@@ -9,10 +9,8 @@ export const useDriverIncidents = () => {
     return limit;
   }, [session?.WeekendInfo?.WeekendOptions?.IncidentLimit]);
 
-  const incidents = useMemo(
-    () => telemetry?.PlayerCarTeamIncidentCount?.value?.[0] || 0,
-    [telemetry?.PlayerCarTeamIncidentCount?.value]
-  );
+  const incidentValue = telemetry?.PlayerCarTeamIncidentCount?.value?.[0] || 0;
+  const incidents = useMemo(() => incidentValue, [incidentValue]);
 
   return {
     incidents,
