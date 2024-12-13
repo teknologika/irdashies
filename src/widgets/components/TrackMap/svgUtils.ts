@@ -42,31 +42,51 @@ export const lineIntersection = (
 
 // Find the intersection point using a more efficient approach
 export const findIntersectionPoint = (
-  path1: SVGPathElement,
-  path2: SVGPathElement
+  path1: SVGPathElement, // Inside path
+  path2: SVGPathElement // Start/Finish path
 ) => {
-  if (path1 && path2) {
-    const path1Length = path1.getTotalLength();
-    const path2Length = path2.getTotalLength();
-    const step = 100; // Increase step size to reduce the number of points checked
+  if (!path1 || !path2) return null;
 
-    for (let i = 0; i < path1Length; i += step) {
-      const p1 = path1.getPointAtLength(i);
-      const p2 = path1.getPointAtLength(i + step);
+  const path1Length = path1.getTotalLength();
+  const path2Length = path2.getTotalLength();
+  const initialStep = Math.max(path1Length, path2Length) / 100; // Initial coarse step
 
-      for (let j = 0; j < path2Length; j += step) {
-        const p3 = path2.getPointAtLength(j);
-        const p4 = path2.getPointAtLength(j + step);
+  for (let i = 0; i < path1Length; i += initialStep) {
+    const p1 = path1.getPointAtLength(i);
+    const p2 = path1.getPointAtLength(Math.min(i + initialStep, path1Length));
 
-        const intersection = lineIntersection(p1, p2, p3, p4);
+    for (let j = 0; j < path2Length; j += initialStep) {
+      const p3 = path2.getPointAtLength(j);
+      const p4 = path2.getPointAtLength(Math.min(j + initialStep, path2Length));
 
-        if (intersection) {
-          return {
-            x: intersection.x,
-            y: intersection.y,
-            length: i,
-          };
-        }
+      // Skip if bounding boxes don't overlap
+      const bbox1 = {
+        xMin: Math.min(p1.x, p2.x),
+        xMax: Math.max(p1.x, p2.x),
+        yMin: Math.min(p1.y, p2.y),
+        yMax: Math.max(p1.y, p2.y),
+      };
+      const bbox2 = {
+        xMin: Math.min(p3.x, p4.x),
+        xMax: Math.max(p3.x, p4.x),
+        yMin: Math.min(p3.y, p4.y),
+        yMax: Math.max(p3.y, p4.y),
+      };
+
+      if (
+        bbox1.xMax < bbox2.xMin ||
+        bbox1.xMin > bbox2.xMax ||
+        bbox1.yMax < bbox2.yMin ||
+        bbox1.yMin > bbox2.yMax
+      ) {
+        continue; // No overlap, skip
+      }
+
+      // Check intersection if bounding boxes overlap
+      const intersection = lineIntersection(p1, p2, p3, p4);
+
+      if (intersection) {
+        return { x: intersection.x, y: intersection.y, length: i };
       }
     }
   }
@@ -101,51 +121,25 @@ export const findDirection2 = (turnsSvgGroup: SVGGElement) => {
 
 // Function to find the direction of the track based on the order of turns
 // looks at the position of the first two turns to determine the direction
-export const findDirection = (turnsSvgGroup: SVGGElement) => {
-  // get text position of turn 1
-  const turns = Array.from(
-    turnsSvgGroup?.querySelectorAll('text') || []
-  ).filter((el) => !isNaN(Number(el.textContent)));
-
-  const turnsXyPos = Array.from(turns).map((turn) => {
-    const turnPosition = turn?.getBoundingClientRect();
-    return { x: turnPosition.x, y: turnPosition.y };
-  });
-
-  // Helper function to calculate angle between two points
-  function calculateAngle(
-    point1: { x: number; y: number },
-    point2: { x: number; y: number }
+export const findDirection = (trackId: number) => {
+  if (
+    [
+      3, 8, 11, 12, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+      37, 39, 40, 47, 51, 52, 53, 94, 101, 103, 104, 105, 110, 113, 114, 115,
+      116, 120, 121, 122, 123, 124, 129, 130, 131, 132, 133, 135, 136, 137, 138,
+      143, 152, 158, 161, 162, 169, 170, 171, 175, 176, 178, 188, 189, 190, 191,
+      192, 193, 198, 201, 202, 203, 204, 208, 211, 212, 213, 214, 215, 217, 225,
+      226, 227, 229, 230, 231, 232, 235, 236, 237, 238, 245, 248, 256, 256, 256,
+      266, 267, 271, 273, 274, 275, 276, 277, 279, 286, 287, 288, 295, 299, 303,
+      304, 305, 314, 320, 330, 331, 334, 335, 339, 340, 344, 350, 351, 357, 362,
+      364, 365, 366, 371, 373, 374, 380, 381, 382, 383, 384, 386, 387, 388, 398,
+      400, 414, 418, 419, 424, 426, 428, 429, 430, 431, 437, 438, 442, 443, 446,
+      447, 452, 453, 462, 475, 476, 477, 478, 479, 480, 481, 482, 488, 489, 493,
+      494, 496, 497, 500, 506, 513, 514, 518, 519, 520, 522,
+    ].includes(trackId)
   ) {
-    return Math.atan2(point2.y - point1.y, point2.x - point1.x);
+    return 'anticlockwise';
   }
 
-  // Calculate angular changes
-  const angles = [];
-  for (let i = 0; i < turnsXyPos.length; i++) {
-    const current = turnsXyPos[i];
-    const next = turnsXyPos[(i + 1) % turns.length]; // Wrap around for closed loop
-    angles.push(calculateAngle(current, next));
-  }
-
-  // Calculate total angular change
-  let totalAngularChange = 0;
-  for (let i = 0; i < angles.length; i++) {
-    const currentAngle = angles[i];
-    const nextAngle = angles[(i + 1) % angles.length]; // Wrap around for closed loop
-    let deltaAngle = nextAngle - currentAngle;
-
-    // Normalize to [-Math.PI, Math.PI]
-    if (deltaAngle > Math.PI) deltaAngle -= 2 * Math.PI;
-    if (deltaAngle < -Math.PI) deltaAngle += 2 * Math.PI;
-
-    totalAngularChange += deltaAngle;
-  }
-
-  // Determine if the track is clockwise or anti-clockwise
-  if (totalAngularChange < 0) {
-    console.log('clockwise');
-  } else {
-    console.log('anticlockwise');
-  }
+  return 'clockwise';
 };

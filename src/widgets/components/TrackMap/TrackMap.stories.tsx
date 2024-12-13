@@ -23,6 +23,23 @@ export const Primary: Story = {
   },
 };
 
+export const AllTracks: Story = {
+  render: (args) => {
+    return (
+      <div className="grid grid-cols-3 gap-2">
+        {Array.from({ length: 531 }).map((_, i) => {
+          return (
+            <div key={i}>
+              <div className="my-2">Track ID: {i + 1}</div>
+              <TrackMap trackId={i + 1} progress={args.progress} />
+            </div>
+          );
+        })}
+      </div>
+    );
+  },
+};
+
 export const CirclingAround: Story = {
   render: (args) => {
     const [progress, setProgress] = useState(0);

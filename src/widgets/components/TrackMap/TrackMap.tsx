@@ -41,14 +41,9 @@ export const TrackMap = ({
   }>({ x: 0, y: 0, length: 0 });
 
   useEffect(() => {
-    const ref = containerRef?.current;
-    const turns = ref?.querySelector('g.turns') as SVGGElement | null;
-
-    if (!turns) return;
-    const direction = findDirection(turns);
-
+    const direction = findDirection(trackId);
     setDirection(direction);
-  }, [trackSvgString]);
+  }, [trackId]);
 
   useEffect(() => {
     const ref = containerRef?.current;
@@ -89,7 +84,7 @@ export const TrackMap = ({
     if (!intersection) return;
 
     setIntersection(intersection);
-  }, [progress, trackSvgString, direction]);
+  }, [trackSvgString, direction]);
 
   useEffect(() => {
     const ref = containerRef?.current;
