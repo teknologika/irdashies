@@ -6,6 +6,7 @@
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start --enable-logging",
+    "generate-assets": "npx npx tsx ./tools/index.ts",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "npx env-cmd electron-forge publish",

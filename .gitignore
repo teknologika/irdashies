@@ -95,3 +95,4 @@ out/
 test-data/*.png
 test-data/unused
 src/**/tracks/*.svg
+asset-data
