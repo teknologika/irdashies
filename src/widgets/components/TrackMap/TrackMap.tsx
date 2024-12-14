@@ -1,10 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-  findDirection,
-  findIntersectionPoint,
-  parsePathData,
-  splitPathData,
-} from './svgUtils';
 
 export const useTrackLoader = (trackId: number) => {
   const [svg, setSvg] = useState<string>('');
@@ -31,60 +25,6 @@ export const TrackMap = ({
 }) => {
   const trackSvgString = useTrackLoader(trackId);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [direction, setDirection] = useState<'clockwise' | 'anticlockwise'>(
-    'clockwise'
-  );
-  const [intersection, setIntersection] = useState<{
-    x: number;
-    y: number;
-    length: number;
-  }>({ x: 0, y: 0, length: 0 });
-
-  useEffect(() => {
-    const direction = findDirection(trackId);
-    setDirection(direction);
-  }, [trackId]);
-
-  useEffect(() => {
-    const ref = containerRef?.current;
-    const insidePath = ref?.querySelector(
-      'g.generated-inside-path path'
-    ) as SVGPathElement | null;
-    const combinedPath = ref?.querySelector(
-      'g.active path'
-    ) as SVGPathElement | null;
-
-    if (!insidePath || !combinedPath) return;
-
-    // Parse the path data and split it into inside and outside paths
-    const pathData = combinedPath.getAttribute('d');
-    if (pathData) {
-      const commands = parsePathData(pathData);
-      const { inside } = splitPathData(commands);
-
-      // Set the inside path data so we can use it track the car
-      insidePath.setAttribute('d', inside);
-    }
-  }, [trackSvgString]);
-
-  useEffect(() => {
-    const ref = containerRef?.current;
-    const insidePath = ref?.querySelector(
-      'g.generated-inside-path path'
-    ) as SVGPathElement | null;
-    const startFinishPath = ref?.querySelector(
-      'g.start-finish path'
-    ) as SVGPathElement | null;
-
-    if (!insidePath || !startFinishPath) return;
-
-    // Get the intersection point and length
-    const intersection = findIntersectionPoint(insidePath, startFinishPath);
-
-    if (!intersection) return;
-
-    setIntersection(intersection);
-  }, [trackSvgString, direction]);
 
   useEffect(() => {
     const ref = containerRef?.current;
@@ -98,6 +38,13 @@ export const TrackMap = ({
       'g.car-indicator circle'
     ) as SVGPathElement | null;
 
+    const direction = insidePath?.getAttribute('direction') as
+      | 'clockwise'
+      | 'anticlockwise';
+    const intersectionLength = +(
+      insidePath?.getAttribute('intersection-length') || 0
+    );
+
     if (!insidePath || !startFinishPath) return;
 
     const totalLength = insidePath?.getTotalLength() || 0;
@@ -106,8 +53,8 @@ export const TrackMap = ({
       const adjustedLength = (totalLength * (percent / 100)) % totalLength;
       const length =
         direction === 'anticlockwise'
-          ? (intersection.length + adjustedLength) % totalLength
-          : (intersection.length - adjustedLength + totalLength) % totalLength;
+          ? (intersectionLength + adjustedLength) % totalLength
+          : (intersectionLength - adjustedLength + totalLength) % totalLength;
       const point = insidePath?.getPointAtLength(length);
 
       if (indicator && point) {
@@ -117,7 +64,7 @@ export const TrackMap = ({
     }
 
     updateCarPosition(progress ?? 0);
-  }, [progress, trackSvgString, direction, intersection]);
+  }, [trackSvgString, progress]);
 
   return (
     <div

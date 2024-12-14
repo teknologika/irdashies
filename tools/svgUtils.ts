@@ -1,3 +1,5 @@
+import { svgPathProperties } from 'svg-path-properties';
+
 // Function to parse the `d` attribute into path commands
 export const parsePathData = (d: string): string[] => {
   const commands = d.match(/([MLCZHVTA][^MLCZHVTA]*)/gi); // Matches path commands
@@ -16,10 +18,10 @@ export const splitPathData = (
 
 // Function to find the intersection of two lines
 export const lineIntersection = (
-  p1: DOMPoint,
-  p2: DOMPoint,
-  p3: DOMPoint,
-  p4: DOMPoint
+  p1: { x: number; y: number },
+  p2: { x: number; y: number },
+  p3: { x: number; y: number },
+  p4: { x: number; y: number }
 ) => {
   const denominator =
     (p4.y - p3.y) * (p2.x - p1.x) - (p4.x - p3.x) * (p2.y - p1.y);
@@ -45,32 +47,39 @@ export const findIntersectionPoint = (
   path1: SVGPathElement, // Inside path
   path2: SVGPathElement // Start/Finish path
 ) => {
-  if (!path1 || !path2) return null;
+  const path1attr = path1?.getAttribute('d');
+  const path2attr = path2?.getAttribute('d');
+  if (!path1attr || !path2attr) return null;
 
-  const path1Length = path1.getTotalLength();
-  const path2Length = path2.getTotalLength();
-  const initialStep = Math.max(path1Length, path2Length) / 100; // Initial coarse step
+  const p1 = new svgPathProperties(path1attr);
+  const p2 = new svgPathProperties(path2attr);
+
+  const path1Length = p1.getTotalLength();
+  const path2Length = p2.getTotalLength();
+  const initialStep = Math.max(path1Length, path2Length) / 500; // Initial coarse step
 
   for (let i = 0; i < path1Length; i += initialStep) {
-    const p1 = path1.getPointAtLength(i);
-    const p2 = path1.getPointAtLength(Math.min(i + initialStep, path1Length));
+    const point1 = p1.getPointAtLength(i);
+    const point2 = p1.getPointAtLength(Math.min(i + initialStep, path1Length));
 
     for (let j = 0; j < path2Length; j += initialStep) {
-      const p3 = path2.getPointAtLength(j);
-      const p4 = path2.getPointAtLength(Math.min(j + initialStep, path2Length));
+      const point3 = p2.getPointAtLength(j);
+      const point4 = p2.getPointAtLength(
+        Math.min(j + initialStep, path2Length)
+      );
 
       // Skip if bounding boxes don't overlap
       const bbox1 = {
-        xMin: Math.min(p1.x, p2.x),
-        xMax: Math.max(p1.x, p2.x),
-        yMin: Math.min(p1.y, p2.y),
-        yMax: Math.max(p1.y, p2.y),
+        xMin: Math.min(point1.x, point2.x),
+        xMax: Math.max(point1.x, point2.x),
+        yMin: Math.min(point1.y, point2.y),
+        yMax: Math.max(point1.y, point2.y),
       };
       const bbox2 = {
-        xMin: Math.min(p3.x, p4.x),
-        xMax: Math.max(p3.x, p4.x),
-        yMin: Math.min(p3.y, p4.y),
-        yMax: Math.max(p3.y, p4.y),
+        xMin: Math.min(point3.x, point4.x),
+        xMax: Math.max(point3.x, point4.x),
+        yMin: Math.min(point3.y, point4.y),
+        yMax: Math.max(point3.y, point4.y),
       };
 
       if (
@@ -83,7 +92,7 @@ export const findIntersectionPoint = (
       }
 
       // Check intersection if bounding boxes overlap
-      const intersection = lineIntersection(p1, p2, p3, p4);
+      const intersection = lineIntersection(point1, point2, point3, point4);
 
       if (intersection) {
         return { x: intersection.x, y: intersection.y, length: i };
