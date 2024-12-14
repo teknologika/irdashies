@@ -131,7 +131,7 @@ export const useDriverStandings = () => {
       // If the driver is not in the standings, use the car number as position
       // This is a crappy workaround for drivers that are not in the standings
       // carIdx is also not available in qualifying (might be just lone qualifying thing)
-      let classPosition = driverPos.position;
+      let classPosition = driverPos.classPosition;
       if (classPosition <= 0) classPosition = driver.carIdx || driver.carNumRaw;
 
       return {

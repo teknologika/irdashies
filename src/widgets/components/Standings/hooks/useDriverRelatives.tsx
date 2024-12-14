@@ -59,8 +59,11 @@ export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
     const end = Math.min(tableIndex + buffer + 1, relatives.length);
     const start = Math.max(tableIndex - buffer, 0);
     const sliced = relatives.slice(start, end);
+    const filtered = sliced.filter(
+      (result) => result.onTrack || result.carIdx === playerIndex
+    ); // only show drivers on track plus the player
 
-    return sliced;
+    return filtered;
   }, [
     driverStandings,
     telemetry?.CarIdxLapDistPct?.value,
