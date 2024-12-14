@@ -56,18 +56,25 @@ const generateInsidePath = (svg: SVGElement) => {
   const pathData = combinedPath.getAttribute('d');
   if (pathData) {
     const commands = parsePathData(pathData);
-    const { inside } = splitPathData(commands);
+    let { inside } = splitPathData(commands);
 
     // Set the inside path data so we can use it track the car
+    // close path if it's not already closed
+    if (inside[inside.length - 1].toLocaleUpperCase() !== 'Z') {
+      inside = inside.concat('Z');
+    }
     insidePath.setAttribute('d', inside);
   }
 
   return insidePath;
 };
 
-readdirSync('./src/widgets/components/TrackMap/tracks').forEach((file) => {
-  if (file.endsWith('.svg')) {
-    const trackId = file.split('.')[0];
-    processTrackSvg(trackId);
-  }
-});
+// Process all track svgs
+export const processTrackSvgs = () => {
+  readdirSync('./src/widgets/components/TrackMap/tracks').forEach((file) => {
+    if (file.endsWith('.svg')) {
+      const trackId = file.split('.')[0];
+      processTrackSvg(trackId);
+    }
+  });
+};
