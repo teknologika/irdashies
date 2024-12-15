@@ -4,6 +4,7 @@ import React, {
   useState,
   ReactNode,
   useEffect,
+  useMemo,
 } from 'react';
 import type {
   IrSdkBridge,
@@ -13,10 +14,17 @@ import type {
 
 interface TelemetryContextProps {
   telemetry?: Telemetry;
+}
+
+interface SessionContextProps {
   session?: Session;
 }
 
 const TelemetryContext = createContext<TelemetryContextProps | undefined>(
+  undefined
+);
+
+const SessionContext = createContext<SessionContextProps | undefined>(
   undefined
 );
 
@@ -42,9 +50,11 @@ export const TelemetryProvider: React.FC<{
   }, [bridge]);
 
   return (
-    <TelemetryContext.Provider value={{ telemetry, session }}>
-      {children}
-    </TelemetryContext.Provider>
+    <SessionContext.Provider value={{ session }}>
+      <TelemetryContext.Provider value={{ telemetry }}>
+        {children}
+      </TelemetryContext.Provider>
+    </SessionContext.Provider>
   );
 };
 
@@ -54,4 +64,19 @@ export const useTelemetry = (): TelemetryContextProps => {
     throw new Error('useTelemetry must be used within a TelemetryProvider');
   }
   return context;
+};
+
+export const useSession = (): SessionContextProps => {
+  const context = useContext(SessionContext);
+  if (!context) {
+    throw new Error('useTelemetry must be used within a TelemetryProvider');
+  }
+  return context;
+};
+
+export const useTelemetrySelector = <T,>(
+  selector: (telemetry: Telemetry | undefined) => T
+): T => {
+  const { telemetry } = useTelemetry();
+  return useMemo(() => selector(telemetry), [telemetry, selector]);
 };

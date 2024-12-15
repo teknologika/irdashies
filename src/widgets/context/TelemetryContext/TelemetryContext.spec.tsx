@@ -1,7 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { TelemetryProvider, useTelemetry } from './TelemetryContext';
+import {
+  TelemetryProvider,
+  useSession,
+  useTelemetry,
+} from './TelemetryContext';
 import type {
   IrSdkBridge,
   Session,
@@ -16,7 +20,8 @@ const mockBridge: IrSdkBridge = {
 };
 
 const TestComponent: React.FC = () => {
-  const { telemetry, session } = useTelemetry();
+  const { telemetry } = useTelemetry();
+  const { session } = useSession();
   return (
     <div>
       <div data-testid="telemetry">

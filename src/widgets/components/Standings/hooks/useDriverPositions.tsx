@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useTelemetry } from '../../../context/TelemetryContext';
+import { useSession, useTelemetry } from '../../../context/TelemetryContext';
 import { Standings } from '../createStandings';
 import { useCurrentSession } from './useCurrentSession';
 
@@ -31,7 +31,7 @@ export const useDriverPositions = () => {
 };
 
 export const useDrivers = () => {
-  const { session } = useTelemetry();
+  const { session } = useSession();
 
   const drivers = useMemo(() => {
     const driverInfo = session?.DriverInfo?.Drivers ?? [];
@@ -47,6 +47,7 @@ export const useDrivers = () => {
         color: driver.CarClassColor,
         name: driver.CarClassShortName,
         relativeSpeed: driver.CarClassRelSpeed,
+        estLapTime: driver.CarClassEstLapTime,
       },
     }));
   }, [session]);
@@ -90,7 +91,7 @@ export const useCarState = () => {
 };
 
 export const usePlayerCarIndex = () => {
-  const { session } = useTelemetry();
+  const { session } = useSession();
 
   const playerCarIdx = useMemo(() => {
     return session?.DriverInfo?.DriverCarIdx;

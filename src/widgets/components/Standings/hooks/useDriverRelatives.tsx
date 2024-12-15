@@ -1,38 +1,48 @@
 import { useMemo } from 'react';
 import { useTelemetry } from '../../../context/TelemetryContext';
-import { useDriverStandings, usePlayerCarIndex } from './useDriverPositions';
+import {
+  useDrivers,
+  useDriverStandings,
+  usePlayerCarIndex,
+} from './useDriverPositions';
+import { Telemetry } from '../../../../bridge/iracingSdk';
+
+export const useTelemetryValue = <T extends number[] | boolean[] = number[]>(
+  key: keyof Telemetry
+) => {
+  const { telemetry } = useTelemetry();
+  return useMemo(() => telemetry?.[key]?.value as T, [key, telemetry]);
+};
 
 export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
-  const { telemetry, session } = useTelemetry();
+  const carIdxEstTime = useTelemetryValue('CarIdxEstTime');
+  const carIdxLapDistPct = useTelemetryValue('CarIdxLapDistPct');
+  const drivers = useDrivers();
   const driverStandings = useDriverStandings();
   const playerIndex = usePlayerCarIndex();
 
   const standings = useMemo(() => {
     const standings = driverStandings;
-    const lapDistPctCarIdx = telemetry?.CarIdxLapDistPct?.value ?? [];
-    const relativeCarIdx = telemetry?.CarIdxEstTime?.value ?? [];
-    const player = session?.DriverInfo.Drivers.find(
-      (result) => result.CarIdx === session?.DriverInfo?.DriverCarIdx
-    );
+    const lapDistPctCarIdx = carIdxLapDistPct;
+    const relativeCarIdx = carIdxEstTime;
+    const player = drivers.find((result) => result.carIdx === playerIndex);
 
     const relatives = standings
       .map((result) => {
         // driver class estimate lap time
-        const driver = session?.DriverInfo?.Drivers.find(
-          (d) => d.CarIdx === result.carIdx
-        );
-        const lapTimeEst = driver?.CarClassEstLapTime;
+        const driver = drivers.find((d) => d.carIdx === result.carIdx);
+        const lapTimeEst = driver?.carClass.estLapTime;
 
         let delta = 0.0;
         const driverLapTimeEst = lapTimeEst ?? 0;
         const relativeCarTime = relativeCarIdx[result.carIdx];
-        const playerCarTime = relativeCarIdx[player?.CarIdx ?? 0];
+        const playerCarTime = relativeCarIdx[player?.carIdx ?? 0];
 
         // Determine if the delta between player and relative car spans across the start/finish line
         const crossesStartFinishLine =
           Math.abs(
             lapDistPctCarIdx[result.carIdx] -
-              lapDistPctCarIdx[player?.CarIdx ?? 0]
+              lapDistPctCarIdx[player?.carIdx ?? 0]
           ) > 0.5;
 
         if (crossesStartFinishLine) {
@@ -66,10 +76,9 @@ export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
     return filtered;
   }, [
     driverStandings,
-    telemetry?.CarIdxLapDistPct?.value,
-    telemetry?.CarIdxEstTime?.value,
-    session?.DriverInfo.Drivers,
-    session?.DriverInfo?.DriverCarIdx,
+    carIdxLapDistPct,
+    carIdxEstTime,
+    drivers,
     buffer,
     playerIndex,
   ]);

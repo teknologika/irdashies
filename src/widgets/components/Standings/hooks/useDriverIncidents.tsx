@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import { useTelemetry } from '../../../context/TelemetryContext';
+import { useSession, useTelemetry } from '../../../context/TelemetryContext';
 
 export const useDriverIncidents = () => {
-  const { session, telemetry } = useTelemetry();
+  const { telemetry } = useTelemetry();
+  const { session } = useSession();
   const incidentLimit = useMemo(() => {
     let limit = session?.WeekendInfo?.WeekendOptions?.IncidentLimit || 0;
     if (limit === 'unlimited') limit = '';

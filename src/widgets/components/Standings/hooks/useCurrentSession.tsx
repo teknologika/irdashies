@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import { useTelemetry } from '../../../context/TelemetryContext';
+import { useSession, useTelemetry } from '../../../context/TelemetryContext';
 
 export const useCurrentSession = () => {
-  const { session, telemetry } = useTelemetry();
+  const { telemetry } = useTelemetry();
+  const { session } = useSession();
   const currentSession = useMemo(() => {
     if (!session?.SessionInfo?.Sessions || !telemetry?.SessionNum?.value) {
       return undefined;

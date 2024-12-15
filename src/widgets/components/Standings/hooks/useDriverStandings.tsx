@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useTelemetry } from '../../../context/TelemetryContext';
+import { useSession, useTelemetry } from '../../../context/TelemetryContext';
 import {
   createDriverStandings,
   groupStandingsByClass,
@@ -8,7 +8,8 @@ import {
 import { useCurrentSession } from './useCurrentSession';
 
 export const useDriverStandings = ({ buffer }: { buffer: number }) => {
-  const { telemetry, session } = useTelemetry();
+  const { telemetry } = useTelemetry();
+  const { session } = useSession();
   const currentSession = useCurrentSession();
 
   const standings = useMemo(() => {

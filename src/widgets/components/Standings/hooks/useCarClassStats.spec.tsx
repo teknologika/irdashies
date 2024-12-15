@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { useCarClassStats } from './useCarClassStats';
 import { describe, it, vi, expect } from 'vitest';
-import { useTelemetry } from '../../../context/TelemetryContext';
+import { useSession } from '../../../context/TelemetryContext';
 import { Session } from '../../../../bridge/iracingSdk';
 
 vi.mock('../../../context/TelemetryContext');
@@ -45,7 +45,7 @@ describe('useCarClassStats', () => {
   } as unknown as Session;
 
   it('should return correct class stats', () => {
-    vi.mocked(useTelemetry).mockReturnValue({
+    vi.mocked(useSession).mockReturnValue({
       session: mockSession,
     });
     const { result } = renderHook(() => useCarClassStats());
@@ -67,7 +67,7 @@ describe('useCarClassStats', () => {
   });
 
   it('should not error if session is not available', () => {
-    vi.mocked(useTelemetry).mockReturnValue({
+    vi.mocked(useSession).mockReturnValue({
       session: undefined,
     });
     const { result } = renderHook(() => useCarClassStats());

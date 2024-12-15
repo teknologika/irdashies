@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useTelemetry } from '../../../context/TelemetryContext';
+import { useSession } from '../../../context/TelemetryContext';
 
 export type CarClassStats = {
   shortName: string;
@@ -9,7 +9,7 @@ export type CarClassStats = {
 };
 
 export const useCarClassStats = () => {
-  const { session } = useTelemetry();
+  const { session } = useSession();
   const classStats = useMemo(() => {
     return session?.DriverInfo?.Drivers.reduce(
       (acc, driver) => {

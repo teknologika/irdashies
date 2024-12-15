@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { useCurrentSession } from './useCurrentSession';
 import { describe, expect, it, vi } from 'vitest';
-import { useTelemetry } from '../../../context/TelemetryContext';
+import { useSession, useTelemetry } from '../../../context/TelemetryContext';
 import type { Session, Telemetry } from '../../../../bridge/iracingSdk';
 
 vi.mock('../../../context/TelemetryContext');
@@ -9,8 +9,10 @@ vi.mock('../../../context/TelemetryContext');
 describe('useCurrentSession', () => {
   it('returns undefined if session is not available', () => {
     vi.mocked(useTelemetry).mockReturnValue({
-      session: {} as Session,
       telemetry: {} as Telemetry,
+    });
+    vi.mocked(useSession).mockReturnValue({
+      session: {} as Session,
     });
     const { result } = renderHook(() => useCurrentSession());
 
@@ -31,8 +33,10 @@ describe('useCurrentSession', () => {
     } as Telemetry;
 
     vi.mocked(useTelemetry).mockReturnValue({
-      session: mockSession,
       telemetry: mockTelemetry,
+    });
+    vi.mocked(useSession).mockReturnValue({
+      session: mockSession,
     });
 
     const { result } = renderHook(() => useCurrentSession());
@@ -54,8 +58,10 @@ describe('useCurrentSession', () => {
     } as Telemetry;
 
     vi.mocked(useTelemetry).mockReturnValue({
-      session: mockSession,
       telemetry: mockTelemetry,
+    });
+    vi.mocked(useSession).mockReturnValue({
+      session: mockSession,
     });
 
     const { result } = renderHook(() => useCurrentSession());
@@ -77,8 +83,10 @@ describe('useCurrentSession', () => {
     } as Telemetry;
 
     vi.mocked(useTelemetry).mockReturnValue({
-      session: mockSession,
       telemetry: mockTelemetry,
+    });
+    vi.mocked(useSession).mockReturnValue({
+      session: mockSession,
     });
 
     const { result } = renderHook(() => useCurrentSession());
