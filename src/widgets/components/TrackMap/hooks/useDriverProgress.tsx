@@ -9,10 +9,12 @@ export const useDriverProgress = () => {
     return session?.DriverInfo?.DriverCarIdx;
   }, [session?.DriverInfo?.DriverCarIdx]);
 
-  const driverIdxValue = telemetry?.CarIdxLapDistPct?.value[driverIdx ?? 0];
-  const driverTrackPct = useMemo(() => {
-    return driverIdxValue;
-  }, [driverIdxValue]);
+  const driverTrackPctValue =
+    telemetry?.CarIdxLapDistPct?.value[driverIdx ?? 0];
+  const driverTrackPct = useMemo(
+    () => driverTrackPctValue,
+    [driverTrackPctValue]
+  );
 
   return driverTrackPct ?? 0;
 };

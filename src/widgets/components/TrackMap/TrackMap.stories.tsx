@@ -52,7 +52,7 @@ export const CirclingAround: Story = {
 
     useEffect(() => {
       const interval = setInterval(() => {
-        setProgress((prev) => (prev + 0.5) % 100);
+        setProgress((prev) => (prev + 0.005) % 1);
       }, 20);
 
       return () => clearInterval(interval);

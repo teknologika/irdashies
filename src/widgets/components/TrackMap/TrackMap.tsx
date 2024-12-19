@@ -64,7 +64,7 @@ export const TrackMap = ({ trackId, driver }: TrackMapProps) => {
     const totalLength = insidePath?.getTotalLength() || 0;
     indicator?.setAttribute('class', 'fill-red-500');
     function updateCarPosition(percent: number) {
-      const adjustedLength = (totalLength * (percent / 100)) % totalLength;
+      const adjustedLength = (totalLength * percent) % totalLength;
       const length =
         direction === 'anticlockwise'
           ? (intersectionLength + adjustedLength) % totalLength
