@@ -9,6 +9,7 @@ import type { DashboardBridge } from '../../../bridge/dashboard/dashboardBridge.
 import { DashboardLayout } from '../../../storage/dashboards';
 
 interface DashboardContextProps {
+  editMode: boolean;
   currentDashboard: DashboardLayout | undefined;
   onDashboardUpdated?: (dashboard: DashboardLayout) => void;
 }
@@ -22,10 +23,12 @@ export const DashboardProvider: React.FC<{
   children: ReactNode;
 }> = ({ bridge, children }) => {
   const [dashboard, setDashboard] = useState<DashboardLayout>();
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     bridge.reloadDashboard();
     bridge.dashboardUpdated((dashboard) => setDashboard(dashboard));
+    bridge.onEditModeToggled((editMode) => setEditMode(editMode));
   }, [bridge]);
 
   const saveDashboard = (dashboard: DashboardLayout) => {
@@ -35,6 +38,7 @@ export const DashboardProvider: React.FC<{
   return (
     <DashboardContext.Provider
       value={{
+        editMode: editMode,
         currentDashboard: dashboard,
         onDashboardUpdated: saveDashboard,
       }}

@@ -25,6 +25,11 @@ export function exposeBridge() {
   } as IrSdkBridge);
 
   contextBridge.exposeInMainWorld('dashboardBridge', {
+    onEditModeToggled: (callback: (value: boolean) => void) => {
+      ipcRenderer.on('editModeToggled', (_, value) => {
+        callback(value);
+      });
+    },
     reloadDashboard: () => {
       ipcRenderer.send('reloadDashboard');
     },

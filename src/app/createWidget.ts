@@ -33,6 +33,7 @@ export const createWidget = ({
     focusable: false,
     resizable: false,
     movable: false,
+    roundedCorners: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },

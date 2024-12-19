@@ -14,6 +14,7 @@ import {
   useRunningState,
 } from './context/RunningStateContext/RunningStateContext';
 import { TrackOverlay } from './components/TrackMap/TrackOverlay';
+import { EditMode } from './components/EditMode/EditMode';
 
 // I don't really know why interface.d.ts isn't being picked up so just redefining it here.
 declare global {
@@ -66,7 +67,9 @@ const App = () => (
     <RunningStateProvider bridge={window.irsdkBridge}>
       <TelemetryProvider bridge={window.irsdkBridge}>
         <HashRouter>
-          <AppRoutes />
+          <EditMode>
+            <AppRoutes />
+          </EditMode>
         </HashRouter>
       </TelemetryProvider>
     </RunningStateProvider>

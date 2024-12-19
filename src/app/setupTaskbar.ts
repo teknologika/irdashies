@@ -1,4 +1,11 @@
-import { nativeImage, Tray, Menu, app, BrowserWindow } from 'electron';
+import {
+  nativeImage,
+  Tray,
+  Menu,
+  app,
+  BrowserWindow,
+  globalShortcut,
+} from 'electron';
 import { createSettingsWindow } from './createSettingsWindow';
 import { TelemetrySink } from '../bridge/iracingSdk/telemetrySink';
 
@@ -10,6 +17,7 @@ class Taskbar {
     this.isLocked = true;
     this.tray = this.createTray();
     this.setupContextMenu();
+    this.registerShortcuts();
   }
 
   private createTray(): Tray {
@@ -30,18 +38,15 @@ class Taskbar {
         },
       },
       {
-        label: 'Lock / Unlock',
+        label: 'Lock / Unlock (F6)',
         click: () => {
           this.toggleLockWindows();
         },
       },
       {
-        label: 'Save Current Telemetry',
+        label: 'Save Current Telemetry (F7)',
         click: () => {
-          if (process.platform === 'darwin') return;
-          import('../bridge/iracingSdk/dumpTelemetry').then(
-            async ({ dumpCurrentTelemetry }) => await dumpCurrentTelemetry()
-          );
+          this.saveTelemetry();
         },
       },
       {
@@ -69,7 +74,24 @@ class Taskbar {
         window.setMovable(!this.isLocked);
         window.setIgnoreMouseEvents(this.isLocked);
         window.blur();
+        window.webContents.send('editModeToggled', !this.isLocked);
       }
+    });
+  }
+
+  private saveTelemetry(): void {
+    if (process.platform === 'darwin') return;
+    import('../bridge/iracingSdk/dumpTelemetry').then(
+      async ({ dumpCurrentTelemetry }) => await dumpCurrentTelemetry()
+    );
+  }
+
+  private registerShortcuts(): void {
+    globalShortcut.register('F6', () => {
+      this.toggleLockWindows();
+    });
+    globalShortcut.register('F7', () => {
+      this.saveTelemetry();
     });
   }
 }
