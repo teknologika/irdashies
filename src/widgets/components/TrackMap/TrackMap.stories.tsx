@@ -8,9 +8,6 @@ export default {
     trackId: {
       control: { type: 'number' },
     },
-    progress: {
-      control: { type: 'range', min: 0, max: 100, step: 0.1 },
-    },
   },
 } as Meta;
 
@@ -19,7 +16,10 @@ type Story = StoryObj<typeof TrackMap>;
 export const Primary: Story = {
   args: {
     trackId: 1,
-    progress: 0,
+    driver: {
+      progress: 0,
+      carIdx: 1,
+    },
   },
 };
 
@@ -31,12 +31,18 @@ export const AllTracks: Story = {
           return (
             <div key={i}>
               <div className="my-2">Track ID: {i + 1}</div>
-              <TrackMap trackId={i + 1} progress={args.progress} />
+              <TrackMap trackId={i + 1} driver={args.driver} />
             </div>
           );
         })}
       </div>
     );
+  },
+  args: {
+    driver: {
+      progress: 0,
+      carIdx: 1,
+    },
   },
 };
 
@@ -52,10 +58,15 @@ export const CirclingAround: Story = {
       return () => clearInterval(interval);
     });
 
-    return <TrackMap trackId={args.trackId} progress={progress} />;
+    return (
+      <TrackMap trackId={args.trackId} driver={{ ...args.driver, progress }} />
+    );
   },
   args: {
     trackId: 1,
-    progress: 0,
+    driver: {
+      progress: 0,
+      carIdx: 1,
+    },
   },
 };

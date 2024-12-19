@@ -13,6 +13,7 @@ import {
   RunningStateProvider,
   useRunningState,
 } from './context/RunningStateContext/RunningStateContext';
+import { TrackOverlay } from './components/TrackMap/TrackOverlay';
 
 // I don't really know why interface.d.ts isn't being picked up so just redefining it here.
 declare global {
@@ -29,6 +30,7 @@ const WIDGET_MAP: Record<string, (config: any) => JSX.Element> = {
   input: Input,
   relative: Relative,
   settings: Settings,
+  map: TrackOverlay,
 };
 
 const AppRoutes = () => {

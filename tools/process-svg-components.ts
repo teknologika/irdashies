@@ -5,7 +5,7 @@ import {
   findIntersectionPoint,
   parsePathData,
   splitPathData,
-} from './svgUtils';
+} from './svg-utils';
 
 const processTrackSvg = (trackId: string) => {
   const track = fs.readFileSync(

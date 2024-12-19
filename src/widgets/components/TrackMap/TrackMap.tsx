@@ -16,23 +16,37 @@ export const useTrackLoader = (trackId: number) => {
   return svg;
 };
 
-export const TrackMap = ({
-  trackId,
-  progress,
-}: {
+export type TrackMapProps = {
   trackId: number;
-  progress: number;
-}) => {
+  driver: {
+    progress: number;
+    carIdx: number;
+  };
+};
+
+export const TrackMap = ({ trackId, driver }: TrackMapProps) => {
   const trackSvgString = useTrackLoader(trackId);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { progress, carIdx } = driver;
+
+  useEffect(() => {
+    const ref = containerRef?.current;
+    const indicator = ref?.querySelector(
+      'g.car-indicator circle'
+    ) as SVGPathElement | null;
+
+    // add text to svg
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.textContent = carIdx.toString();
+    text.setAttribute('x', '50');
+    text.setAttribute('y', '50');
+    indicator?.appendChild(text);
+  }, [trackSvgString, carIdx]);
 
   useEffect(() => {
     const ref = containerRef?.current;
     const insidePath = ref?.querySelector(
       'g.generated-inside-path path'
-    ) as SVGPathElement | null;
-    const startFinishPath = ref?.querySelector(
-      'g.start-finish path'
     ) as SVGPathElement | null;
     const indicator = ref?.querySelector(
       'g.car-indicator circle'
@@ -45,7 +59,7 @@ export const TrackMap = ({
       insidePath?.getAttribute('intersection-length') || 0
     );
 
-    if (!insidePath || !startFinishPath) return;
+    if (!insidePath) return;
 
     const totalLength = insidePath?.getTotalLength() || 0;
     indicator?.setAttribute('class', 'fill-red-500');

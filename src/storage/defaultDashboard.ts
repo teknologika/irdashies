@@ -32,5 +32,15 @@ export const defaultDashboard: DashboardLayout = {
         height: 296,
       },
     },
+    {
+      id: 'map',
+      enabled: false,
+      layout: {
+        x: 1130,
+        y: 51,
+        width: 400,
+        height: 600,
+      },
+    },
   ],
 };
