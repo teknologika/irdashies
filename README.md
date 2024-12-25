@@ -49,6 +49,24 @@ Look for the application in your app tray. Right-click on the icon and Lock / Un
 
 > On macOS you will see mocked data from a sample session. To connect to iRacing, you will need to run the application on Windows.
 
+## Folder Structure
+
+The project is structured as follows:
+
+```
+irdashies/
+  ├── src/
+  │   ├── app/
+  │   ├── frontend/
+  │   ├── types/
+```
+
+- `src/app/` contains the main Electron application code.
+- `src/frontend/` contains the React components for the overlays.
+- `src/types/` contains TypeScript type definitions shared between the frontend and backend (e.g. telemetry types).
+
+> Note: Frontend components should NOT import anything from ./app as these are Electron-specific modules. Any communication should be done via IPC and types exposed via the types folder.
+
 ## Storybook
 
 To view the components in Storybook, run the following command:
