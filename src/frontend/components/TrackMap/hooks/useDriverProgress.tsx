@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useSession, useTelemetry } from '../../../context/TelemetryContext';
+import { useSession, useTelemetry } from '@irdashies/context';
 
 export const useDriverProgress = () => {
   const { telemetry } = useTelemetry();

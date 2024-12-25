@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useSession } from '../../../context/TelemetryContext';
+import { useSession } from '@irdashies/context';
 
 export const useTrackId = () => {
   const { session } = useSession();

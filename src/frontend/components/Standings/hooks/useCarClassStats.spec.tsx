@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react';
 import { useCarClassStats } from './useCarClassStats';
 import { describe, it, vi, expect } from 'vitest';
-import { useSession } from '../../../context/TelemetryContext';
+import { useSession } from '@irdashies/context';
 import { Session } from '../../../../bridge/iracingSdk';
 
-vi.mock('../../../context/TelemetryContext');
+vi.mock('@irdashies/context');
 
 describe('useCarClassStats', () => {
   const mockSession = {

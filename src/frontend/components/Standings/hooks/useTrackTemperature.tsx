@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useTelemetry } from '../../../context/TelemetryContext';
+import { useTelemetry } from '@irdashies/context';
 
 export const useTrackTemperature = () => {
   const { telemetry } = useTelemetry();

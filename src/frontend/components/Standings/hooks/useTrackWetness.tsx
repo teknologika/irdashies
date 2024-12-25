@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useTelemetry } from '../../../context/TelemetryContext';
+import { useTelemetry } from '@irdashies/context';
 
 const wetnessLevels: Record<number, string> = {
   0: '',

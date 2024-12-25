@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useSession, useTelemetry } from '../../../context/TelemetryContext';
+import { useSession, useTelemetry } from '@irdashies/context';
 import {
   createDriverStandings,
   groupStandingsByClass,

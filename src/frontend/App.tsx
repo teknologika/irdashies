@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import { TelemetryProvider } from './context/TelemetryContext/TelemetryContext';
+import { TelemetryProvider } from '@irdashies/context';
 import { Input } from './components/Input';
 import { Standings } from './components/Standings/Standings';
 import { Settings } from './components/Settings/Settings';

@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react';
 import { useCurrentSession } from './useCurrentSession';
 import { describe, expect, it, vi } from 'vitest';
-import { useSession, useTelemetry } from '../../../context/TelemetryContext';
+import { useSession, useTelemetry } from '@irdashies/context';
 import type { Session, Telemetry } from '../../../../bridge/iracingSdk';
 
-vi.mock('../../../context/TelemetryContext');
+vi.mock('@irdashies/context');
 
 describe('useCurrentSession', () => {
   it('returns undefined if session is not available', () => {
