@@ -1,18 +1,16 @@
 import { createRoot } from 'react-dom/client';
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import { TelemetryProvider } from '@irdashies/context';
+import {
+  TelemetryProvider,
+  DashboardProvider,
+  useDashboard,
+  RunningStateProvider,
+  useRunningState,
+} from '@irdashies/context';
 import { Input } from './components/Input';
 import { Standings } from './components/Standings/Standings';
 import { Settings } from './components/Settings/Settings';
 import { Relative } from './components/Standings/Relative';
-import {
-  DashboardProvider,
-  useDashboard,
-} from './context/DashboardContext/DashboardContext';
-import {
-  RunningStateProvider,
-  useRunningState,
-} from './context/RunningStateContext/RunningStateContext';
 import { TrackOverlay } from './components/TrackMap/TrackOverlay';
 import { EditMode } from './components/EditMode/EditMode';
 

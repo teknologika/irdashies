@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { useDashboard } from '../../context/DashboardContext/DashboardContext';
+import { useDashboard } from '@irdashies/context';
 import { Resize } from '@phosphor-icons/react';
 
 export const EditMode = ({ children }: PropsWithChildren) => {
