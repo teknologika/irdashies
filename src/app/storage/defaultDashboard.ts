@@ -1,4 +1,4 @@
-import { DashboardLayout } from './dashboards';
+import type { DashboardLayout } from '@irdashies/types';
 
 export const defaultDashboard: DashboardLayout = {
   widgets: [

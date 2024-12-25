@@ -5,8 +5,7 @@ import React, {
   ReactNode,
   useEffect,
 } from 'react';
-import type { DashboardBridge } from '@irdashies/types';
-import { DashboardLayout } from '../../../app/storage/dashboards';
+import type { DashboardBridge, DashboardLayout } from '@irdashies/types';
 
 interface DashboardContextProps {
   editMode: boolean;

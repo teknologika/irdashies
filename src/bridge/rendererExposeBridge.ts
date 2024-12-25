@@ -4,8 +4,8 @@ import type {
   Telemetry,
   IrSdkBridge,
   DashboardBridge,
+  DashboardLayout,
 } from '@irdashies/types';
-import { DashboardLayout } from '../app/storage/dashboards';
 
 export function exposeBridge() {
   contextBridge.exposeInMainWorld('irsdkBridge', {
