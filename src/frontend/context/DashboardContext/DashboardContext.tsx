@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useEffect,
 } from 'react';
-import type { DashboardBridge } from '../../../bridge/dashboard/dashboardBridge.type';
+import type { DashboardBridge } from '@irdashies/types';
 import { DashboardLayout } from '../../../app/storage/dashboards';
 
 interface DashboardContextProps {

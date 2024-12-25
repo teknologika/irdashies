@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { DashboardProvider, useDashboard } from './DashboardContext';
-import type { DashboardBridge } from '../../../bridge/dashboard/dashboardBridge.type';
+import type { DashboardBridge } from '@irdashies/types';
 import { DashboardLayout } from '../../../app/storage/dashboards';
 
 const mockBridge: DashboardBridge = {

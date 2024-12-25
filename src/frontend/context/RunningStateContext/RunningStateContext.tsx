@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { IrSdkBridge } from '../../../bridge/iracingSdk/irSdkBridge.type';
+import type { IrSdkBridge } from '@irdashies/types';
 
 interface RunningStateContextProps {
   running: boolean;

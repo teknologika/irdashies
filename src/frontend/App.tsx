@@ -17,8 +17,8 @@ import { EditMode } from './components/EditMode/EditMode';
 // I don't really know why interface.d.ts isn't being picked up so just redefining it here.
 declare global {
   interface Window {
-    irsdkBridge: import('./../bridge/iracingSdk/irSdkBridge.type').IrSdkBridge;
-    dashboardBridge: import('./../bridge/dashboard/dashboardBridge.type').DashboardBridge;
+    irsdkBridge: import('@irdashies/types').IrSdkBridge;
+    dashboardBridge: import('@irdashies/types').DashboardBridge;
   }
 }
 

@@ -1,4 +1,4 @@
-import { DashboardLayout } from '../../app/storage/dashboards';
+import { DashboardLayout } from '../app/storage/dashboards';
 
 export interface DashboardBridge {
   onEditModeToggled: (callback: (value: boolean) => void) => void;

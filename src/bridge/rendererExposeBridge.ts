@@ -1,8 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import type { Session, Telemetry } from '@irdashies/types';
-import type { IrSdkBridge } from './iracingSdk/irSdkBridge.type';
+import type {
+  Session,
+  Telemetry,
+  IrSdkBridge,
+  DashboardBridge,
+} from '@irdashies/types';
 import { DashboardLayout } from '../app/storage/dashboards';
-import { DashboardBridge } from './dashboard/dashboardBridge.type';
 
 export function exposeBridge() {
   contextBridge.exposeInMainWorld('irsdkBridge', {

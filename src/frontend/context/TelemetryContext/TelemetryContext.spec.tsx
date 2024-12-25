@@ -6,8 +6,7 @@ import {
   useSession,
   useTelemetry,
 } from './TelemetryContext';
-import type { IrSdkBridge } from '../../../bridge/iracingSdk';
-import type { Session, Telemetry } from '@irdashies/types';
+import type { Session, Telemetry, IrSdkBridge } from '@irdashies/types';
 
 const mockBridge: IrSdkBridge = {
   onTelemetry: vi.fn(),
