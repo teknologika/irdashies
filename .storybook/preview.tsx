@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/react';
-import '../src/theme.css';
+import '../src/frontend/theme.css';
 import { TelemetryDecorator } from './telemetryDecorator';
 
 const preview: Preview = {
