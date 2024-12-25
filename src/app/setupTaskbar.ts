@@ -1,20 +1,15 @@
-import {
-  nativeImage,
-  Tray,
-  Menu,
-  app,
-  BrowserWindow,
-  globalShortcut,
-} from 'electron';
+import { nativeImage, Tray, Menu, app, globalShortcut } from 'electron';
 import { createSettingsWindow } from './createSettingsWindow';
 import { TelemetrySink } from '../bridge/iracingSdk/telemetrySink';
+import { OverlayManager } from './overlayManager';
 
 class Taskbar {
   private tray: Tray;
-  private isLocked: boolean;
 
-  constructor(private telemetrySink: TelemetrySink) {
-    this.isLocked = true;
+  constructor(
+    private telemetrySink: TelemetrySink,
+    private overlayManager: OverlayManager
+  ) {
     this.tray = this.createTray();
     this.setupContextMenu();
     this.registerShortcuts();
@@ -67,16 +62,7 @@ class Taskbar {
   }
 
   private toggleLockWindows(): void {
-    this.isLocked = !this.isLocked;
-    BrowserWindow.getAllWindows().forEach((window) => {
-      if (window.isAlwaysOnTop()) {
-        window.setResizable(!this.isLocked);
-        window.setMovable(!this.isLocked);
-        window.setIgnoreMouseEvents(this.isLocked);
-        window.blur();
-        window.webContents.send('editModeToggled', !this.isLocked);
-      }
-    });
+    this.overlayManager.toggleLockOverlays();
   }
 
   private saveTelemetry(): void {
@@ -96,6 +82,9 @@ class Taskbar {
   }
 }
 
-export const setupTaskbar = (telemetrySink: TelemetrySink) => {
-  new Taskbar(telemetrySink);
+export const setupTaskbar = (
+  telemetrySink: TelemetrySink,
+  overlayManager: OverlayManager
+) => {
+  new Taskbar(telemetrySink, overlayManager);
 };

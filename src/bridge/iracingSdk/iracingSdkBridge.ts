@@ -1,18 +1,19 @@
-import { BrowserWindow } from 'electron';
 import { IRacingSDK } from 'irsdk-node';
 import { TelemetrySink } from './telemetrySink';
+import { OverlayManager } from 'src/app/overlayManager';
 
 const TIMEOUT = 1000;
 
-export async function publishIRacingSDKEvents(telemetrySink: TelemetrySink) {
+export async function publishIRacingSDKEvents(
+  telemetrySink: TelemetrySink,
+  overlayManager: OverlayManager
+) {
   console.log('Loading iRacing SDK bridge...');
 
   setInterval(async () => {
     const isSimRunning = await IRacingSDK.IsSimRunning();
-    BrowserWindow.getAllWindows().forEach((window) => {
-      console.log('Sending running state to window', isSimRunning);
-      window.webContents.send('runningState', isSimRunning);
-    });
+    console.log('Sending running state to window', isSimRunning);
+    overlayManager.publishMessage('runningState', isSimRunning);
   }, 2000);
 
   // eslint-disable-next-line no-constant-condition
@@ -29,13 +30,15 @@ export async function publishIRacingSDKEvents(telemetrySink: TelemetrySink) {
         const session = sdk.getSessionData();
         await new Promise((resolve) => setTimeout(resolve, 1000 / 60));
 
-        if (telemetry) telemetrySink.addTelemetry(telemetry);
-        if (session) telemetrySink.addSession(session);
+        if (telemetry) {
+          overlayManager.publishMessage('telemetry', telemetry);
+          telemetrySink.addTelemetry(telemetry);
+        }
 
-        BrowserWindow.getAllWindows().forEach((window) => {
-          if (telemetry) window.webContents.send('telemetry', telemetry);
-          if (session) window.webContents.send('sessionData', session);
-        });
+        if (session) {
+          overlayManager.publishMessage('sessionData', session);
+          telemetrySink.addSession(session);
+        }
       }
 
       console.log('iRacing is no longer publishing telemetry');
