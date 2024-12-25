@@ -17,9 +17,7 @@ const telemetrySink = new TelemetrySink();
 
 app.on('ready', () => {
   const dashboard = getOrCreateDefaultDashboard();
-  overlayManager
-    .createOverlays(dashboard)
-    .forEach(({ widget, window }) => trackWindowMovement(widget, window));
+  overlayManager.createOverlays(dashboard);
 
   setupTaskbar(telemetrySink, overlayManager);
   iRacingSDKSetup(telemetrySink, overlayManager);
@@ -27,3 +25,4 @@ app.on('ready', () => {
 });
 
 app.on('window-all-closed', () => app.quit());
+app.on('quit', () => console.warn('App quit'));

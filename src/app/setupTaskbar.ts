@@ -1,5 +1,4 @@
 import { nativeImage, Tray, Menu, app, globalShortcut } from 'electron';
-import { createSettingsWindow } from './createSettingsWindow';
 import { TelemetrySink } from '../bridge/iracingSdk/telemetrySink';
 import { OverlayManager } from './overlayManager';
 
@@ -29,7 +28,7 @@ class Taskbar {
       {
         label: 'Settings',
         click: () => {
-          createSettingsWindow();
+          this.overlayManager.createSettingsWindow();
         },
       },
       {

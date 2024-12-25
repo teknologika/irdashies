@@ -1,6 +1,7 @@
 import { BrowserWindow } from 'electron';
 import type { DashboardLayout, DashboardWidget } from '../storage/dashboards';
 import path from 'node:path';
+import { trackWindowMovement } from './trackWindowMovement';
 
 // used for Hot Module Replacement
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
@@ -13,19 +14,19 @@ type DashboardWidgetWithWindow = {
 
 export class OverlayManager {
   private overlayWindows: Record<string, DashboardWidgetWithWindow> = {};
+  private currentSettingsWindow: BrowserWindow | undefined;
   private isLocked = true;
 
   public getOverlays(): { widget: DashboardWidget; window: BrowserWindow }[] {
     return Object.values(this.overlayWindows);
   }
 
-  public createOverlays(
-    dashboardLayout: DashboardLayout
-  ): { widget: DashboardWidget; window: BrowserWindow }[] {
+  public createOverlays(dashboardLayout: DashboardLayout): void {
     const { widgets } = dashboardLayout;
-    widgets.forEach((widget) => this.createOverlayWindow(widget));
-
-    return this.getOverlays();
+    widgets.forEach((widget) => {
+      const window = this.createOverlayWindow(widget);
+      trackWindowMovement(widget, window);
+    });
   }
 
   public createOverlayWindow(widget: DashboardWidget): BrowserWindow {
@@ -86,5 +87,40 @@ export class OverlayManager {
     this.getOverlays().forEach(({ window }) => {
       window.webContents.send(key, value);
     });
+    this.currentSettingsWindow?.webContents.send(key, value);
+  }
+
+  public createSettingsWindow(): BrowserWindow {
+    if (this.currentSettingsWindow) {
+      this.currentSettingsWindow.show();
+      return this.currentSettingsWindow;
+    }
+
+    // Create the browser window.
+    const browserWindow = new BrowserWindow({
+      title: `iRacing Dashies - Settings`,
+      frame: true,
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
+      },
+    });
+
+    this.currentSettingsWindow = browserWindow;
+
+    // and load the index.html of the app.
+    if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+      browserWindow.loadURL(`${MAIN_WINDOW_VITE_DEV_SERVER_URL}#/settings`);
+    } else {
+      browserWindow.loadFile(
+        path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
+        { hash: `/settings` }
+      );
+    }
+
+    browserWindow.on('closed', () => {
+      this.currentSettingsWindow = undefined;
+    });
+
+    return browserWindow;
   }
 }
