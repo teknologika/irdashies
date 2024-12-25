@@ -1,4 +1,4 @@
-import type { Session, Telemetry } from '../types';
+import type { Session, Telemetry } from '@irdashies/types';
 import type { IrSdkBridge } from '../irSdkBridge.type';
 import mockTelemetry from './telemetry.json';
 import mockSessionInfo from './session.json';

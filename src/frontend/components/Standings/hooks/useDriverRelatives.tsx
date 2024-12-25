@@ -5,7 +5,7 @@ import {
   useDriverStandings,
   usePlayerCarIndex,
 } from './useDriverPositions';
-import { Telemetry } from '../../../../bridge/iracingSdk';
+import type { Telemetry } from '@irdashies/types';
 
 export const useTelemetryValue = <T extends number[] | boolean[] = number[]>(
   key: keyof Telemetry

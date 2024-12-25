@@ -1,10 +1,9 @@
 import type {
-  Session,
-  Telemetry,
   SessionInfo,
   SessionResults,
   Driver,
 } from '../../../bridge/iracingSdk';
+import type { Session, Telemetry } from '@irdashies/types';
 
 export interface Standings {
   carIdx: number;

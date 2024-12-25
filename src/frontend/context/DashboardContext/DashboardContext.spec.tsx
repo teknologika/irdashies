@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { DashboardProvider, useDashboard } from './DashboardContext';
 import type { DashboardBridge } from '../../../bridge/dashboard/dashboardBridge.type';
-import { DashboardLayout } from '../../../storage/dashboards';
+import { DashboardLayout } from '../../../app/storage/dashboards';
 
 const mockBridge: DashboardBridge = {
   reloadDashboard: vi.fn(),

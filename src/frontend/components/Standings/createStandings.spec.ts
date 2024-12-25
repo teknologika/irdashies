@@ -1,10 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { createStandings, sliceRelevantDrivers } from './createStandings';
-import type {
-  Session,
-  SessionInfo,
-  Telemetry,
-} from '../../../bridge/iracingSdk';
+import type { Session, Telemetry, SessionInfo } from '@irdashies/types';
 
 describe('createStandings', () => {
   const mockSessionData: Session = {

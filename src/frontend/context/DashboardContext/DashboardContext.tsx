@@ -6,7 +6,7 @@ import React, {
   useEffect,
 } from 'react';
 import type { DashboardBridge } from '../../../bridge/dashboard/dashboardBridge.type';
-import { DashboardLayout } from '../../../storage/dashboards';
+import { DashboardLayout } from '../../../app/storage/dashboards';
 
 interface DashboardContextProps {
   editMode: boolean;

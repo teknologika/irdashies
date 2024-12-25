@@ -6,11 +6,8 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
-import type {
-  IrSdkBridge,
-  Session,
-  Telemetry,
-} from '../../../bridge/iracingSdk';
+import type { IrSdkBridge } from '../../../bridge/iracingSdk';
+import type { Session, Telemetry } from '@irdashies/types';
 
 interface TelemetryContextProps {
   telemetry?: Telemetry;

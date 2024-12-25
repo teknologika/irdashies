@@ -1,6 +1,6 @@
 import { app } from 'electron';
 import { iRacingSDKSetup } from './bridge/iracingSdk/setup';
-import { getOrCreateDefaultDashboard } from './storage/dashboards';
+import { getOrCreateDefaultDashboard } from './app/storage/dashboards';
 import { setupTaskbar, trackWindowMovement } from './app';
 import { publishDashboardUpdates } from './bridge/dashboard/dashboardBridge';
 

@@ -2,7 +2,7 @@ import path from 'node:path';
 import { EventEmitter } from 'node:events';
 import { writeFile, mkdir } from 'node:fs/promises';
 import { app } from 'electron';
-import { Session, Telemetry } from './types';
+import type { Session, Telemetry } from '@irdashies/types';
 import { createReadStream, createWriteStream } from 'node:fs';
 import { createBrotliCompress, createBrotliDecompress } from 'zlib';
 import { parser } from 'stream-json';

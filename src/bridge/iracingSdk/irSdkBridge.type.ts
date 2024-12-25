@@ -1,4 +1,4 @@
-import type { Session, Telemetry } from './types';
+import type { Session, Telemetry } from '@irdashies/types';
 
 export interface IrSdkBridge {
   onTelemetry: (callback: (value: Telemetry) => void) => void;
