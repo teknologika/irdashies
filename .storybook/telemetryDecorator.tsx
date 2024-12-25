@@ -1,5 +1,5 @@
 import { StoryFn } from '@storybook/react';
-import { generateMockDataFromPath } from '../src/bridge/iracingSdk/mock-data/generateMockData';
+import { generateMockDataFromPath } from '../src/app/bridge/iracingSdk/mock-data/generateMockData';
 import { TelemetryProvider } from '@irdashies/context';
 
 export const TelemetryDecorator = (path?: string) => (Story: StoryFn) => {

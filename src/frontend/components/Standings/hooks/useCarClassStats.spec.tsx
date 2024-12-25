@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react';
 import { useCarClassStats } from './useCarClassStats';
 import { describe, it, vi, expect } from 'vitest';
 import { useSession } from '@irdashies/context';
-import { Session } from '../../../../bridge/iracingSdk';
+import type { Session } from '@irdashies/types';
 
 vi.mock('@irdashies/context');
 

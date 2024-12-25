@@ -1,5 +1,5 @@
 import { nativeImage, Tray, Menu, app, globalShortcut } from 'electron';
-import { TelemetrySink } from '../bridge/iracingSdk/telemetrySink';
+import { TelemetrySink } from './bridge/iracingSdk/telemetrySink';
 import { OverlayManager } from './overlayManager';
 
 class Taskbar {
@@ -66,7 +66,7 @@ class Taskbar {
 
   private saveTelemetry(): void {
     if (process.platform === 'darwin') return;
-    import('../bridge/iracingSdk/dumpTelemetry').then(
+    import('./bridge/iracingSdk/dumpTelemetry').then(
       async ({ dumpCurrentTelemetry }) => await dumpCurrentTelemetry()
     );
   }

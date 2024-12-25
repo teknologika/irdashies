@@ -1,12 +1,12 @@
 import { app } from 'electron';
-import { iRacingSDKSetup } from './bridge/iracingSdk/setup';
+import { iRacingSDKSetup } from './app/bridge/iracingSdk/setup';
 import { getOrCreateDefaultDashboard } from './app/storage/dashboards';
-import { setupTaskbar, trackWindowMovement } from './app';
-import { publishDashboardUpdates } from './bridge/dashboard/dashboardBridge';
+import { setupTaskbar } from './app';
+import { publishDashboardUpdates } from './app/bridge/dashboard/dashboardBridge';
 
 // @ts-expect-error no types for squirrel
 import started from 'electron-squirrel-startup';
-import { TelemetrySink } from './bridge/iracingSdk/telemetrySink';
+import { TelemetrySink } from './app/bridge/iracingSdk/telemetrySink';
 import { OverlayManager } from './app/overlayManager';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
