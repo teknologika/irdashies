@@ -85,6 +85,7 @@ export class OverlayManager {
 
   public publishMessage(key: string, value: unknown): void {
     this.getOverlays().forEach(({ window }) => {
+      if (window.isDestroyed()) return;
       window.webContents.send(key, value);
     });
     this.currentSettingsWindow?.webContents.send(key, value);
