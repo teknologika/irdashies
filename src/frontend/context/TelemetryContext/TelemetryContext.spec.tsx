@@ -1,12 +1,8 @@
-import React from 'react';
+import React, { act } from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import {
-  TelemetryProvider,
-  useSession,
-  useTelemetry,
-} from './TelemetryContext';
-import type { Session, Telemetry, IrSdkBridge } from '@irdashies/types';
+import { TelemetryProvider, useTelemetry } from './TelemetryContext';
+import type { Telemetry, IrSdkBridge } from '@irdashies/types';
 
 const mockBridge: IrSdkBridge = {
   onTelemetry: vi.fn(),
@@ -17,14 +13,10 @@ const mockBridge: IrSdkBridge = {
 
 const TestComponent: React.FC = () => {
   const { telemetry } = useTelemetry();
-  const { session } = useSession();
   return (
     <div>
       <div data-testid="telemetry">
         {telemetry ? `Brake ${telemetry.Brake?.value?.[0]}` : 'No Telemetry'}
-      </div>
-      <div data-testid="session">
-        {session ? `Track ${session.WeekendInfo?.TrackName}` : 'No Session'}
       </div>
     </div>
   );
@@ -65,37 +57,17 @@ describe('TelemetryContext', () => {
     expect(screen.getByTestId('telemetry')).toHaveTextContent('Brake 0.5');
   });
 
-  it('provides session data', async () => {
-    // mock data being sent to mockBridge when onTelemetry and onSessionData are called
-    vi.spyOn(mockBridge, 'onSessionData').mockImplementation((cb) =>
-      cb({
-        WeekendInfo: {
-          TrackName: 'Mount Panorama',
-        },
-      } as Session)
-    );
-
-    render(
-      <TelemetryProvider bridge={mockBridge}>
-        <TestComponent />
-      </TelemetryProvider>
-    );
-
-    expect(screen.getByTestId('session')).toHaveTextContent(
-      'Track Mount Panorama'
-    );
-  });
-
-  it('calls onTelemetry and onSessionData when bridge is resolved', async () => {
+  it('calls onTelemetry when bridge is resolved', async () => {
     render(
       <TelemetryProvider bridge={Promise.resolve(mockBridge)}>
         <TestComponent />
       </TelemetryProvider>
     );
 
-    await vi.waitFor(() => {
-      expect(mockBridge.onTelemetry).toHaveBeenCalled();
-      expect(mockBridge.onSessionData).toHaveBeenCalled();
+    await act(async () => {
+      await vi.waitFor(() => {
+        expect(mockBridge.onTelemetry).toHaveBeenCalled();
+      });
     });
   });
 

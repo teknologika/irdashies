@@ -6,6 +6,7 @@ import {
   useDashboard,
   RunningStateProvider,
   useRunningState,
+  SessionProvider,
 } from '@irdashies/context';
 import { Input } from './components/Input';
 import { Standings } from './components/Standings/Standings';
@@ -55,13 +56,15 @@ const AppRoutes = () => {
 const App = () => (
   <DashboardProvider bridge={window.dashboardBridge}>
     <RunningStateProvider bridge={window.irsdkBridge}>
-      <TelemetryProvider bridge={window.irsdkBridge}>
-        <HashRouter>
-          <EditMode>
-            <AppRoutes />
-          </EditMode>
-        </HashRouter>
-      </TelemetryProvider>
+      <SessionProvider bridge={window.irsdkBridge}>
+        <TelemetryProvider bridge={window.irsdkBridge}>
+          <HashRouter>
+            <EditMode>
+              <AppRoutes />
+            </EditMode>
+          </HashRouter>
+        </TelemetryProvider>
+      </SessionProvider>
     </RunningStateProvider>
   </DashboardProvider>
 );

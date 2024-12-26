@@ -1,11 +1,13 @@
 import { StoryFn } from '@storybook/react';
 import { generateMockDataFromPath } from '../src/app/bridge/iracingSdk/mock-data/generateMockData';
-import { TelemetryProvider } from '@irdashies/context';
+import { SessionProvider, TelemetryProvider } from '@irdashies/context';
 
 export const TelemetryDecorator = (path?: string) => (Story: StoryFn) => {
   return (
-    <TelemetryProvider bridge={generateMockDataFromPath(path)}>
-      <Story />
-    </TelemetryProvider>
+    <SessionProvider bridge={generateMockDataFromPath(path)}>
+      <TelemetryProvider bridge={generateMockDataFromPath(path)}>
+        <Story />
+      </TelemetryProvider>
+    </SessionProvider>
   );
 };
