@@ -4,7 +4,6 @@ import React, {
   useState,
   ReactNode,
   useEffect,
-  useMemo,
 } from 'react';
 import type { Session, Telemetry, IrSdkBridge } from '@irdashies/types';
 
@@ -68,11 +67,4 @@ export const useSession = (): SessionContextProps => {
     throw new Error('useTelemetry must be used within a TelemetryProvider');
   }
   return context;
-};
-
-export const useTelemetrySelector = <T,>(
-  selector: (telemetry: Telemetry | undefined) => T
-): T => {
-  const { telemetry } = useTelemetry();
-  return useMemo(() => selector(telemetry), [telemetry, selector]);
 };
