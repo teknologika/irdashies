@@ -1,6 +1,8 @@
+import type { DashboardBridge, IrSdkBridge } from '@irdashies/types';
+
 declare global {
   interface Window {
-    irsdkBridge: import('@irdashies/types').IrSdkBridge;
-    dashboardBridge: import('@irdashies/types').DashboardBridge;
+    irsdkBridge: IrSdkBridge;
+    dashboardBridge: DashboardBridge;
   }
 }

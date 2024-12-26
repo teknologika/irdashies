@@ -14,14 +14,6 @@ import { Relative } from './components/Standings/Relative';
 import { TrackOverlay } from './components/TrackMap/TrackOverlay';
 import { EditMode } from './components/EditMode/EditMode';
 
-// I don't really know why interface.d.ts isn't being picked up so just redefining it here.
-declare global {
-  interface Window {
-    irsdkBridge: import('@irdashies/types').IrSdkBridge;
-    dashboardBridge: import('@irdashies/types').DashboardBridge;
-  }
-}
-
 // TODO: type this better, right now the config comes from settings
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const WIDGET_MAP: Record<string, (config: any) => JSX.Element> = {

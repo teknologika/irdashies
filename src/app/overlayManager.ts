@@ -1,5 +1,5 @@
 import { BrowserWindow } from 'electron';
-import type { DashboardLayout, DashboardWidget } from './storage/dashboards';
+import type { DashboardLayout, DashboardWidget } from '@irdashies/types';
 import path from 'node:path';
 import { trackWindowMovement } from './trackWindowMovement';
 
