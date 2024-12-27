@@ -6,6 +6,7 @@ export const useInputs = () => {
   const clutch = useTelemetryValue('Clutch');
   const gear = useTelemetryValue('Gear');
   const speed = useTelemetryValue('Speed');
+  const unit = useTelemetryValue('DisplayUnits');
 
-  return { brake, throttle, clutch, gear, speed };
+  return { brake, throttle, clutch, gear, speed, unit };
 };

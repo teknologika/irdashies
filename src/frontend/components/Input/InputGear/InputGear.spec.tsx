@@ -24,7 +24,12 @@ describe('InputGear', () => {
   });
 
   it('displays the correct speed in km/h', () => {
-    const { getByText } = render(<InputGear gear={1} speedMs={10} />);
+    const { getByText } = render(<InputGear gear={1} speedMs={10} unit={1} />);
     expect(getByText('36')).toBeInTheDocument(); // 10 m/s * 3.6 = 36 km/h
+  });
+
+  it('displays the correct speed in mph', () => {
+    const { getByText } = render(<InputGear gear={1} speedMs={10} unit={0} />);
+    expect(getByText('22')).toBeInTheDocument(); // 10 m/s * 2.23694 = 22.3694 mph
   });
 });

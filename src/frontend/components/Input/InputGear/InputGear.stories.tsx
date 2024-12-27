@@ -29,5 +29,14 @@ export const Primary: Story = {
   args: {
     gear: 1,
     speedMs: 30,
+    unit: 1,
+  },
+};
+
+export const Imperial: Story = {
+  args: {
+    gear: 1,
+    speedMs: 30,
+    unit: 0,
   },
 };

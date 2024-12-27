@@ -8,6 +8,7 @@ export interface InputProps {
   clutch?: number;
   gear?: number;
   speed?: number;
+  unit?: number;
 }
 
 export const InputContainer = ({
@@ -16,12 +17,13 @@ export const InputContainer = ({
   clutch,
   gear,
   speed,
+  unit,
 }: InputProps) => {
   return (
     <div className="w-full h-full inline-flex gap-1 p-2 flex-row border-1 bg-slate-800 bg-opacity-50">
       <InputTrace input={{ brake, throttle }} />
       <InputBar brake={brake} throttle={throttle} clutch={clutch} />
-      <InputGear gear={gear} speedMs={speed} />
+      <InputGear gear={gear} speedMs={speed} unit={unit} />
     </div>
   );
 };
