@@ -36,15 +36,11 @@ const AppRoutes = () => {
           return null;
         }
 
-        if (!running) {
-          return null;
-        }
-
         return (
           <Route
             key={widget.id}
             path={`/${widget.id}`}
-            element={<WidgetComponent {...widget.config} />}
+            element={running ? <WidgetComponent {...widget.config} /> : <></>}
           />
         );
       })}
