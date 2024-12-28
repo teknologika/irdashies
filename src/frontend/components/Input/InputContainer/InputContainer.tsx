@@ -24,6 +24,7 @@ export const InputContainer = ({
       <InputTrace input={{ brake, throttle }} />
       <InputBar brake={brake} throttle={throttle} clutch={clutch} />
       <InputGear gear={gear} speedMs={speed} unit={unit} />
+      {/* <InputSteer /> */} {/* WIP */}
     </div>
   );
 };
