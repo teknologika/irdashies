@@ -1,7 +1,7 @@
 import type { Telemetry, TelemetryVar } from '@irdashies/types';
 import { create, useStore } from 'zustand';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
-import { telemetryCompare } from './telemetryCompare';
+import { arrayCompare, telemetryCompare } from './telemetryCompare';
 
 interface TelemetryState {
   telemetry: Telemetry | null;
@@ -33,4 +33,18 @@ export const useTelemetryValue = <T extends number | boolean = number>(
   useStore(
     useTelemetryStore,
     (state) => state.telemetry?.[key]?.value?.[0] as T
+  );
+
+/**
+ * Returns the first telemetry value for a given key.
+ * @param key the key of the telemetry value to retrieve
+ * @returns the first telemetry value
+ */
+export const useTelemetryValues = <T extends number[] | boolean[] = number[]>(
+  key: keyof Telemetry
+): T =>
+  useStoreWithEqualityFn(
+    useTelemetryStore,
+    (state) => (state.telemetry?.[key]?.value ?? []) as T,
+    arrayCompare
   );
