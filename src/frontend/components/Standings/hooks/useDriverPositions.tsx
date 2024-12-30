@@ -5,6 +5,7 @@ import {
   useSessionDrivers,
   useSessionType,
   useDriverCarIdx,
+  useSessionQualifyingResults,
 } from '@irdashies/context';
 import { Standings } from '../createStandings';
 
@@ -74,6 +75,7 @@ export const useDriverStandings = () => {
   const playerCarIdx = useDriverCarIdx();
   const sessionNum = useTelemetryValue('SessionNum');
   const sessionType = useSessionType(sessionNum);
+  const qualifyingPositions = useSessionQualifyingResults();
 
   const driverStandings: Standings[] = useMemo(() => {
     const standings = drivers.map((driver) => {
@@ -94,11 +96,17 @@ export const useDriverStandings = () => {
         if (driverPos.lapNum === playerLap) lappedState = 'same';
       }
 
-      // If the driver is not in the standings, use the car number as position
-      // This is a crappy workaround for drivers that are not in the standings
-      // carIdx is also not available in qualifying (might be just lone qualifying thing)
+      // If the driver is not in the standings, use the qualifying position
+      // else fallback to the car number, shitty workaround for now
       let classPosition = driverPos.classPosition;
-      if (classPosition <= 0) classPosition = driver.carIdx || driver.carNumRaw;
+      if (classPosition <= 0) {
+        const qualifyingPosition = qualifyingPositions?.find(
+          (q) => q.CarIdx === driver.carIdx
+        );
+        classPosition = qualifyingPosition
+          ? qualifyingPosition.Position + 1
+          : driver.carNumRaw;
+      }
 
       return {
         carIdx: driver.carIdx,
@@ -130,6 +138,7 @@ export const useDriverStandings = () => {
     driverPositions,
     drivers,
     playerCarIdx,
+    qualifyingPositions,
     radioTransmitCarIdx,
     sessionType,
   ]);
