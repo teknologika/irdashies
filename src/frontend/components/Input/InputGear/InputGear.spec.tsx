@@ -32,4 +32,15 @@ describe('InputGear', () => {
     const { getByText } = render(<InputGear gear={1} speedMs={10} unit={0} />);
     expect(getByText('22')).toBeInTheDocument(); // 10 m/s * 2.23694 = 22.3694 mph
   });
+
+  it('displays "N" when no gear is provided', () => {
+    const { getByText } = render(<InputGear speedMs={10} />);
+    expect(getByText('N')).toBeInTheDocument();
+  });
+
+  it('displays "N" when gear is null', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { getByText } = render(<InputGear gear={null as any} speedMs={10} />);
+    expect(getByText('N')).toBeInTheDocument();
+  });
 });

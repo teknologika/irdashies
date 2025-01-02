@@ -14,6 +14,8 @@ export const InputGear = ({ gear, speedMs, unit }: InputGearProps) => {
       gearText = 'R';
       break;
     case 0:
+    case null:
+    case undefined:
       gearText = 'N';
       break;
     default:
