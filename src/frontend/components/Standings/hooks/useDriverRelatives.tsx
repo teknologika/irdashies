@@ -48,7 +48,8 @@ export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
         }))
         .filter((result) => (isAhead ? result.delta > 0 : result.delta < 0))
         .sort((a, b) => (isAhead ? a.delta - b.delta : b.delta - a.delta))
-        .slice(0, buffer);
+        .slice(0, buffer) // slice from rear to front if isAhead
+        .sort((a, b) => b.delta - a.delta);
     };
 
     const carsAhead = filterAndMapDrivers(true);
