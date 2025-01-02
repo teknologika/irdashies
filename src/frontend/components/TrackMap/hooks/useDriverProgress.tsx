@@ -1,15 +1,11 @@
-import { useMemo } from 'react';
-import { useDriverCarIdx, useTelemetry } from '@irdashies/context';
+import { useDriverCarIdx, useTelemetryStore } from '@irdashies/context';
 
 export const useDriverProgress = () => {
   const driverIdx = useDriverCarIdx();
-  const carIdxLapDistPct = useTelemetry('CarIdxLapDistPct');
-
-  const driverTrackPctValue = carIdxLapDistPct?.value[driverIdx ?? 0];
-  const driverTrackPct = useMemo(
-    () => driverTrackPctValue,
-    [driverTrackPctValue]
-  );
-
-  return driverTrackPct ?? 0;
+  const driverTrackPctValue = useTelemetryStore((s) => {
+    const val = s.telemetry?.CarIdxLapDistPct?.value[driverIdx ?? 0];
+    // round to nearest 0.01
+    return val ? Math.round(val * 100) / 100 : 0;
+  });
+  return driverTrackPctValue ?? 0;
 };

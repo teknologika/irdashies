@@ -6,6 +6,9 @@ export const TrackOverlay = () => {
   const trackId = useTrackId();
   const driverPct = useDriverProgress();
 
+  console.log('trackId', trackId);
+  console.log('driverPct', driverPct);
+
   if (!trackId) return <></>;
 
   return (

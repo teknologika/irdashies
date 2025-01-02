@@ -7,10 +7,9 @@ import {
   splitPathData,
 } from './svg-utils';
 
+const tracksDir = `./src/frontend/components/TrackMap/tracks`;
 const processTrackSvg = (trackId: string) => {
-  const track = fs.readFileSync(
-    `./src/widgets/components/TrackMap/tracks/${trackId}.svg`
-  );
+  const track = fs.readFileSync(`${tracksDir}/${trackId}.svg`);
 
   // Create svg element
   const dom = new JSDOM(track.toString());
@@ -36,10 +35,7 @@ const processTrackSvg = (trackId: string) => {
   insidePath.setAttribute('direction', direction);
 
   // save svg
-  fs.writeFileSync(
-    `./src/widgets/components/TrackMap/tracks/${trackId}.svg`,
-    root.innerHTML
-  );
+  fs.writeFileSync(`${tracksDir}/${trackId}.svg`, root.innerHTML);
 };
 
 const generateInsidePath = (svg: SVGElement) => {
@@ -71,7 +67,7 @@ const generateInsidePath = (svg: SVGElement) => {
 
 // Process all track svgs
 export const processTrackSvgs = () => {
-  readdirSync('./src/widgets/components/TrackMap/tracks').forEach((file) => {
+  readdirSync(tracksDir).forEach((file) => {
     if (file.endsWith('.svg')) {
       const trackId = file.split('.')[0];
       processTrackSvg(trackId);
