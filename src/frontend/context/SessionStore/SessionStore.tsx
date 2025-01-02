@@ -87,3 +87,17 @@ export const useSessionQualifyingResults = () =>
     (state) => state.session?.QualifyResultsInfo?.Results,
     arrayShallowCompare
   );
+
+/**
+ * @returns {number} The track length in meters
+ */
+export const useTrackLength = () =>
+  useStore(useSessionStore, (state) => {
+    const length = state.session?.WeekendInfo?.TrackLength;
+    const [value, unit] = length?.split(' ') ?? [];
+    if (unit === 'km') {
+      return parseFloat(value) * 1000;
+    }
+
+    return parseFloat(value);
+  });

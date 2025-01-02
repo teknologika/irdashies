@@ -1,70 +1,76 @@
 import { useMemo } from 'react';
-import { useDriverCarIdx, useTelemetry } from '@irdashies/context';
-import { useDrivers, useDriverStandings } from './useDriverPositions';
+import {
+  useDriverCarIdx,
+  useSessionStore,
+  useTelemetryValues,
+} from '@irdashies/context';
+import { useDriverStandings } from './useDriverPositions';
 
 export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
-  const carIdxEstTime = useTelemetry('CarIdxEstTime');
-  const carIdxLapDistPct = useTelemetry('CarIdxLapDistPct');
-  const drivers = useDrivers();
-  const driverStandings = useDriverStandings();
+  const carIdxEstTime = useTelemetryValues('CarIdxEstTime');
+  const drivers = useDriverStandings();
+  const carIdxLapDistPct = useTelemetryValues('CarIdxLapDistPct');
+
   const playerIndex = useDriverCarIdx();
+  const driverCarEstLapTime = useSessionStore(
+    (s) => s.session?.DriverInfo?.DriverCarEstLapTime ?? 0
+  );
 
   const standings = useMemo(() => {
-    const player = drivers.find((result) => result.carIdx === playerIndex);
-    const relatives = driverStandings
-      .map((result) => {
-        // driver class estimate lap time
-        const driver = drivers.find((d) => d.carIdx === result.carIdx);
-        const lapTimeEst = driver?.carClass.estLapTime;
+    const calculateDelta = (carIdx: number) => {
+      const playerEstTime = carIdxEstTime?.[playerIndex ?? 0];
+      const oppositionEstTime = carIdxEstTime?.[carIdx];
+      let delta = oppositionEstTime - playerEstTime;
 
-        let delta = 0.0;
-        const driverLapTimeEst = lapTimeEst ?? 0;
-        const relativeCarTime = carIdxEstTime?.value?.[result.carIdx];
-        const playerCarTime = carIdxEstTime?.value?.[player?.carIdx ?? 0];
+      while (delta < -0.5 * driverCarEstLapTime) delta += driverCarEstLapTime;
+      while (delta > 0.5 * driverCarEstLapTime) delta -= driverCarEstLapTime;
 
-        // Determine if the delta between player and relative car spans across the start/finish line
-        const crossesStartFinishLine =
-          Math.abs(
-            carIdxLapDistPct?.value?.[result.carIdx] -
-              carIdxLapDistPct?.value?.[player?.carIdx ?? 0]
-          ) > 0.5;
+      return delta;
+    };
 
-        if (crossesStartFinishLine) {
-          delta =
-            playerCarTime > relativeCarTime
-              ? relativeCarTime - playerCarTime + driverLapTimeEst
-              : relativeCarTime - playerCarTime - driverLapTimeEst;
-        } else {
-          delta = relativeCarTime - playerCarTime;
-        }
+    const isHalfLapDifference = (car1: number, car2: number) => {
+      const diff = (car1 - car2 + 1) % 1; // Normalize the difference to [0, 1)
+      return diff <= 0.5;
+    };
 
-        return {
+    const filterAndMapDrivers = (isAhead: boolean) => {
+      return drivers
+        .filter((result) => {
+          const playerDistPct = carIdxLapDistPct?.[playerIndex ?? 0];
+          const carDistPct = carIdxLapDistPct?.[result.carIdx];
+          return isAhead
+            ? isHalfLapDifference(carDistPct, playerDistPct)
+            : isHalfLapDifference(playerDistPct, carDistPct);
+        })
+        .map((result) => ({
           ...result,
-          delta,
-        };
-      })
-      .sort((a, b) => b.delta - a.delta);
+          delta: calculateDelta(result.carIdx),
+        }))
+        .filter((result) => (isAhead ? result.delta > 0 : result.delta < 0))
+        .sort((a, b) => (isAhead ? a.delta - b.delta : b.delta - a.delta))
+        .slice(0, buffer);
+    };
 
-    // slice the relevant drivers based on the buffer
-    const tableIndex = relatives.findIndex(
-      (result) => result.carIdx === playerIndex
-    );
+    const carsAhead = filterAndMapDrivers(true);
+    const player = drivers.find((result) => result.carIdx === playerIndex);
+    const carsBehind = filterAndMapDrivers(false);
 
-    const end = Math.min(tableIndex + buffer + 1, relatives.length);
-    const start = Math.max(tableIndex - buffer, 0);
-    const sliced = relatives.slice(start, end);
-    const filtered = sliced.filter(
-      (result) => result.onTrack || result.carIdx === playerIndex
-    ); // only show drivers on track plus the player
+    if (!player) {
+      return [];
+    }
 
-    return filtered;
+    const relatives = [...carsAhead, player, ...carsBehind];
+
+    // TODO: remove pace car if not under caution or pacing
+
+    return relatives;
   }, [
-    driverStandings,
-    carIdxLapDistPct,
-    carIdxEstTime,
     drivers,
     buffer,
+    carIdxEstTime,
     playerIndex,
+    driverCarEstLapTime,
+    carIdxLapDistPct,
   ]);
 
   return standings;
