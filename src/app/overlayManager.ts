@@ -104,6 +104,32 @@ export class OverlayManager {
     this.currentSettingsWindow?.webContents.send(key, value);
   }
 
+  public closeOrCreateWindows(dashboardLayout: DashboardLayout): void {
+    const { widgets } = dashboardLayout;
+    const widgetsById = widgets.reduce(
+      (acc, widget) => {
+        acc[widget.id] = widget;
+        return acc;
+      },
+      {} as Record<string, DashboardWidget>
+    );
+
+    const openWidgets = this.getOverlays();
+    openWidgets.forEach(({ widget, window }) => {
+      if (!widgetsById[widget.id]?.enabled) {
+        window.close();
+        delete this.overlayWindows[widget.id];
+      }
+    });
+
+    widgets.forEach((widget) => {
+      if (!widget.enabled) return; // skip disabled widgets
+      if (!this.overlayWindows[widget.id]) {
+        this.createOverlayWindow(widget);
+      }
+    });
+  }
+
   public createSettingsWindow(): BrowserWindow {
     if (this.currentSettingsWindow) {
       this.currentSettingsWindow.show();

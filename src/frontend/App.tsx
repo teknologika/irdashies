@@ -16,7 +16,6 @@ import { Weather } from './components/Weather';
 import { TrackMap } from './components/TrackMap/TrackMap';
 import { EditMode } from './components/EditMode/EditMode';
 
-
 // TODO: type this better, right now the config comes from settings
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const WIDGET_MAP: Record<string, (config: any) => JSX.Element> = {
@@ -25,7 +24,7 @@ const WIDGET_MAP: Record<string, (config: any) => JSX.Element> = {
   relative: Relative,
   settings: Settings,
   map: TrackMap,
-  weather: Weather
+  weather: Weather,
 };
 
 const AppRoutes = () => {
