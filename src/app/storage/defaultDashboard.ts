@@ -49,8 +49,8 @@ export const defaultDashboard: DashboardLayout = {
         x: 1000,
         y: 1000,
         width: 400,
-        height: 700
-      }
-    }
+        height: 700,
+      },
+    },
   ],
 };

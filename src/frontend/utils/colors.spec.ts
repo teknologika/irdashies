@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { getTailwindStyle } from './colors';
 
 describe('colors', () => {
@@ -11,12 +11,19 @@ describe('colors', () => {
     );
 
     it('should return the default colors for an unknown color', () => {
+      // mock computed style
+      vi.stubGlobal('getComputedStyle', () => ({
+        getPropertyValue: () => '#123456',
+      }));
+
       expect(getTailwindStyle(0x123456)).toEqual({
         driverIcon: 'bg-sky-800 border-sky-500',
         classHeader: 'bg-sky-500 border-sky-500',
         fill: 'fill-sky-500',
-        canvasFill: '#0ea5e9',
+        canvasFill: '#123456',
       });
+
+      vi.unstubAllGlobals();
     });
   });
 });
