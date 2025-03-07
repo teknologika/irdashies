@@ -1,5 +1,5 @@
 import { Barbell, Users } from '@phosphor-icons/react';
-import { getTailwindColor } from '../../../utils/colors';
+import { getTailwindStyle } from '../../../utils/colors';
 
 type DriverClassHeaderProps = {
   className: string | undefined;
@@ -28,12 +28,12 @@ export const DriverClassHeader = ({
       <td colSpan={4} className="p-0">
         <div className={`[text-shadow:_1px_1px_1px_rgba(0_0_0/0.2)] mt-3 flex`}>
           <span
-            className={`${getTailwindColor(classColor).classHeader} px-2 py-1 font-bold border-l-4`}
+            className={`${getTailwindStyle(classColor).classHeader} px-2 py-1 font-bold border-l-4`}
           >
             {className}
           </span>
           <span
-            className={`${getTailwindColor(classColor).driverIcon} px-2 py-1  font-light flex items-center gap-1`}
+            className={`${getTailwindStyle(classColor).driverIcon} px-2 py-1  font-light flex items-center gap-1`}
           >
             {sof ? (
               <>

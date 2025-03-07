@@ -1,5 +1,5 @@
 import { SpeakerHigh } from '@phosphor-icons/react';
-import { getTailwindColor } from '../../../utils/colors';
+import { getTailwindStyle } from '../../../utils/colors';
 import { formatTime } from '../../../utils/time';
 
 type DriverRowInfoProps = {
@@ -55,12 +55,12 @@ export const DriverInfoRow = ({
       ].join(' ')}
     >
       <td
-        className={`text-center  text-white px-2 ${isPlayer ? `${getTailwindColor(classColor).classHeader}` : ''}`}
+        className={`text-center  text-white px-2 ${isPlayer ? `${getTailwindStyle(classColor).classHeader}` : ''}`}
       >
         {position}
       </td>
       <td
-        className={`${getTailwindColor(classColor).driverIcon} text-white border-l-4 text-right px-1 w-10`}
+        className={`${getTailwindStyle(classColor).driverIcon} text-white border-l-4 text-right px-1 w-10`}
       >
         #{carNumber}
       </td>

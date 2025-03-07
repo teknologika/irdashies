@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Driver } from '@irdashies/types';
 import tracks from './tracks/tracks.json';
-import colors from 'tailwindcss/colors';
-import { getTailwindColor } from '../../utils/colors';
+import { getColor, getTailwindStyle } from '../../utils/colors';
 
 export type TrackProps = {
   trackId: number;
@@ -130,7 +129,7 @@ export const TrackCanvas = ({ trackId, drivers }: TrackProps) => {
 
       const startFinish = new Path2D(trackDrawing.startFinish.line);
       ctx.lineWidth = 10;
-      ctx.strokeStyle = colors.red['500'];
+      ctx.strokeStyle = getColor('red');
       ctx.stroke(startFinish);
 
       trackDrawing.turns?.forEach((turn) => {
@@ -146,8 +145,8 @@ export const TrackCanvas = ({ trackId, drivers }: TrackProps) => {
         .sort((a, b) => Number(a.isPlayer) - Number(b.isPlayer))
         .forEach(({ driver, position, isPlayer }) => {
           ctx.fillStyle = isPlayer
-            ? colors.yellow['500']
-            : getTailwindColor(driver.CarClassColor).canvasFill;
+            ? getColor('yellow')
+            : getTailwindStyle(driver.CarClassColor).canvasFill;
           ctx.beginPath();
           ctx.arc(position.x, position.y, 40, 0, 2 * Math.PI);
           ctx.fill();

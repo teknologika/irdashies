@@ -1,12 +1,8 @@
 import * as d3 from 'd3';
 import { useEffect, useRef } from 'react';
-import tailwindColors from 'tailwindcss/colors';
+import { getColor } from '../../../utils/colors';
 
-const COLORS = [
-  tailwindColors.blue['500'],
-  tailwindColors.red['500'],
-  tailwindColors.green['500'],
-];
+const COLORS = [getColor('blue'), getColor('red'), getColor('green')];
 
 export interface InputTraceProps {
   brake?: number;
