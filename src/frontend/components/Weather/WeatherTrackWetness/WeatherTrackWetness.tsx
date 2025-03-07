@@ -13,7 +13,7 @@ export const WeatherTrackWetness = ({
     <div className="font-extrabold text-xl uppercase text-center bg-slate-800 p-2 rounded-sm items-center">
       TRACK WETNESS
       <div className="font-bold text-lg text-center">
-        <div className="flex flex-row gap-x-1">
+        <div className="flex items-center flex-row gap-x-1">
           <Sun />
           <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 align-center">
             <div
