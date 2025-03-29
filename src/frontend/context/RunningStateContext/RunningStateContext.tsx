@@ -37,6 +37,7 @@ export const RunningStateProvider = ({
 
   useEffect(() => {
     bridge.onRunningState((isRunning) => setRunning(isRunning));
+    return () => bridge.stop();
   }, [bridge]);
 
   return (

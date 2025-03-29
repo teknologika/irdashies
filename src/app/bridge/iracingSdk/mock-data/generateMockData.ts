@@ -87,6 +87,7 @@ export function generateMockData(sessionData?: {
       sessionInfoInterval = setInterval(updateSessionData, 2000);
     },
     onRunningState: (callback: (value: boolean) => void) => {
+      callback(true); // Set initial state
       runningStateInterval = setInterval(() => {
         callback(true);
       }, 1000);

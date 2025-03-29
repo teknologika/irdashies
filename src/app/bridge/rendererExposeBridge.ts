@@ -24,6 +24,7 @@ export function exposeBridge() {
     stop: () => {
       ipcRenderer.removeAllListeners('telemetry');
       ipcRenderer.removeAllListeners('sessionData');
+      ipcRenderer.removeAllListeners('runningState');
     },
   } as IrSdkBridge);
 
