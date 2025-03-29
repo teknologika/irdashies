@@ -1,4 +1,4 @@
-import { Meta, StoryFn, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { DriverInfoRow } from './DriverInfoRow';
 import { DriverRatingBadge } from '../DriverRatingBadge/DriverRatingBadge';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
@@ -8,7 +8,7 @@ import { SessionFooter } from '../SessionFooter/SessionFooter';
 export default {
   component: DriverInfoRow,
   decorators: [
-    (Story: StoryFn) => (
+    (Story) => (
       <table className="w-full">
         <tbody>
           <Story />
