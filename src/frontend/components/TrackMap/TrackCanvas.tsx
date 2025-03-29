@@ -3,16 +3,16 @@ import { Driver } from '@irdashies/types';
 import tracks from './tracks/tracks.json';
 import { getColor, getTailwindStyle } from '../../utils/colors';
 
-export type TrackProps = {
+export interface TrackProps {
   trackId: number;
   drivers: TrackDriver[];
-};
+}
 
-export type TrackDriver = {
+export interface TrackDriver {
   driver: Driver;
   progress: number;
   isPlayer: boolean;
-};
+}
 
 export interface TrackDrawing {
   active: {

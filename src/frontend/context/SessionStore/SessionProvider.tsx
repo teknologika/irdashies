@@ -2,9 +2,9 @@ import type { IrSdkBridge } from '@irdashies/types';
 import { useSessionStore } from './SessionStore';
 import { useEffect } from 'react';
 
-export type SessionProviderProps = {
+export interface SessionProviderProps {
   bridge: IrSdkBridge | Promise<IrSdkBridge>;
-};
+}
 
 export const SessionProvider = ({ bridge }: SessionProviderProps) => {
   const setSession = useSessionStore((state) => state.setSession);

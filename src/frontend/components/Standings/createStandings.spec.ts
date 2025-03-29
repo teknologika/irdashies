@@ -149,7 +149,7 @@ describe('createStandings', () => {
   });
 
   describe('sliceRelevantDrivers', () => {
-    type DummyStanding = { name: string; isPlayer?: boolean };
+    interface DummyStanding { name: string; isPlayer?: boolean }
     it('should return only top 3 drivers for class without player', () => {
       const results: [string, DummyStanding[]][] = [
         [

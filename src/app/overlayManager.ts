@@ -7,10 +7,10 @@ import { trackWindowMovement } from './trackWindowMovement';
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
 
-type DashboardWidgetWithWindow = {
+interface DashboardWidgetWithWindow {
   widget: DashboardWidget;
   window: BrowserWindow;
-};
+}
 
 export class OverlayManager {
   private overlayWindows: Record<string, DashboardWidgetWithWindow> = {};
@@ -118,7 +118,9 @@ export class OverlayManager {
     openWidgets.forEach(({ widget, window }) => {
       if (!widgetsById[widget.id]?.enabled) {
         window.close();
-        delete this.overlayWindows[widget.id];
+        this.overlayWindows = Object.fromEntries(
+          Object.entries(this.overlayWindows).filter(([key]) => key !== widget.id)
+        );
       }
     });
 

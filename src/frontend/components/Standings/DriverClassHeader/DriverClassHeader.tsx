@@ -1,12 +1,12 @@
 import { Barbell, Users } from '@phosphor-icons/react';
 import { getTailwindStyle } from '../../../utils/colors';
 
-type DriverClassHeaderProps = {
+interface DriverClassHeaderProps {
   className: string | undefined;
   classColor: number | undefined;
   totalDrivers: number | undefined;
   sof: number | undefined;
-};
+}
 
 export const DriverClassHeader = ({
   className,

@@ -1,11 +1,11 @@
 import { useSessionDrivers } from '@irdashies/context';
 
-export type CarClassStats = {
+export interface CarClassStats {
   shortName: string;
   color: number;
   total: number;
   sof: number;
-};
+}
 
 export const useCarClassStats = () => {
   const sessionDrivers = useSessionDrivers();

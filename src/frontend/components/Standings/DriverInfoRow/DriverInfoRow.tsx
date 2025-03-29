@@ -2,7 +2,7 @@ import { SpeakerHigh } from '@phosphor-icons/react';
 import { getTailwindStyle } from '../../../utils/colors';
 import { formatTime } from '../../../utils/time';
 
-type DriverRowInfoProps = {
+interface DriverRowInfoProps {
   carIdx: number;
   classColor: number;
   carNumber: string;
@@ -19,7 +19,7 @@ type DriverRowInfoProps = {
   radioActive?: boolean;
   isLapped?: boolean;
   isLappingAhead?: boolean;
-};
+}
 
 export const DriverInfoRow = ({
   carIdx,

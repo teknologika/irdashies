@@ -2,9 +2,9 @@ import type { IrSdkBridge } from '@irdashies/types';
 import { useTelemetryStore } from './TelemetryStore';
 import { useEffect } from 'react';
 
-export type TelemetryProviderProps = {
+export interface TelemetryProviderProps {
   bridge: IrSdkBridge | Promise<IrSdkBridge>;
-};
+}
 
 export const TelemetryProvider = ({ bridge }: TelemetryProviderProps) => {
   const setTelemetry = useTelemetryStore((state) => state.setTelemetry);

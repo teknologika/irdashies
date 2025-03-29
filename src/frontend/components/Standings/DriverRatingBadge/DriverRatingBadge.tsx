@@ -1,14 +1,14 @@
-export type DriverRatingBadgeProps = {
+export interface DriverRatingBadgeProps {
   license?: string;
   rating?: number;
-};
+}
 
 export const DriverRatingBadge = ({
   license = 'R',
   rating = 0,
 }: DriverRatingBadgeProps) => {
   const licenseLevel = license?.charAt(0) || 'R';
-  const colorMap: { [key: string]: string } = {
+  const colorMap: Record<string, string> = {
     A: 'border-blue-500 bg-blue-800',
     B: 'border-green-500 bg-green-800',
     C: 'border-yellow-500 bg-yellow-700',
