@@ -1,8 +1,6 @@
 import { SteeringWheel } from '@phosphor-icons/react';
 
-export type InputSteerProps = {
-  // TODO
-};
+export type InputSteerProps = object; // TODO
 
 export const InputSteer = () => {
   return (

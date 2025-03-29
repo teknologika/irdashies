@@ -22,6 +22,8 @@ const parseData = () => {
     const data = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(data);
   } catch (error) {
+    console.warn('Failed to read config file', error);
+    console.warn('Creating new config file');
     return defaultData;
   }
 };

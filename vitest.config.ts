@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import { tsconfigPathAliases } from './vite.renderer.config';
 import { defineConfig } from 'vitest/config';
 

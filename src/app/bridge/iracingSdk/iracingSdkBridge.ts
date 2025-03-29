@@ -16,7 +16,6 @@ export async function publishIRacingSDKEvents(
     overlayManager.publishMessage('runningState', isSimRunning);
   }, 2000);
 
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     if (await IRacingSDK.IsSimRunning()) {
       console.log('iRacing is running');
