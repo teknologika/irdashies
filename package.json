@@ -13,7 +13,7 @@
     "lint": "eslint --ext .ts,.tsx .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest",
+    "test": "vitest --coverage",
     "postinstall": "patch-package"
   },
   "devDependencies": {
