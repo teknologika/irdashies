@@ -56,4 +56,25 @@ describe('DriverRatingBadge', () => {
     );
     expect(container.textContent).toBe('R 0.0k');
   });
+
+  it('removes leading zeros from license number when before non-zero digit', () => {
+    const { container } = render(
+      <DriverRatingBadge license="A 02.99" rating={5000} />
+    );
+    expect(container.textContent).toBe('A 2.99 5.0k');
+  });
+
+  it('keeps single zero before decimal point', () => {
+    const { container } = render(
+      <DriverRatingBadge license="A 0.99" rating={5000} />
+    );
+    expect(container.textContent).toBe('A 0.99 5.0k');
+  });
+
+  it('handles multiple leading zeros', () => {
+    const { container } = render(
+      <DriverRatingBadge license="B 0003.45" rating={5000} />
+    );
+    expect(container.textContent).toBe('B 3.45 5.0k');
+  });
 });

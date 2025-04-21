@@ -29,6 +29,7 @@ export const AllRatings: Story = {
       <DriverRatingBadge license="C 2.99" rating={2999} />
       <DriverRatingBadge license="D 1.99" rating={1999} />
       <DriverRatingBadge license="R 0.99" rating={999} />
+      <DriverRatingBadge license="R 02.99" rating={999} />
     </div>
   ),
 };

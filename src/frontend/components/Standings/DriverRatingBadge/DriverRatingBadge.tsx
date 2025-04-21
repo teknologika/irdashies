@@ -19,11 +19,15 @@ export const DriverRatingBadge = ({
   let fixed = 1;
   if (rating >= 10000) fixed = 0;
   const simplifiedRating = (rating / 1000).toFixed(fixed);
+  
+  // Format the license string to remove leading zeros only when they're before a non-zero digit
+  const formattedLicense = license?.replace(/([A-Z]) 0+([1-9]\d*\.\d+)/, '$1 $2') || 'R';
+  
   return (
     <div
       className={`text-center text-white w-16 border-solid rounded-md text-xs m-0 px-1 border-2 ${color}`}
     >
-      {license} {simplifiedRating}k
+      {formattedLicense} {simplifiedRating}k
     </div>
   );
 };
