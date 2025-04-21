@@ -1,6 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Standings } from './Standings';
 import { TelemetryDecorator } from '../../../../.storybook/telemetryDecorator';
+import { DynamicTelemetrySelector } from './DynamicTelemetrySelector';
+import { useState } from 'react';
 
 export default {
   component: Standings,
@@ -10,6 +12,22 @@ type Story = StoryObj<typeof Standings>;
 
 export const Primary: Story = {
   decorators: [TelemetryDecorator()],
+};
+
+export const DynamicTelemetry: Story = {
+  decorators: [(Story, context) => {
+    const [selectedPath, setSelectedPath] = useState('/test-data/1735296198162');
+    
+    return (
+      <>
+        <DynamicTelemetrySelector
+          onPathChange={setSelectedPath}
+          initialPath={selectedPath}
+        />
+        {TelemetryDecorator(selectedPath)(Story, context)}
+      </>
+    );
+  }],
 };
 
 export const MultiClassPCC: Story = {

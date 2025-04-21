@@ -1,15 +1,43 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Relative } from './Relative';
 import { TelemetryDecorator } from '../../../../.storybook/telemetryDecorator';
+import { DynamicTelemetrySelector, TEST_DATA_DIRS } from './DynamicTelemetrySelector';
+import { useState } from 'react';
 
 export default {
   component: Relative,
-} as Meta;
+  parameters: {
+    controls: {
+      exclude: ['telemetryPath'],
+    },
+  },
+  loaders: [
+    async () => {
+      return { testDataDirs: TEST_DATA_DIRS };
+    },
+  ],
+} as Meta<typeof Relative>;
 
 type Story = StoryObj<typeof Relative>;
 
 export const Primary: Story = {
   decorators: [TelemetryDecorator()],
+};
+
+export const DynamicTelemetry: Story = {
+  decorators: [(Story, context) => {
+    const [selectedPath, setSelectedPath] = useState('/test-data/1735296198162');
+    
+    return (
+      <>
+        <DynamicTelemetrySelector
+          onPathChange={setSelectedPath}
+          initialPath={selectedPath}
+        />
+        {TelemetryDecorator(selectedPath)(Story, context)}
+      </>
+    );
+  }],
 };
 
 export const MultiClassPCCWithClio: Story = {
