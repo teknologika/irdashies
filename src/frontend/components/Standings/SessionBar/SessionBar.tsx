@@ -17,9 +17,11 @@ export const SessionBar = () => {
       )}
       {timeRemaining <= 86400 && ( // 86400 seconds = 24 hours
         <div className="flex flex-1 grow justify-center">
-          {timeElapsed
-            ? `${formatTimeShort(timeElapsed)} / ${formatTimeShort(timeRemaining, true)} m`
-            : ''}
+          {(() => {
+            const elapsed = formatTimeShort(timeElapsed);
+            const remaining = formatTimeShort(timeRemaining, true);
+            return elapsed ? `${elapsed} / ${remaining} m` : `${remaining} m`;
+          })()}
         </div>
       )}
       <div className="flex flex-1 grow justify-end">
