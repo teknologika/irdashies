@@ -19,20 +19,43 @@ jobs:
         node-version: '22'
         cache: 'npm'
 
+    - name: Cache node_modules and native builds
+      uses: actions/cache@v4
+      id: cache-deps
+      with:
+        path: |
+          node_modules
+          .vite
+          **/node_modules
+          **/*.node
+          **/build/Release
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/binding.gyp', '**/node_modules/**/*.node') }}
+        restore-keys: |
+          ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}-
+          ${{ runner.os }}-node-
+
     - name: Install dependencies
-      run: npm ci --ignore-scripts
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      run: |
+        npm ci --ignore-scripts
+        npm run prepare
+        npm rebuild
 
-    - name: Apply patches
+    - name: Apply patches and rebuild
+      if: steps.cache-deps.outputs.cache-hit == 'true'
       run: npm run prepare
-
-    - name: Rebuild
-      run: npm rebuild
 
     - name: Run linting
       run: npm run lint
 
     - name: Run tests with coverage
       run: npm test
+
+    - name: Generate assets
+      run: npm run generate-assets
+      env:
+        IRACING_USERNAME: ${{ secrets.IRACING_USERNAME }}
+        IRACING_PASSWORD: ${{ secrets.IRACING_PASSWORD }}
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
