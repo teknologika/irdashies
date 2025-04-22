@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import {
   useDriverCarIdx,
-  useSessionStore,
   useTelemetryValues,
 } from '@irdashies/context';
 import { useDriverStandings } from './useDriverPositions';
@@ -10,28 +9,33 @@ export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
   const carIdxEstTime = useTelemetryValues('CarIdxEstTime');
   const drivers = useDriverStandings();
   const carIdxLapDistPct = useTelemetryValues('CarIdxLapDistPct');
-
   const playerIndex = useDriverCarIdx();
-  const player = drivers.find((d) => d.carIdx === playerIndex);
-
-  if (!player) {
-    return [];
-  }
-
-  const driverEstLapTime = player.carClass.estLapTime ?? 0;
 
   const standings = useMemo(() => {
+    const player = drivers.find((d) => d.carIdx === playerIndex);
+    if (!player) {
+      return [];
+    }
+
+    const driverEstLapTime = player.carClass.estLapTime ?? 0;
+
     const calculateDelta = (carIdx: number, isAhead: boolean) => {
       const playerEstTime = carIdxEstTime?.[playerIndex ?? 0];
       const oppositionEstTime = carIdxEstTime?.[carIdx];
-      let delta = oppositionEstTime - playerEstTime;
+      const opposition = drivers.find((d) => d.carIdx === carIdx);
+      
+      if (!opposition) {
+        return 0;
+      }
+
+      let delta = (oppositionEstTime - playerEstTime);
 
       if (isAhead) {
-        // For cars ahead, ensure positive delta within half a lap
+        // For cars ahead, use their lap time since they determine the full lap duration
         while (delta < 0) delta += driverEstLapTime;
         while (delta > 0.5 * driverEstLapTime) delta -= driverEstLapTime;
       } else {
-        // For cars behind, ensure negative delta within half a lap
+        // For cars behind, use player's lap time since we're measuring against our lap
         while (delta > 0) delta -= driverEstLapTime;
         while (delta < -0.5 * driverEstLapTime) delta += driverEstLapTime;
       }
@@ -72,14 +76,7 @@ export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
     // TODO: remove pace car if not under caution or pacing
 
     return relatives;
-  }, [
-    drivers,
-    buffer,
-    carIdxEstTime,
-    playerIndex,
-    carIdxLapDistPct,
-    driverEstLapTime,
-  ]);
+  }, [drivers, buffer, carIdxEstTime, playerIndex, carIdxLapDistPct]);
 
   return standings;
 };
