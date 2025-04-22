@@ -12,18 +12,29 @@ export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
   const carIdxLapDistPct = useTelemetryValues('CarIdxLapDistPct');
 
   const playerIndex = useDriverCarIdx();
-  const driverCarEstLapTime = useSessionStore(
-    (s) => s.session?.DriverInfo?.DriverCarEstLapTime ?? 0
-  );
+  const player = drivers.find((d) => d.carIdx === playerIndex);
+
+  if (!player) {
+    return [];
+  }
+
+  const driverEstLapTime = player.carClass.estLapTime ?? 0;
 
   const standings = useMemo(() => {
-    const calculateDelta = (carIdx: number) => {
+    const calculateDelta = (carIdx: number, isAhead: boolean) => {
       const playerEstTime = carIdxEstTime?.[playerIndex ?? 0];
       const oppositionEstTime = carIdxEstTime?.[carIdx];
       let delta = oppositionEstTime - playerEstTime;
 
-      while (delta < -0.5 * driverCarEstLapTime) delta += driverCarEstLapTime;
-      while (delta > 0.5 * driverCarEstLapTime) delta -= driverCarEstLapTime;
+      if (isAhead) {
+        // For cars ahead, ensure positive delta within half a lap
+        while (delta < 0) delta += driverEstLapTime;
+        while (delta > 0.5 * driverEstLapTime) delta -= driverEstLapTime;
+      } else {
+        // For cars behind, ensure negative delta within half a lap
+        while (delta > 0) delta -= driverEstLapTime;
+        while (delta < -0.5 * driverEstLapTime) delta += driverEstLapTime;
+      }
 
       return delta;
     };
@@ -45,21 +56,16 @@ export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
         })
         .map((result) => ({
           ...result,
-          delta: calculateDelta(result.carIdx),
+          delta: calculateDelta(result.carIdx, isAhead),
         }))
         .filter((result) => (isAhead ? result.delta > 0 : result.delta < 0))
         .sort((a, b) => (isAhead ? a.delta - b.delta : b.delta - a.delta))
-        .slice(0, buffer) // slice from rear to front if isAhead
+        .slice(0, buffer)
         .sort((a, b) => b.delta - a.delta);
     };
 
     const carsAhead = filterAndMapDrivers(true);
-    const player = drivers.find((result) => result.carIdx === playerIndex);
     const carsBehind = filterAndMapDrivers(false);
-
-    if (!player) {
-      return [];
-    }
 
     const relatives = [...carsAhead, { ...player, delta: 0 }, ...carsBehind];
 
@@ -71,8 +77,8 @@ export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
     buffer,
     carIdxEstTime,
     playerIndex,
-    driverCarEstLapTime,
     carIdxLapDistPct,
+    driverEstLapTime,
   ]);
 
   return standings;

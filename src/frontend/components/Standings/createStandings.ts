@@ -30,6 +30,7 @@ export interface Standings {
     color: number;
     name: string;
     relativeSpeed: number;
+    estLapTime: number;
   };
   radioActive?: boolean;
 }
@@ -125,6 +126,7 @@ export const createDriverStandings = (
           color: driver.CarClassColor,
           name: driver.CarClassShortName,
           relativeSpeed: driver.CarClassRelSpeed,
+          estLapTime: driver.CarClassEstLapTime,
         },
         radioActive: telemetry.radioTransmitCarIdx?.includes(result.CarIdx),
       };
