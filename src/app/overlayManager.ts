@@ -29,8 +29,6 @@ export class OverlayManager {
 
   public getVersion(): string {
     const version = app.getVersion();
-    console.log('version', version);
-    console.log('APP_GIT_HASH', APP_GIT_HASH);
     const gitHash = typeof APP_GIT_HASH !== 'undefined' ? APP_GIT_HASH : 'dev';
     return `${version}+${gitHash}`;
   }
