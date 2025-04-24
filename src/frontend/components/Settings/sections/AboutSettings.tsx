@@ -1,6 +1,9 @@
 import { GithubLogo, DiscordLogo } from '@phosphor-icons/react';
+import { useDashboard } from '@irdashies/context';
 
 export const AboutSettings = () => {
+  const { version } = useDashboard();
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -12,7 +15,7 @@ export const AboutSettings = () => {
 
       <div className="flex flex-col gap-2">
         <h3 className="text-lg font-semibold">Version</h3>
-        <p className="text-slate-300">v0.0.7</p>
+        <p className="text-slate-300">{version}</p>
       </div>
 
       <div className="flex flex-col gap-4">

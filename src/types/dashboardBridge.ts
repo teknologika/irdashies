@@ -1,9 +1,10 @@
-import { DashboardLayout } from './dashboardLayout';
+import type { DashboardLayout } from './dashboardLayout';
 
 export interface DashboardBridge {
   onEditModeToggled: (callback: (value: boolean) => void) => void;
   dashboardUpdated: (callback: (value: DashboardLayout) => void) => void;
   reloadDashboard: () => void;
-  saveDashboard: (value: DashboardLayout) => void;
+  saveDashboard: (dashboard: DashboardLayout) => void;
   toggleLockOverlays: () => Promise<boolean>;
+  getAppVersion: () => Promise<string>;
 }

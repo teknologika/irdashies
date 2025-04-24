@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import type { DashboardLayout, DashboardWidget } from '@irdashies/types';
 import path from 'node:path';
 import { trackWindowMovement } from './trackWindowMovement';
@@ -6,6 +6,7 @@ import { trackWindowMovement } from './trackWindowMovement';
 // used for Hot Module Replacement
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
 declare const MAIN_WINDOW_VITE_NAME: string;
+declare const APP_GIT_HASH: string;
 
 interface DashboardWidgetWithWindow {
   widget: DashboardWidget;
@@ -24,6 +25,14 @@ export class OverlayManager {
         window.setAlwaysOnTop(true, 'screen-saver', 1);
       });
     }, 5000);
+  }
+
+  public getVersion(): string {
+    const version = app.getVersion();
+    console.log('version', version);
+    console.log('APP_GIT_HASH', APP_GIT_HASH);
+    const gitHash = typeof APP_GIT_HASH !== 'undefined' ? APP_GIT_HASH : 'dev';
+    return `${version}+${gitHash}`;
   }
 
   public getOverlays(): { widget: DashboardWidget; window: BrowserWindow }[] {

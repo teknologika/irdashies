@@ -1,6 +1,17 @@
 import { defineConfig } from 'vite';
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
+
+// Get git hash
+const getGitHash = () => {
+  try {
+    return execSync('git rev-parse --short HEAD').toString().trim();
+  } catch (ex) {
+    console.warn('Error getting git hash', ex);
+    return 'unknown';
+  }
+};
 
 export default defineConfig({
   plugins: [
@@ -9,6 +20,14 @@ export default defineConfig({
       '.vite/build/node_modules/@irsdk-node/native/build/Release/'
     ),
   ],
+  resolve: {
+    // Some dependencies have Node.js specific imports
+    // This ensures they are properly resolved in Electron
+    mainFields: ['module', 'jsnext:main', 'jsnext'],
+  },
+  define: {
+    APP_GIT_HASH: JSON.stringify(getGitHash()),
+  },
 });
 
 // this handles the native module for irsdk-node so vite can bundle it as its currently cjs only

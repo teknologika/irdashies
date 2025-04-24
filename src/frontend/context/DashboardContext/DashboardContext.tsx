@@ -12,6 +12,7 @@ interface DashboardContextProps {
   currentDashboard: DashboardLayout | undefined;
   onDashboardUpdated?: (dashboard: DashboardLayout) => void;
   bridge: DashboardBridge;
+  version: string;
 }
 
 const DashboardContext = createContext<DashboardContextProps | undefined>(
@@ -24,11 +25,13 @@ export const DashboardProvider: React.FC<{
 }> = ({ bridge, children }) => {
   const [dashboard, setDashboard] = useState<DashboardLayout>();
   const [editMode, setEditMode] = useState(false);
+  const [version, setVersion] = useState('');
 
   useEffect(() => {
     bridge.reloadDashboard();
     bridge.dashboardUpdated((dashboard) => setDashboard(dashboard));
     bridge.onEditModeToggled((editMode) => setEditMode(editMode));
+    bridge.getAppVersion?.().then((version) => setVersion(version));
   }, [bridge]);
 
   const saveDashboard = (dashboard: DashboardLayout) => {
@@ -42,6 +45,7 @@ export const DashboardProvider: React.FC<{
         currentDashboard: dashboard,
         onDashboardUpdated: saveDashboard,
         bridge,
+        version,
       }}
     >
       {children}

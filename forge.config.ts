@@ -1,5 +1,6 @@
 import type { ForgeConfig } from '@electron-forge/shared-types';
 import { MakerSquirrel } from '@electron-forge/maker-squirrel';
+import { MakerDMG } from '@electron-forge/maker-dmg';
 import { VitePlugin } from '@electron-forge/plugin-vite';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
@@ -11,7 +12,7 @@ const config: ForgeConfig = {
   rebuildConfig: {
     force: true,
   },
-  makers: [new MakerSquirrel({})],
+  makers: [new MakerSquirrel({}), new MakerDMG({})],
   publishers: [
     {
       name: '@electron-forge/publisher-github',

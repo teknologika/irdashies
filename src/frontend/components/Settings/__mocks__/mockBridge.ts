@@ -21,4 +21,5 @@ export const mockDashboardBridge: DashboardBridge = {
     };
   },
   toggleLockOverlays: () => Promise.resolve(true),
+  getAppVersion: () => Promise.resolve('0.0.7+mock'),
 }; 

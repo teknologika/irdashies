@@ -21,4 +21,8 @@ export async function publishDashboardUpdates(overlayManager: OverlayManager) {
   ipcMain.handle('toggleLockOverlays', () => {
     return overlayManager.toggleLockOverlays();
   });
+
+  ipcMain.handle('getAppVersion', () => {
+    return overlayManager.getVersion();
+  });
 }

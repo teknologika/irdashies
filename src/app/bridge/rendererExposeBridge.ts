@@ -48,5 +48,8 @@ export function exposeBridge() {
     toggleLockOverlays: () => {
       return ipcRenderer.invoke('toggleLockOverlays');
     },
+    getAppVersion: () => {
+      return ipcRenderer.invoke('getAppVersion');
+    },
   } as DashboardBridge);
 }
