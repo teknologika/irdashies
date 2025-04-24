@@ -7,7 +7,7 @@ export const StandingsSettings = () => {
   const { currentDashboard } = useDashboard();
   const [settings, setSettings] = useState<StandingsWidgetSettings>({
     enabled: currentDashboard?.widgets.find(w => w.id === 'standings')?.enabled ?? false,
-    // Add other settings here as needed
+    config: currentDashboard?.widgets.find(w => w.id === 'standings')?.config ?? {},
   });
 
   if (!currentDashboard) {

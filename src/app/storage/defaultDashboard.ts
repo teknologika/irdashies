@@ -21,6 +21,23 @@ export const defaultDashboard: DashboardLayout = {
         width: 600,
         height: 120,
       },
+      config: {
+        trace: {
+          enabled: true,
+          includeThrottle: true,
+          includeBrake: true,
+        },
+        bar: {
+          enabled: true,
+          includeClutch: true,
+          includeGear: true,
+          includeThrottle: true,
+        },
+        gear: {
+          enabled: true,
+          unit: 'auto',
+        },
+      },
     },
     {
       id: 'relative',

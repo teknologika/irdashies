@@ -3,34 +3,57 @@ import { ToggleSwitch } from './ToggleSwitch';
 import { BaseWidgetSettings } from '../types';
 import { useDashboard } from '@irdashies/context';
 
-interface BaseSettingsSectionProps<T extends BaseWidgetSettings> {
+interface BaseSettingsSectionProps<T> {
   title: string;
   description: string;
-  settings: T;
-  onSettingsChange: (settings: T) => void;
+  settings: BaseWidgetSettings<T>;
+  onSettingsChange: (settings: BaseWidgetSettings<T>) => void;
   widgetId: string;
-  children?: ReactNode;
+  children?: ((handleConfigChange: (config: Partial<T>) => void) => ReactNode) | ReactNode;
+  onConfigChange?: (config: Partial<T>) => void;
 }
 
-export const BaseSettingsSection = <T extends BaseWidgetSettings>({
+export const BaseSettingsSection = <T,>({
   title,
   description,
   settings,
   onSettingsChange,
   widgetId,
   children,
+  onConfigChange,
 }: BaseSettingsSectionProps<T>) => {
   const { currentDashboard, onDashboardUpdated } = useDashboard();
 
-  const handleSettingsChange = (newSettings: T) => {
+  const handleSettingsChange = (newSettings: BaseWidgetSettings<T>) => {
     onSettingsChange(newSettings);
-    
+    updateDashboard(newSettings);
+  };
+
+  const handleConfigChange = (newConfig: Partial<T>) => {
+    const updatedSettings: BaseWidgetSettings<T> = {
+      ...settings,
+      config: {
+        ...settings.config,
+        ...newConfig,
+      } as T,
+    };
+
+    onSettingsChange(updatedSettings);
+    updateDashboard(updatedSettings);
+    onConfigChange?.(newConfig);
+  };
+
+  const updateDashboard = (newSettings: BaseWidgetSettings<T>) => {
     if (currentDashboard && onDashboardUpdated) {
       const updatedDashboard = {
         ...currentDashboard,
-        widgets: currentDashboard.widgets.map(widget => 
-          widget.id === widgetId 
-            ? { ...widget, enabled: newSettings.enabled }
+        widgets: currentDashboard.widgets.map(widget =>
+          widget.id === widgetId
+            ? {
+                ...widget,
+                enabled: newSettings.enabled,
+                config: newSettings.config as unknown as Record<string, unknown>
+              }
             : widget
         )
       };
@@ -39,24 +62,25 @@ export const BaseSettingsSection = <T extends BaseWidgetSettings>({
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-xl mb-4">{title}</h2>
-        <p className="text-slate-400">{description}</p>
+    <div className="flex flex-col h-full">
+      <div className="flex-none space-y-6">
+        <div>
+          <div className="flex justify-between items-center mb-1">
+            <h2 className="text-xl">{title}</h2>
+            <ToggleSwitch
+              enabled={settings.enabled}
+              onToggle={(enabled) => handleSettingsChange({ ...settings, enabled })}
+              label="Enable Widget"
+            />
+          </div>
+          <p className="text-slate-400 text-sm mb-4">{description}</p>
+        </div>
       </div>
 
-      <div className="space-y-4">
-        <div className="border-b border-slate-700 pb-4">
-          <ToggleSwitch
-            enabled={settings.enabled}
-            onToggle={(enabled) => handleSettingsChange({ ...settings, enabled })}
-            label="Enable Widget"
-          />
-        </div>
-
+      <div className="flex-1 overflow-y-auto min-h-0">
         {children && (
-          <div className="pt-4 space-y-4">
-            {children}
+          <div className="space-y-4">
+            {typeof children === 'function' ? children(handleConfigChange) : children}
           </div>
         )}
       </div>

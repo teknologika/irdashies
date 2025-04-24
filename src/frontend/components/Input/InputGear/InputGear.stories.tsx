@@ -30,6 +30,9 @@ export const Primary: Story = {
     gear: 1,
     speedMs: 30,
     unit: 1,
+    settings: {
+      unit: 'auto',
+    },
   },
 };
 
@@ -38,5 +41,19 @@ export const Imperial: Story = {
     gear: 1,
     speedMs: 30,
     unit: 0,
+    settings: {
+      unit: 'auto',
+    },
+  },
+};
+
+export const ForceImperial: Story = {
+  args: {
+    gear: 1,
+    speedMs: 30,
+    unit: 1,
+    settings: {
+      unit: 'mph',
+    },
   },
 };

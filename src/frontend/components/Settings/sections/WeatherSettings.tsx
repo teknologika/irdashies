@@ -7,7 +7,7 @@ export const WeatherSettings = () => {
   const { currentDashboard } = useDashboard();
   const [settings, setSettings] = useState<WeatherWidgetSettings>({
     enabled: currentDashboard?.widgets.find(w => w.id === 'weather')?.enabled ?? false,
-    // Add other settings here as needed
+    config: currentDashboard?.widgets.find(w => w.id === 'weather')?.config ?? {},
   });
 
   if (!currentDashboard) {

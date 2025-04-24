@@ -53,9 +53,9 @@ export const SettingsLayout = () => {
           )}
         </button>
       </div>
-      <div className="flex flex-row gap-4 flex-1">
+      <div className="flex flex-row gap-4 flex-1 min-h-0">
         {/* Left Column - Widget Menu */}
-        <div className="w-1/3 bg-slate-800 p-4 rounded-md flex flex-col">
+        <div className="w-1/3 bg-slate-800 p-4 rounded-md flex flex-col overflow-y-auto">
           <ul className="flex flex-col gap-2 flex-1">
             <li>
               <Link to="/settings/input" className={menuItemClass('/input')}>
@@ -115,7 +115,7 @@ export const SettingsLayout = () => {
         </div>
 
         {/* Right Column - Widget Settings */}
-        <div className="w-2/3 bg-slate-800 p-4 rounded-md">
+        <div className="w-2/3 bg-slate-800 p-4 rounded-md flex flex-col overflow-hidden">
           <Routes>
             <Route path="standings" element={<StandingsSettings />} />
             <Route path="relative" element={<RelativeSettings />} />

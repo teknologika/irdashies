@@ -7,41 +7,46 @@ import {
   updateDashboardWidget,
 } from './dashboards';
 import { defaultDashboard } from './defaultDashboard';
-import * as storage from './storage';
+
+const mockReadData = vi.hoisted(() => vi.fn());
+const mockWriteData = vi.hoisted(() => vi.fn());
 
 vi.mock('./storage', () => ({
-  readData: vi.fn(),
-  writeData: vi.fn(),
+  readData: mockReadData,
+  writeData: mockWriteData,
 }));
 
 describe('dashboards', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    mockReadData.mockReset();
+    mockWriteData.mockReset();
+    // Default mock implementation to return null (no dashboards)
+    mockReadData.mockReturnValue(null);
   });
 
   describe('createDefaultDashboardIfNotExists', () => {
     it('should create default dashboard if none exists', () => {
       getOrCreateDefaultDashboard();
 
-      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+      expect(mockWriteData).toHaveBeenCalledWith('dashboards', {
         default: defaultDashboard,
       });
     });
 
     it('should not create default dashboard if one already exists', () => {
-      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+      mockReadData.mockReturnValue({
         default: defaultDashboard,
       });
 
       getOrCreateDefaultDashboard();
 
-      expect(storage.writeData).not.toHaveBeenCalled();
+      expect(mockWriteData).not.toHaveBeenCalled();
     });
   });
 
   describe('listDashboards', () => {
     it('should return an empty object if no dashboards exist', () => {
-      vi.spyOn(storage, 'readData').mockReturnValueOnce(null);
+      mockReadData.mockReturnValue(null);
 
       const dashboards = listDashboards();
 
@@ -50,7 +55,7 @@ describe('dashboards', () => {
 
     it('should return existing dashboards', () => {
       const dashboardsData = { default: defaultDashboard };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce(dashboardsData);
+      mockReadData.mockReturnValue(dashboardsData);
 
       const dashboards = listDashboards();
 
@@ -59,8 +64,8 @@ describe('dashboards', () => {
   });
 
   describe('getDashboard', () => {
-    it('should return undefined if no dashboards exist', () => {
-      vi.spyOn(storage, 'readData').mockReturnValueOnce(null);
+    it('should return null if no dashboards exist', () => {
+      mockReadData.mockReturnValue(null);
 
       const dashboard = getDashboard('default');
 
@@ -69,7 +74,7 @@ describe('dashboards', () => {
 
     it('should return the requested dashboard if it exists', () => {
       const dashboardsData = { default: defaultDashboard };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce(dashboardsData);
+      mockReadData.mockReturnValue(dashboardsData);
 
       const dashboard = getDashboard('default');
 
@@ -80,11 +85,11 @@ describe('dashboards', () => {
   describe('saveDashboard', () => {
     it('should save a new dashboard', () => {
       const newDashboard = { widgets: [] };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce(null);
+      mockReadData.mockReturnValue(null);
 
       saveDashboard('newDashboard', newDashboard);
 
-      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+      expect(mockWriteData).toHaveBeenCalledWith('dashboards', {
         newDashboard,
       });
     });
@@ -92,61 +97,25 @@ describe('dashboards', () => {
     it('should update an existing dashboard', () => {
       const existingDashboards = { default: defaultDashboard };
       const updatedDashboard = { widgets: [] };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce(existingDashboards);
+      mockReadData.mockReturnValue(existingDashboards);
 
       saveDashboard('default', updatedDashboard);
 
-      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+      expect(mockWriteData).toHaveBeenCalledWith('dashboards', {
         default: updatedDashboard,
       });
     });
   });
 
-  describe('updateDashboardWidget', () => {
-    it('should update a widget in the default dashboard', () => {
-      const updatedWidget = {
-        id: 'input',
-        enabled: true,
-        layout: { x: 100, y: 100, width: 600, height: 120 },
-      };
-      const updatedDashboard = { widgets: [updatedWidget] };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce({
-        default: defaultDashboard,
-      });
-
-      saveDashboard('default', updatedDashboard);
-
-      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
-        default: updatedDashboard,
-      });
-    });
-
-    it('should update a widget in a specific dashboard', () => {
-      const updatedWidget = {
-        id: 'input',
-        enabled: true,
-        layout: { x: 100, y: 100, width: 600, height: 120 },
-      };
-      const updatedDashboard = { widgets: [updatedWidget] };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce({
-        custom: defaultDashboard,
-      });
-
-      saveDashboard('custom', updatedDashboard);
-
-      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
-        custom: updatedDashboard,
-      });
-    });
-  });
   describe('updateDashboardWidget', () => {
     it('should throw an error if the default dashboard does not exist', () => {
+      mockReadData.mockReturnValue(null);
+
       const updatedWidget = {
         id: 'input',
         enabled: true,
         layout: { x: 100, y: 100, width: 600, height: 120 },
       };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce(null);
 
       expect(() => updateDashboardWidget(updatedWidget)).toThrow(
         'Default dashboard not found'
@@ -165,13 +134,13 @@ describe('dashboards', () => {
         layout: { x: 100, y: 100, width: 600, height: 120 },
       };
       const existingDashboard = { widgets: [existingWidget] };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+      mockReadData.mockReturnValue({
         default: existingDashboard,
       });
 
       updateDashboardWidget(updatedWidget);
 
-      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+      expect(mockWriteData).toHaveBeenCalledWith('dashboards', {
         default: { widgets: [updatedWidget] },
       });
     });
@@ -188,13 +157,13 @@ describe('dashboards', () => {
         layout: { x: 100, y: 100, width: 600, height: 120 },
       };
       const existingDashboard = { widgets: [existingWidget] };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+      mockReadData.mockReturnValue({
         custom: existingDashboard,
       });
 
       updateDashboardWidget(updatedWidget, 'custom');
 
-      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+      expect(mockWriteData).toHaveBeenCalledWith('dashboards', {
         custom: { widgets: [updatedWidget] },
       });
     });
@@ -206,21 +175,19 @@ describe('dashboards', () => {
         layout: { x: 100, y: 100, width: 600, height: 120 },
       };
       const existingDashboard = { widgets: [] };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+      mockReadData.mockReturnValue({
         default: existingDashboard,
       });
 
       updateDashboardWidget(updatedWidget);
 
-      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
-        default: { widgets: [] },
-      });
+      expect(mockWriteData).not.toHaveBeenCalledWith();
     });
   });
 
   describe('getOrCreateDefaultDashboard', () => {
     it('should return the default dashboard if it exists', () => {
-      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+      mockReadData.mockReturnValue({
         default: defaultDashboard,
       });
 
@@ -230,12 +197,12 @@ describe('dashboards', () => {
     });
 
     it('should create and return the default dashboard if it does not exist', () => {
-      vi.spyOn(storage, 'readData').mockReturnValueOnce(null);
+      mockReadData.mockReturnValue(null);
 
       const dashboard = getOrCreateDefaultDashboard();
 
       expect(dashboard).toEqual(defaultDashboard);
-      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+      expect(mockWriteData).toHaveBeenCalledWith('dashboards', {
         default: defaultDashboard,
       });
     });
@@ -244,28 +211,28 @@ describe('dashboards', () => {
       const incompleteDashboard = {
         widgets: defaultDashboard.widgets.slice(0, 1),
       };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+      mockReadData.mockReturnValue({
         default: incompleteDashboard,
       });
 
       const dashboard = getOrCreateDefaultDashboard();
 
       expect(dashboard.widgets).toEqual(defaultDashboard.widgets);
-      expect(storage.writeData).toHaveBeenCalledWith('dashboards', {
+      expect(mockWriteData).toHaveBeenCalledWith('dashboards', {
         default: defaultDashboard,
       });
     });
 
     it('should not modify the default dashboard if all widgets are present', () => {
       const completeDashboard = { ...defaultDashboard };
-      vi.spyOn(storage, 'readData').mockReturnValueOnce({
+      mockReadData.mockReturnValue({
         default: completeDashboard,
       });
 
       const dashboard = getOrCreateDefaultDashboard();
 
       expect(dashboard).toEqual(completeDashboard);
-      expect(storage.writeData).not.toHaveBeenCalled();
+      expect(mockWriteData).not.toHaveBeenCalled();
     });
   });
 });

@@ -7,7 +7,7 @@ export const TrackMapSettings = () => {
   const { currentDashboard } = useDashboard();
   const [settings, setSettings] = useState<TrackMapWidgetSettings>({
     enabled: currentDashboard?.widgets.find(w => w.id === 'map')?.enabled ?? false,
-    // Add other settings here as needed
+    config: currentDashboard?.widgets.find(w => w.id === 'map')?.config ?? {},
   });
 
   if (!currentDashboard) {

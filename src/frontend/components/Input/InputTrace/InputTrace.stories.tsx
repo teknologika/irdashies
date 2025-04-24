@@ -25,7 +25,12 @@ const Traces = () => {
 
     return () => clearInterval(interval);
   }, []);
-  return <InputTrace input={{ brake, throttle }} />;
+  return (
+    <InputTrace
+      input={{ brake, throttle }}
+      settings={{ includeBrake: true, includeThrottle: true }}
+    />
+  );
 };
 
 export const Primary: Story = {
@@ -39,15 +44,20 @@ export const OutsideRange: Story = {
     useEffect(() => {
       const interval = setInterval(() => {
         setInput(() => ({
-          brake: args.input.brake,
-          throttle: args.input.throttle,
+          brake: args.input.brake ?? 0,
+          throttle: args.input.throttle ?? 0,
         }));
       }, 1000 / 60);
 
       return () => clearInterval(interval);
     }, [args.input.brake, args.input.throttle]);
 
-    return <InputTrace input={input} />;
+    return (
+      <InputTrace
+        input={input}
+        settings={{ includeBrake: true, includeThrottle: true }}
+      />
+    );
   },
   args: {
     input: {

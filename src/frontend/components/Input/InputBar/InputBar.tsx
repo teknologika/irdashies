@@ -2,34 +2,50 @@ import * as d3 from 'd3';
 import { useEffect, useRef } from 'react';
 import { getColor } from '../../../utils/colors';
 
-const COLORS = [getColor('blue'), getColor('red'), getColor('green')];
+const INPUT_CONFIG = [
+  { key: 'clutch', color: getColor('blue') },
+  { key: 'brake', color: getColor('red') },
+  { key: 'throttle', color: getColor('green') }
+] as const;
 
 export interface InputTraceProps {
   brake?: number;
   throttle?: number;
   clutch?: number;
+  settings: {
+    includeClutch: boolean;
+    includeBrake: boolean;
+    includeThrottle: boolean;
+  };
 }
 
-export const InputBar = ({ brake, throttle, clutch }: InputTraceProps) => {
+export const InputBar = ({ brake, throttle, clutch, settings }: InputTraceProps) => {
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    drawBars(svgRef.current, [clutch ?? 0, brake ?? 0, throttle ?? 0]);
-  }, [brake, throttle, clutch]);
+    // Filter and map the values based on settings
+    const activeInputs = INPUT_CONFIG.filter(({ key }) => {
+      if (key === 'clutch') return settings.includeClutch;
+      if (key === 'throttle') return settings.includeThrottle;
+      if (key === 'brake') return settings.includeBrake;
+      return false;
+    }).map(({ key, color }) => ({
+      value: key === 'clutch' ? clutch ?? 0 : key === 'brake' ? brake ?? 0 : throttle ?? 0,
+      color
+    }));
+
+    drawBars(svgRef.current, activeInputs);
+  }, [brake, throttle, clutch, settings]);
 
   return <svg ref={svgRef} width="120"></svg>;
 };
 
-function drawBars(svgElement: SVGSVGElement | null, values: number[]) {
+function drawBars(svgElement: SVGSVGElement | null, data: { value: number; color: string }[]) {
   if (!svgElement) return;
 
   const topOffset = 15;
   const width = svgElement.clientWidth;
   const height = svgElement.clientHeight - topOffset;
-  const data = values.map((value, i) => ({
-    value,
-    color: COLORS[i % COLORS.length],
-  }));
 
   const xScale = d3
     .scaleBand()

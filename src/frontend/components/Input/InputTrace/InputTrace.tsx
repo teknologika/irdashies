@@ -2,16 +2,22 @@ import * as d3 from 'd3';
 import { useEffect, useRef, useState } from 'react';
 import tailwindColors from 'tailwindcss/colors';
 
-const COLORS = [tailwindColors.red['500'], tailwindColors.green['500']];
+const BRAKE_COLOR = tailwindColors.red['500'];
+const THROTTLE_COLOR = tailwindColors.green['500'];
 
 export interface InputTraceProps {
   input: {
     brake?: number;
     throttle?: number;
   };
+  settings: {
+    includeThrottle?: boolean;
+    includeBrake?: boolean;
+  };
 }
 
-export const InputTrace = ({ input }: InputTraceProps) => {
+export const InputTrace = ({ input, settings }: InputTraceProps) => {
+  const { includeThrottle, includeBrake } = settings;
   const svgRef = useRef<SVGSVGElement>(null);
   const { width, height } = { width: 400, height: 100 };
 
@@ -24,13 +30,20 @@ export const InputTrace = ({ input }: InputTraceProps) => {
 
   useEffect(() => {
     // slice first value and append new value
-    setThrottleArray((v) => [...v.slice(1), input.throttle ?? 0]);
-    setBrakeArray((v) => [...v.slice(1), input.brake ?? 0]);
-  }, [input]);
+    if (includeThrottle) {  
+      setThrottleArray((v) => [...v.slice(1), input.throttle ?? 0]);
+    }
+    if (includeBrake) {
+      setBrakeArray((v) => [...v.slice(1), input.brake ?? 0]);
+    }
+  }, [input, includeThrottle, includeBrake]);
 
   useEffect(() => {
-    drawGraph(svgRef.current, [brakeArray, throttleArray], width, height);
-  }, [brakeArray, height, throttleArray, width]);
+    const valueArrayWithColors = [];
+    if (includeThrottle) valueArrayWithColors.push({ values: throttleArray, color: THROTTLE_COLOR });
+    if (includeBrake) valueArrayWithColors.push({ values: brakeArray, color: BRAKE_COLOR });
+    drawGraph(svgRef.current, valueArrayWithColors, width, height);
+  }, [brakeArray, height, throttleArray, width, includeThrottle, includeBrake]);
 
   return (
     <svg
@@ -44,7 +57,7 @@ export const InputTrace = ({ input }: InputTraceProps) => {
 
 function drawGraph(
   svgElement: SVGSVGElement | null,
-  valueArray: number[][],
+  valueArrayWithColors: { values: number[]; color: string }[],
   width: number,
   height: number
 ) {
@@ -63,8 +76,8 @@ function drawGraph(
 
   drawYAxis(svg, yScale, width);
 
-  valueArray.forEach((values, i) => {
-    drawLine(svg, values, xScale, yScale, COLORS[i % COLORS.length]);
+  valueArrayWithColors.forEach(({ values, color }) => {
+    drawLine(svg, values, xScale, yScale, color);
   });
 }
 
@@ -107,7 +120,7 @@ function drawLine(
     .append('path')
     .datum(valueArray)
     .attr('fill', 'none')
-    .attr('stroke', color) // Changed the stroke color to red
+    .attr('stroke', color)
     .attr('stroke-width', 3)
     .attr('d', line);
 }

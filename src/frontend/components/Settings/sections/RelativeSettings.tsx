@@ -7,7 +7,7 @@ export const RelativeSettings = () => {
   const { currentDashboard } = useDashboard();
   const [settings, setSettings] = useState<RelativeWidgetSettings>({
     enabled: currentDashboard?.widgets.find(w => w.id === 'relative')?.enabled ?? false,
-    // Add other settings here as needed
+    config: currentDashboard?.widgets.find(w => w.id === 'relative')?.config ?? {},
   });
 
   if (!currentDashboard) {

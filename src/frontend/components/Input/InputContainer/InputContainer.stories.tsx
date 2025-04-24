@@ -39,6 +39,23 @@ const RandomTraces = () => {
       clutch={clutch}
       gear={gear}
       speed={speed}
+      settings={{
+        trace: {
+          enabled: true,
+          includeThrottle: true,
+          includeBrake: true,
+        },
+        bar: {
+          enabled: true,
+          includeThrottle: true,
+          includeBrake: true,
+          includeClutch: true,
+        },
+        gear: {
+          enabled: true,
+          unit: 'auto',
+        },
+      }}
     />
   );
 };

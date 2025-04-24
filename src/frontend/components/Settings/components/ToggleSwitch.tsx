@@ -7,6 +7,7 @@ interface ToggleSwitchProps {
 export const ToggleSwitch = ({ enabled, onToggle, label }: ToggleSwitchProps) => {
   return (
     <div className="flex items-center gap-3">
+      {label && <span className="text-sm text-slate-200">{label}</span>}
       <button
         type="button"
         role="switch"
@@ -22,7 +23,6 @@ export const ToggleSwitch = ({ enabled, onToggle, label }: ToggleSwitchProps) =>
           }`}
         />
       </button>
-      {label && <span className="text-sm text-slate-200">{label}</span>}
     </div>
   );
 }; 
