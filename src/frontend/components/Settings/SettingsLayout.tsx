@@ -60,12 +60,12 @@ export const SettingsLayout = () => {
             {isLocked ? (
               <>
                 <Lock size={20} weight="bold" />
-                <span>Edit Layout</span>
+                <span>Edit Layout (F6)</span>
               </>
             ) : (
               <>
                 <LockOpen size={20} weight="bold" />
-                <span>Editing Layout</span>
+                <span>Editing Layout (F6)</span>
               </>
             )}
           </button>
