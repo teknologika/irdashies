@@ -2,6 +2,7 @@ import { app, BrowserWindow } from 'electron';
 import type { DashboardLayout, DashboardWidget } from '@irdashies/types';
 import path from 'node:path';
 import { trackWindowMovement } from './trackWindowMovement';
+import { Notification } from 'electron';
 
 // used for Hot Module Replacement
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
@@ -44,6 +45,7 @@ export class OverlayManager {
       const window = this.createOverlayWindow(widget);
       trackWindowMovement(widget, window);
     });
+    this.createSettingsWindow();
   }
 
   public createOverlayWindow(widget: DashboardWidget): BrowserWindow {
@@ -149,6 +151,7 @@ export class OverlayManager {
     const browserWindow = new BrowserWindow({
       title: `iRacing Dashies - Settings`,
       frame: true,
+      autoHideMenuBar: true,
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
       },
@@ -167,6 +170,12 @@ export class OverlayManager {
     }
 
     browserWindow.on('closed', () => {
+      // Show notification about tray access
+      new Notification({
+        title: 'iRacing Dashies',
+        body: 'Settings window is still accessible via the system tray icon'
+      }).show();
+      
       this.currentSettingsWindow = undefined;
     });
 
