@@ -13,6 +13,8 @@ interface DashboardContextProps {
   onDashboardUpdated?: (dashboard: DashboardLayout) => void;
   bridge: DashboardBridge;
   version: string;
+  isDemoMode: boolean;
+  toggleDemoMode: () => void;
 }
 
 const DashboardContext = createContext<DashboardContextProps | undefined>(
@@ -26,6 +28,7 @@ export const DashboardProvider: React.FC<{
   const [dashboard, setDashboard] = useState<DashboardLayout>();
   const [editMode, setEditMode] = useState(false);
   const [version, setVersion] = useState('');
+  const [isDemoMode, setIsDemoMode] = useState(false);
 
   useEffect(() => {
     bridge.reloadDashboard();
@@ -38,6 +41,13 @@ export const DashboardProvider: React.FC<{
     bridge.saveDashboard(dashboard);
   };
 
+  const toggleDemoMode = () => {
+    const newDemoMode = !isDemoMode;
+    setIsDemoMode(newDemoMode);
+    // Notify the bridge about demo mode change
+    bridge.toggleDemoMode?.(newDemoMode);
+  };
+
   return (
     <DashboardContext.Provider
       value={{
@@ -46,6 +56,8 @@ export const DashboardProvider: React.FC<{
         onDashboardUpdated: saveDashboard,
         bridge,
         version,
+        isDemoMode,
+        toggleDemoMode,
       }}
     >
       {children}
