@@ -90,6 +90,7 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.4.1",
     "stream-json": "^1.9.1",
+    "update-electron-app": "^3.1.1",
     "use-sync-external-store": "^1.5.0",
     "zustand": "^5.0.3"
   }
