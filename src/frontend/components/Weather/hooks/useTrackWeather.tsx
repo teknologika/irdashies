@@ -1,4 +1,4 @@
-import { useTelemetry, useTelemetryValue } from '@irdashies/context';
+import { useTelemetry } from '@irdashies/context';
 import { useMemo } from 'react';
 
 const wetnessLevels: Record<number, string> = {
@@ -10,24 +10,6 @@ const wetnessLevels: Record<number, string> = {
   5: 'Moderately Wet',
   6: 'Very Wet',
   7: 'Extremely Wet',
-};
-
-export const useWeather = () => {
-  const humidity = useTelemetryValue('RelativeHumidity');
-  const weatherType = useTelemetryValue('WeatherType');
-  const trackAirTemp = useTelemetryValue('AirTemp');
-  const trackSurfaceTemp = useTelemetryValue('PlayerTrackSurface');
-  const windVelocity = useTelemetryValue('WindVel');
-  const windDirection = useTelemetryValue('WindDir');
-
-  return {
-    humidity,
-    weatherType,
-    trackAirTemp,
-    trackSurfaceTemp,
-    windVelocity,
-    windDirection,
-  };
 };
 
 export const useTrackWeather = () => {

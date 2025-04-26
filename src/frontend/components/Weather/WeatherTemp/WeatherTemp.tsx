@@ -7,12 +7,12 @@ export interface WeatherTempProps {
 
 export const WeatherTemp = ({ title, value }: WeatherTempProps) => {
   return (
-    <div className="font-extrabold text-xl uppercase text-center bg-slate-800 p-2 rounded-sm items-center">
-      <div className="flex flex-row gap-x-2 items-center">
+    <div className="bg-slate-800/70 p-2 rounded-sm w-full">
+      <div className="flex flex-row gap-x-2 items-center text-sm">
         <Thermometer />
         <span className="grow">{title}</span>
+        <div className="text-center">{value}</div>
       </div>
-      <div className="font-bold text-lg text-center">{value}</div>
     </div>
   );
 };

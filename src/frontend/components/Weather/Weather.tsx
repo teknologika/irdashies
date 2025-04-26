@@ -1,6 +1,6 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useTrackTemperature } from './hooks/useTrackTemperature';
-import { useTrackWeather } from './hooks/useWeather';
+import { useTrackWeather } from './hooks/useTrackWeather';
 import { WeatherTemp } from './WeatherTemp/WeatherTemp';
 import { WeatherTrackWetness } from './WeatherTrackWetness/WeatherTrackWetness';
 import { WindDirection } from './WindDirection/WindDirection';
@@ -19,17 +19,17 @@ export const Weather = () => {
 
   return (
     <div
-      className="h-full inline-flex flex-row bg-slate-800/25 rounded-sm"
+      className="w-full inline-flex flex-row bg-slate-800/25 rounded-sm"
       ref={parent}
     >
-      <div className="flex flex-col p-2 basis-full rounded-sm gap-2">
-        <WeatherTemp title="Track Temp" value={trackTemp.trackTemp} />
-        <WeatherTemp title="Air Temp" value={trackTemp.airTemp} />
+      <div className="flex flex-col p-2 w-full rounded-sm gap-2">
+        <WeatherTemp title="Track" value={trackTemp.trackTemp} />
+        <WeatherTemp title="Air" value={trackTemp.airTemp} />
+        <WindDirection speed={windSpeed} direction={windDirectionValue} />
         <WeatherTrackWetness
           trackWetnessPct={trackWetnessPct}
           trackState={weather.trackState}
         />
-        <WindDirection speed={windSpeed} direction={windDirectionValue} />
       </div>
     </div>
   );

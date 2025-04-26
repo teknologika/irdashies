@@ -10,21 +10,18 @@ export const WeatherTrackWetness = ({
   trackState,
 }: WeatherTrackWetnessProps) => {
   return (
-    <div className="font-extrabold text-xl uppercase text-center bg-slate-800 p-2 rounded-sm items-center">
-      TRACK WETNESS
-      <div className="font-bold text-lg text-center">
-        <div className="flex items-center flex-row gap-x-1">
-          <Sun />
-          <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 align-center">
-            <div
-              style={{ width: `${trackWetnessPct}%` }}
-              className={`bg-blue-600 h-2.5 rounded-full`}
-            ></div>
-          </div>
-          <Drop />
+    <div className="bg-slate-800/70 p-2 rounded-sm">
+      <div className="flex items-center flex-row gap-x-1 mt-1">
+        <Sun />
+        <div className="w-full bg-gray-700 rounded-full h-2.5">
+          <div
+            style={{ width: `${trackWetnessPct}%` }}
+            className="bg-blue-600 h-2.5 rounded-full"
+          ></div>
         </div>
-        <div className="font-normal">{trackState ?? 'Unknown'}</div>
+        <Drop />
       </div>
+      <div className="text-center text-sm mt-1">{trackState ?? 'Unknown'}</div>
     </div>
   );
 };

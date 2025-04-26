@@ -4,6 +4,11 @@ import { TelemetryDecorator } from '../../../../.storybook/telemetryDecorator';
 
 export default {
   component: Weather,
+  decorators: [(Story) => (
+    <div style={{ width: '150px' }}>
+      <Story />
+    </div>
+  )],
 } as Meta;
 
 type Story = StoryObj<typeof Weather>;
