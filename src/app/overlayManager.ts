@@ -3,6 +3,7 @@ import type { DashboardLayout, DashboardWidget } from '@irdashies/types';
 import path from 'node:path';
 import { trackWindowMovement } from './trackWindowMovement';
 import { Notification } from 'electron';
+import { readData, writeData } from './storage/storage';
 
 // used for Hot Module Replacement
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string;
@@ -170,12 +171,15 @@ export class OverlayManager {
     }
 
     browserWindow.on('closed', () => {
-      // Show notification about tray access
-      new Notification({
-        title: 'iRacing Dashies',
-        body: 'Settings window is still accessible via the system tray icon'
-      }).show();
-      
+      // Show notification about tray access only once ever
+      const trayNotificationShown = readData<boolean>('trayNotificationShown');
+      if (!trayNotificationShown) {
+        new Notification({
+          title: 'iRacing Dashies',
+          body: 'Settings window is still accessible via the system tray icon'
+        }).show();
+        writeData('trayNotificationShown', true);
+      }
       this.currentSettingsWindow = undefined;
     });
 
