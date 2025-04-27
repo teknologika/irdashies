@@ -12,7 +12,7 @@ export default {
         step: 0.1,
       },
     },
-    speed: {
+    speedMs: {
       control: {
         type: 'range',
         min: 0,
@@ -28,6 +28,6 @@ type Story = StoryObj<typeof WindDirection>;
 export const Primary: Story = {
   args: {
     direction: 0,
-    speed: 0,
+    speedMs: 0,
   },
 };

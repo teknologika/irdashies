@@ -9,7 +9,6 @@ type Story = StoryObj<typeof WeatherTrackWetness>;
 
 export const Primary: Story = {
   args: {
-    trackWetnessPct: 5,
-    trackState: 'Dry',
+    trackMoisture: 5,
   },
 };

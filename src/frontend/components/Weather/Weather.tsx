@@ -8,14 +8,9 @@ import { WindDirection } from './WindDirection/WindDirection';
 export const Weather = () => {
   const [parent] = useAutoAnimate();
   const weather = useTrackWeather();
-  const trackWetnessPct = Math.floor(
-    (Number(weather.trackMoisture?.value?.[0] ?? 0) / 7) * 100
-  );
-
   const trackTemp = useTrackTemperature();
-  const windSpeed = weather.windVelo?.value[0] * (18 / 5);
-  const windDirectionValue =
-    weather.windDirection?.value[0] - weather.windYaw?.value[0];
+  const windSpeed = weather.windVelocity;
+  const relativeWindDirection =  (weather.windDirection ?? 0) - (weather.windYaw ?? 0);
 
   return (
     <div
@@ -25,11 +20,8 @@ export const Weather = () => {
       <div className="flex flex-col p-2 w-full rounded-sm gap-2">
         <WeatherTemp title="Track" value={trackTemp.trackTemp} />
         <WeatherTemp title="Air" value={trackTemp.airTemp} />
-        <WindDirection speed={windSpeed} direction={windDirectionValue} />
-        <WeatherTrackWetness
-          trackWetnessPct={trackWetnessPct}
-          trackState={weather.trackState}
-        />
+        <WindDirection speedMs={windSpeed} direction={relativeWindDirection} />
+        <WeatherTrackWetness trackMoisture={weather.trackMoisture} />
       </div>
     </div>
   );
