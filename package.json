@@ -9,6 +9,7 @@
   },
   "main": ".vite/build/main.js",
   "scripts": {
+    "prestart": "npx tsx ./tools/ensure-tracks.ts",
     "start": "electron-forge start --enable-logging",
     "generate-assets": "npx tsx ./tools/index.ts",
     "package": "electron-forge package",
