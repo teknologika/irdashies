@@ -1,4 +1,4 @@
-import { Gear, Lock, LockOpen, PresentationChart } from '@phosphor-icons/react';
+import { GearIcon, LockIcon, LockOpenIcon, PresentationChartIcon } from '@phosphor-icons/react';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import { StandingsSettings } from './sections/StandingsSettings';
 import { RelativeSettings } from './sections/RelativeSettings';
@@ -33,7 +33,7 @@ export const SettingsLayout = () => {
     <div className="flex flex-col gap-4 bg-slate-700 p-4 rounded-md w-full h-full">
       <div className="flex flex-row gap-4 items-center justify-between">
         <div className="flex flex-row gap-4 items-center">
-          <Gear size={32} weight="bold" />
+          <GearIcon size={32} weight="bold" />
           <h1 className="text-2xl font-bold">Overlay Setup</h1>
         </div>
         <div className="flex flex-row gap-2">
@@ -43,12 +43,12 @@ export const SettingsLayout = () => {
           >
             {isDemoMode ? (
               <>
-                <PresentationChart size={20} weight="bold" />
+                <PresentationChartIcon size={20} weight="bold" />
                 <span>Exit Demo</span>
               </>
             ) : (
               <>
-                <PresentationChart size={20} weight="bold" />
+                <PresentationChartIcon size={20} weight="bold" />
                 <span>Demo Mode</span>
               </>
             )}
@@ -59,12 +59,12 @@ export const SettingsLayout = () => {
           >
             {isLocked ? (
               <>
-                <Lock size={20} weight="bold" />
+                <LockIcon size={20} weight="bold" />
                 <span>Edit Layout (F6)</span>
               </>
             ) : (
               <>
-                <LockOpen size={20} weight="bold" />
+                <LockOpenIcon size={20} weight="bold" />
                 <span>Editing Layout (F6)</span>
               </>
             )}
