@@ -7,6 +7,7 @@ import { TrackMapSettings } from './sections/TrackMapSettings';
 import { AdvancedSettings } from './sections/AdvancedSettings';
 import { InputSettings } from './sections/InputSettings';
 import { AboutSettings } from './sections/AboutSettings';
+import { FasterCarsFromBehindSettings } from './sections/FasterCarsFromBehindSettings';
 import { useDashboard } from '@irdashies/context';
 import { useState } from 'react';
 
@@ -105,6 +106,14 @@ export const SettingsLayout = () => {
               </Link>
             </li>
             <li>
+              <Link
+                to="/settings/faster-cars"
+                className={menuItemClass('/faster-cars')}
+              >
+                Faster Cars
+              </Link>
+            </li>
+            <li>
               <Link to="/settings/map" className={menuItemClass('/track-map')}>
                 <div className="flex flex-row gap-2 items-center">
                   Track Map
@@ -140,6 +149,7 @@ export const SettingsLayout = () => {
             <Route path="weather" element={<WeatherSettings />} />
             <Route path="map" element={<TrackMapSettings />} />
             <Route path="input" element={<InputSettings />} />
+            <Route path="faster-cars" element={<FasterCarsFromBehindSettings />} />
             <Route path="advanced" element={<AdvancedSettings />} />
             <Route path="about" element={<AboutSettings />} />
             <Route
