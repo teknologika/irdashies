@@ -26,6 +26,7 @@ const mockBridge: (editMode: boolean) => DashboardBridge = (editMode) => ({
     callback(editMode);
   },
   toggleLockOverlays: () => Promise.resolve(true),
+  getAppVersion: () => Promise.resolve('1.0.0'),
 });
 
 export const Primary = {
