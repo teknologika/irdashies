@@ -1,6 +1,6 @@
 import { SpeakerHigh } from '@phosphor-icons/react';
-import { getTailwindStyle } from '../../../utils/colors';
-import { formatTime } from '../../../utils/time';
+import { getTailwindStyle } from '@irdashies/utils/colors';
+import { formatTime } from '@irdashies/utils/time';
 
 interface DriverRowInfoProps {
   carIdx: number;

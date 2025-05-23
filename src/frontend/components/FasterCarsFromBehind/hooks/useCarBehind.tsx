@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useDriverRelatives } from '../../Standings/hooks/useDriverRelatives';
-import { getTailwindStyle } from '../../../utils/colors';
+import { getTailwindStyle } from '@irdashies/utils/colors';
 
 export const useCarBehind = () => {
   const drivers = useDriverRelatives({ buffer: 1 });

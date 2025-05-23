@@ -1,5 +1,5 @@
 import { Barbell, Users } from '@phosphor-icons/react';
-import { getTailwindStyle } from '../../../utils/colors';
+import { getTailwindStyle } from '@irdashies/utils/colors';
 
 interface DriverClassHeaderProps {
   className: string | undefined;
