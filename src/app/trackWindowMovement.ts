@@ -1,5 +1,6 @@
+import type { DashboardWidget } from '@irdashies/types';
 import { BrowserWindow } from 'electron';
-import { DashboardWidget, updateDashboardWidget } from './storage/dashboards';
+import { updateDashboardWidget } from './storage/dashboards';
 
 export const trackWindowMovement = (
   widget: DashboardWidget,
