@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react';
-import { useTelemetry } from '../../context/TelemetryStore/TelemetryStore';
+import { useTelemetry } from '@irdashies/context';
 
 export default {} as Meta;
 
