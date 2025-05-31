@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useEffect,
 } from 'react';
-import type { DashboardBridge, DashboardLayout } from '@irdashies/types';
+import type { DashboardBridge, DashboardLayout, GeneralSettingsType } from '@irdashies/types';
 
 interface DashboardContextProps {
   editMode: boolean;
@@ -71,4 +71,9 @@ export const useDashboard = (): DashboardContextProps => {
     throw new Error('useTelemetry must be used within a TelemetryProvider');
   }
   return context;
+};
+
+export const useGeneralSettings = (): GeneralSettingsType | undefined => {
+  const { currentDashboard } = useDashboard();
+  return currentDashboard?.generalSettings;
 };
