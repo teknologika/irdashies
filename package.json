@@ -9,7 +9,7 @@
   },
   "main": ".vite/build/main.js",
   "scripts": {
-    "prestart": "npx tsx ./tools/ensure-tracks.ts",
+    "prestart": "npm run ensure-tracks",
     "start": "electron-forge start --enable-logging",
     "generate-assets": "npx tsx ./tools/index.ts",
     "package": "electron-forge package",
@@ -20,7 +20,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest --coverage",
-    "chromatic": "npx chromatic"
+    "ensure-tracks": "npx tsx ./tools/ensure-tracks.ts",
+    "chromatic": "npm run ensure-tracks && npx chromatic"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.2",
