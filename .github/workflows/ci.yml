@@ -55,6 +55,11 @@ jobs:
         name: coverage-report
         path: coverage 
 
+    - name: Run Chromatic
+      run: npm run chromatic
+      env:
+        CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+    
     - name: Check if version changed
       id: check_version
       shell: pwsh
