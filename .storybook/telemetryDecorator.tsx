@@ -1,7 +1,7 @@
 import { Decorator } from '@storybook/react';
 import { DashboardProvider, SessionProvider, TelemetryProvider } from '@irdashies/context';
 import { generateMockDataFromPath } from '../src/app/bridge/iracingSdk/mock-data/generateMockData';
-import { mockDashboardBridge } from '../src/frontend/components/Settings/__mocks__/mockBridge';
+import { mockDashboardBridge } from './mockDashboardBridge';
 
 // eslint-disable-next-line react/display-name
 export const TelemetryDecorator: (path?: string) => Decorator = (path) => (Story) => (
