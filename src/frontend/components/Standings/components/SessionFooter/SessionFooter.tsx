@@ -1,7 +1,7 @@
 import { ClockIcon, DropIcon, RoadHorizonIcon, ThermometerIcon } from '@phosphor-icons/react';
-import { useCurrentTime } from '../hooks/useCurrentTime';
-import { useTrackWetness } from '../hooks/useTrackWetness';
-import { useTrackTemperature } from '../hooks/useTrackTemperature';
+import { useCurrentTime } from '../../hooks/useCurrentTime';
+import { useTrackWetness } from '../../hooks/useTrackWetness';
+import { useTrackTemperature } from '../../hooks/useTrackTemperature';
 
 export const SessionFooter = () => {
   const time = useCurrentTime();

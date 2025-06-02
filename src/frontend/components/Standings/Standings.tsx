@@ -1,11 +1,12 @@
-import { DriverRatingBadge } from './DriverRatingBadge/DriverRatingBadge';
-import { DriverInfoRow } from './DriverInfoRow/DriverInfoRow';
+import { Fragment } from 'react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { DriverClassHeader } from './DriverClassHeader/DriverClassHeader';
-import { SessionBar } from './SessionBar/SessionBar';
-import { Fragment } from 'react/jsx-runtime';
+import { DriverClassHeader } from './components/DriverClassHeader/DriverClassHeader';
+import { DriverInfoRow } from './components/DriverInfoRow/DriverInfoRow';
+import { DriverRatingBadge } from './components/DriverRatingBadge/DriverRatingBadge';
+import { RatingChange } from './components/RatingChange/RatingChange';
+import { SessionBar } from './components/SessionBar/SessionBar';
+import { SessionFooter } from './components/SessionFooter/SessionFooter';
 import { useCarClassStats, useDriverStandings } from './hooks';
-import { SessionFooter } from './SessionFooter/SessionFooter';
 
 export const Standings = () => {
   const [parent] = useAutoAnimate();
@@ -37,7 +38,7 @@ export const Standings = () => {
                   hasFastestTime={result.hasFastestTime}
                   delta={result.delta}
                   position={result.classPosition}
-                  iratingChange={result.iratingChange}
+                  iratingChange={<RatingChange value={result.iratingChange} />}
                   lastTime={result.lastTime}
                   fastestTime={result.fastestTime}
                   onPitRoad={result.onPitRoad}

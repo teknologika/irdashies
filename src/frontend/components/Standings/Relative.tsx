@@ -1,9 +1,9 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { DriverInfoRow } from './DriverInfoRow/DriverInfoRow';
+import { DriverInfoRow } from './components/DriverInfoRow/DriverInfoRow';
 import { useDriverRelatives } from './hooks/useDriverRelatives';
-import { DriverRatingBadge } from './DriverRatingBadge/DriverRatingBadge';
-import { SessionBar } from './SessionBar/SessionBar';
-import { SessionFooter } from './SessionFooter/SessionFooter';
+import { DriverRatingBadge } from './components/DriverRatingBadge/DriverRatingBadge';
+import { SessionBar } from './components/SessionBar/SessionBar';
+import { SessionFooter } from './components/SessionFooter/SessionFooter';
 
 export const Relative = () => {
   const standings = useDriverRelatives({ buffer: 3 });

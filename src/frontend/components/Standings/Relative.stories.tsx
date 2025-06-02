@@ -1,7 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Relative } from './Relative';
-import { TelemetryDecorator } from '@irdashies/storybook';
-import { DynamicTelemetrySelector, TEST_DATA_DIRS } from './DynamicTelemetrySelector';
+import {
+  TelemetryDecorator,
+  DynamicTelemetrySelector,
+} from '@irdashies/storybook';
 import { useState } from 'react';
 
 export default {
@@ -11,11 +13,6 @@ export default {
       exclude: ['telemetryPath'],
     },
   },
-  loaders: [
-    async () => {
-      return { testDataDirs: TEST_DATA_DIRS };
-    },
-  ],
 } as Meta<typeof Relative>;
 
 type Story = StoryObj<typeof Relative>;
@@ -25,19 +22,23 @@ export const Primary: Story = {
 };
 
 export const DynamicTelemetry: Story = {
-  decorators: [(Story, context) => {
-    const [selectedPath, setSelectedPath] = useState('/test-data/1747384273173');
-    
-    return (
-      <>
-        <DynamicTelemetrySelector
-          onPathChange={setSelectedPath}
-          initialPath={selectedPath}
-        />
-        {TelemetryDecorator(selectedPath)(Story, context)}
-      </>
-    );
-  }],
+  decorators: [
+    (Story, context) => {
+      const [selectedPath, setSelectedPath] = useState(
+        '/test-data/1747384273173'
+      );
+
+      return (
+        <>
+          <DynamicTelemetrySelector
+            onPathChange={setSelectedPath}
+            initialPath={selectedPath}
+          />
+          {TelemetryDecorator(selectedPath)(Story, context)}
+        </>
+      );
+    },
+  ],
 };
 
 export const MultiClassPCCWithClio: Story = {

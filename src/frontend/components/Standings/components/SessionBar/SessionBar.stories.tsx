@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { SessionBar } from './SessionBar';
-import { TelemetryDecorator } from '../../../../../.storybook/telemetryDecorator';
+import { TelemetryDecorator } from '../../../../../../.storybook/telemetryDecorator';
 
 export default {
   component: SessionBar,
