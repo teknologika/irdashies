@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useTelemetryStore } from '../TelemetryStore/TelemetryStore';
-import { useLapTimes, useLapTimesStore } from './LapTimesStore';
+import { useLapTimes, useLapTimesStore } from '../LapTimesStore/LapTimesStore';
 import { useCarIdxClassEstLapTime } from '../SessionStore/SessionStore';
 
 /**

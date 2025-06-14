@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { useCarIdxSpeed } from './useCarIdxSpeed';
 import { useTelemetryStore } from '../TelemetryStore/TelemetryStore';
-import { useCarSpeedsStore, useCarSpeeds } from './CarSpeedsStore';
+import { useCarSpeedsStore, useCarSpeeds } from '../CarSpeedStore/CarSpeedsStore';
 import { useSessionStore } from '../SessionStore/SessionStore';
 import type { Telemetry } from '@irdashies/types';
 
@@ -11,7 +11,7 @@ vi.mock('../TelemetryStore/TelemetryStore', () => ({
   useTelemetryStore: vi.fn(),
 }));
 
-vi.mock('./CarSpeedsStore', () => ({
+vi.mock('../CarSpeedStore/CarSpeedsStore', () => ({
   useCarSpeedsStore: vi.fn(),
   useCarSpeeds: vi.fn(),
 }));

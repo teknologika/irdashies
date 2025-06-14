@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTelemetryStore } from '../TelemetryStore/TelemetryStore';
 import { useSessionStore } from '../SessionStore/SessionStore';
-import { useCarSpeeds, useCarSpeedsStore } from './CarSpeedsStore';
+import { useCarSpeeds, useCarSpeedsStore } from '../CarSpeedStore/CarSpeedsStore';
 
 /**
  * First time this hook is called, it will update the car speeds using both telemetry and session (track length) state.

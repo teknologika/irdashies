@@ -3,9 +3,9 @@ import {
   useTelemetryValue,
   useTelemetry,
   useSessionDrivers,
-  useSessionType,
   useDriverCarIdx,
   useSessionQualifyingResults,
+  useCurrentSessionType,
 } from '@irdashies/context';
 import { Standings } from '../createStandings';
 
@@ -73,8 +73,7 @@ export const useDriverStandings = () => {
   const radioTransmitCarIdx = useTelemetryValue('RadioTransmitCarIdx');
   const carStates = useCarState();
   const playerCarIdx = useDriverCarIdx();
-  const sessionNum = useTelemetryValue('SessionNum');
-  const sessionType = useSessionType(sessionNum);
+  const sessionType = useCurrentSessionType();
   const qualifyingPositions = useSessionQualifyingResults();
 
   const driverStandings: Standings[] = useMemo(() => {
