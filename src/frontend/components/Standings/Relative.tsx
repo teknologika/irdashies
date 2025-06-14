@@ -40,6 +40,7 @@ export const Relative = () => {
           ))}
         </tbody>
       </table>
+      
       <SessionFooter />
     </div>
   );

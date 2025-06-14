@@ -9,32 +9,47 @@ import { useDriverStandings } from './useDriverPositions';
 export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
   const drivers = useDriverStandings();
   const carIdxLapDistPct = useTelemetryValues('CarIdxLapDistPct');
-  const carIdxLap = useTelemetryValues('CarIdxLap');
-
   const playerIndex = useDriverCarIdx();
-  const driverCarEstLapTime = useSessionStore(
-    (s) => s.session?.DriverInfo?.DriverCarEstLapTime ?? 0
-  );
+  const paceCarIdx =
+    useSessionStore((s) => s.session?.DriverInfo?.PaceCarIdx) ?? -1;
 
   const standings = useMemo(() => {
+    const calculateRelativePct = (carIdx: number) => {
+      if (playerIndex === undefined) {
+        return NaN;
+      }
+
+      const playerDistPct = carIdxLapDistPct?.[playerIndex];
+      const otherDistPct = carIdxLapDistPct?.[carIdx];
+
+      if (playerDistPct === undefined || otherDistPct === undefined) {
+        return NaN;
+      }
+
+      const relativePct = otherDistPct - playerDistPct;
+
+      if (relativePct > 0.5) {
+        return relativePct - 1.0;
+      } else if (relativePct < -0.5) {
+        return relativePct + 1.0;
+      }
+
+      return relativePct;
+    };
+
     const calculateDelta = (otherCarIdx: number) => {
       const playerCarIdx = playerIndex ?? 0;
 
-      const playerLapNum = carIdxLap?.[playerCarIdx];
       const playerDistPct = carIdxLapDistPct?.[playerCarIdx];
-
-      const otherLapNum = carIdxLap?.[otherCarIdx];
       const otherDistPct = carIdxLapDistPct?.[otherCarIdx];
+
+      const player = drivers.find((driver) => driver.carIdx === playerIndex);
+      const other = drivers.find((driver) => driver.carIdx === otherCarIdx);
       
-      if (
-        playerLapNum === undefined || playerLapNum < 0 ||
-        playerDistPct === undefined || playerDistPct < 0 || playerDistPct > 1 ||
-        otherLapNum === undefined || otherLapNum < 0 ||
-        otherDistPct === undefined || otherDistPct < 0 || otherDistPct > 1 ||
-        driverCarEstLapTime <= 0
-      ) {
-        return NaN;
-      }
+      // Use the slower car's lap time for more conservative deltas in multiclass
+      const playerEstLapTime = player?.carClass?.estLapTime ?? 0;
+      const otherEstLapTime = other?.carClass?.estLapTime ?? 0;
+      const baseLapTime = Math.max(playerEstLapTime, otherEstLapTime);
 
       let distPctDifference = otherDistPct - playerDistPct;
 
@@ -43,56 +58,45 @@ export const useDriverRelatives = ({ buffer }: { buffer: number }) => {
       } else if (distPctDifference < -0.5) {
         distPctDifference += 1.0;
       }
-      
-      const timeDelta = distPctDifference * driverCarEstLapTime;
+
+      const timeDelta = distPctDifference * baseLapTime;
 
       return timeDelta;
     };
 
-    const isHalfLapDifference = (car1: number, car2: number) => {
-      const diff = (car1 - car2 + 1) % 1;
-      return diff <= 0.5;
-    };
-
-    const filterAndMapDrivers = (isAhead: boolean) => {
+    const filterAndMapDrivers = () => {
       return drivers
-        .filter((driver) => driver.onTrack || driver.carIdx === playerIndex)
-        .filter((result) => {
-          const playerDistPct = carIdxLapDistPct?.[playerIndex ?? 0];
-          const carDistPct = carIdxLapDistPct?.[result.carIdx];
-          return isAhead
-            ? isHalfLapDifference(carDistPct, playerDistPct)
-            : isHalfLapDifference(playerDistPct, carDistPct);
-        })
+        .filter((driver) => driver.onTrack || driver.carIdx === playerIndex) // filter out drivers not on track
+        .filter((driver) => driver.carIdx > -1 && driver.carIdx !== paceCarIdx) // filter out pace car
+        .map((result) => ({
+          ...result,
+          relativePct: calculateRelativePct(result.carIdx),
+        }))
+        .filter((result) => !isNaN(result.relativePct))
+        .sort((a, b) => b.relativePct - a.relativePct) // sort by relative pct
         .map((result) => ({
           ...result,
           delta: calculateDelta(result.carIdx),
         }))
-        .filter((result) => (isAhead ? result.delta > 0 : result.delta < 0))
-        .sort((a, b) => (isAhead ? a.delta - b.delta : b.delta - a.delta))
-        .slice(0, buffer)
-        .sort((a, b) => b.delta - a.delta);
+        .filter((result) => !isNaN(result.delta));
     };
 
-    const carsAhead = filterAndMapDrivers(true);
-    const player = drivers.find((result) => result.carIdx === playerIndex);
-    const carsBehind = filterAndMapDrivers(false);
+    const allRelatives = filterAndMapDrivers();
+    const playerArrIndex = allRelatives.findIndex(
+      (result) => result.carIdx === playerIndex
+    );
 
-    if (!player) {
+    // if the player is not in the list, return an empty array
+    if (playerArrIndex === -1) {
       return [];
     }
 
-    const relatives = [...carsAhead, { ...player, delta: 0 }, ...carsBehind];
+    // buffered slice to get only the drivers around the player
+    const start = Math.max(0, playerArrIndex - buffer);
+    const end = Math.min(allRelatives.length, playerArrIndex + buffer + 1);
 
-    return relatives;
-  }, [
-    drivers,
-    buffer,
-    playerIndex,
-    driverCarEstLapTime,
-    carIdxLapDistPct,
-    carIdxLap,
-  ]);
+    return allRelatives.slice(start, end);
+  }, [buffer, playerIndex, carIdxLapDistPct, drivers, paceCarIdx]);
 
   return standings;
 };
