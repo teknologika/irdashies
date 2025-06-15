@@ -39,10 +39,12 @@ export interface WeekendInfo {
   TrackName: string;
   TrackID: number;
   TrackLength: string;
+  TrackLengthOfficial: string;
   TrackDisplayName: string;
   TrackDisplayShortName: string;
   TrackConfigName: string | null;
   TrackCity: string;
+  TrackState: string;
   TrackCountry: string;
   TrackAltitude: string;
   TrackLatitude: string;
@@ -50,6 +52,8 @@ export interface WeekendInfo {
   TrackNorthOffset: string;
   TrackNumTurns: number;
   TrackPitSpeedLimit: string;
+  TrackPaceSpeed: string;
+  TrackNumPitStalls: number;
   TrackType: string;
   TrackDirection: string;
   TrackWeatherType: string;
@@ -57,10 +61,12 @@ export interface WeekendInfo {
   TrackSurfaceTemp: string;
   TrackAirTemp: string;
   TrackAirPressure: string;
+  TrackAirDensity: string;
   TrackWindVel: string;
   TrackWindDir: string;
   TrackRelativeHumidity: string;
   TrackFogLevel: string;
+  TrackPrecipitation: string;
   TrackCleanup: number;
   TrackDynamicTrack: number;
   TrackVersion: string;
@@ -85,6 +91,7 @@ export interface WeekendInfo {
   BuildType: string;
   BuildTarget: string;
   BuildVersion: string;
+  RaceFarm: string;
   WeekendOptions: WeekendOptions;
   TelemetryOptions: TelemetryOptions;
 }

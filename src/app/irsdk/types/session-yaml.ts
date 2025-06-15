@@ -1,6 +1,6 @@
 import { RadioInfo } from './radio-info';
 import { CameraInfo } from './camera-info';
-import { SessionList } from './session-info';
+import { SessionList, SessionResultsPosition } from './session-info';
 import { WeekendInfo } from './weekend-info';
 import { DriverInfo } from './driver-info';
 import { SplitTimeInfo } from './split-info';
@@ -19,4 +19,5 @@ export interface SessionData {
   DriverInfo: DriverInfo;
   SplitTimeInfo: SplitTimeInfo;
   CarSetup: CarSetupInfo;
+  QualifyResultsInfo?: { Results: SessionResultsPosition[] };
 }
