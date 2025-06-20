@@ -7,7 +7,13 @@ export interface BaseWidgetSettings<T = Record<string, unknown>> {
 }
 
 export interface StandingsWidgetSettings extends BaseWidgetSettings {
-  // Add specific standings settings here
+  config: {
+    iRatingChange: { enabled: boolean };
+    badge: { enabled: boolean };
+    delta: { enabled: boolean };
+    lastTime: { enabled: boolean };
+    fastestTime: { enabled: boolean };
+  };
 }
 
 export interface RelativeWidgetSettings extends BaseWidgetSettings {

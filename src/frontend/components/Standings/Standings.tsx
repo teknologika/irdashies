@@ -6,12 +6,13 @@ import { DriverRatingBadge } from './components/DriverRatingBadge/DriverRatingBa
 import { RatingChange } from './components/RatingChange/RatingChange';
 import { SessionBar } from './components/SessionBar/SessionBar';
 import { SessionFooter } from './components/SessionFooter/SessionFooter';
-import { useCarClassStats, useDriverStandings } from './hooks';
+import { useCarClassStats, useDriverStandings, useStandingsSettings } from './hooks';
 
 export const Standings = () => {
   const [parent] = useAutoAnimate();
   const standings = useDriverStandings({ buffer: 3 });
   const classStats = useCarClassStats();
+  const settings = useStandingsSettings();
 
   return (
     <div className="w-full h-full">
@@ -36,20 +37,20 @@ export const Standings = () => {
                   name={result.driver?.name || ''}
                   isPlayer={result.isPlayer}
                   hasFastestTime={result.hasFastestTime}
-                  delta={result.delta}
+                  delta={settings?.delta?.enabled ? result.delta : undefined}
                   position={result.classPosition}
-                  iratingChange={<RatingChange value={result.iratingChange} />}
-                  lastTime={result.lastTime}
-                  fastestTime={result.fastestTime}
+                  iratingChange={settings?.iRatingChange?.enabled ? <RatingChange value={result.iratingChange} /> : undefined}
+                  lastTime={settings?.lastTime?.enabled ? result.lastTime : undefined}
+                  fastestTime={settings?.fastestTime?.enabled ? result.fastestTime : undefined}
                   onPitRoad={result.onPitRoad}
                   onTrack={result.onTrack}
                   radioActive={result.radioActive}
-                  badge={
+                  badge={settings?.badge?.enabled ? (
                     <DriverRatingBadge
                       license={result.driver?.license}
                       rating={result.driver?.rating}
                     />
-                  }
+                  ) : undefined}
                 />
               ))}
             </Fragment>
