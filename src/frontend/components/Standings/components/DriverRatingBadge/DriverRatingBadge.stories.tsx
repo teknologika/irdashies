@@ -24,6 +24,7 @@ export const Alien: Story = {
 export const AllRatings: Story = {
   render: () => (
     <div className="flex flex-col gap-1">
+      <DriverRatingBadge license="P 4.99" rating={12999} />
       <DriverRatingBadge license="A 4.99" rating={4999} />
       <DriverRatingBadge license="B 3.99" rating={3999} />
       <DriverRatingBadge license="C 2.99" rating={2999} />

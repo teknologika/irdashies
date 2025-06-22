@@ -9,6 +9,7 @@ export const DriverRatingBadge = ({
 }: DriverRatingBadgeProps) => {
   const licenseLevel = license?.charAt(0) || 'R';
   const colorMap: Record<string, string> = {
+    P: 'border-purple-500 bg-purple-800',
     A: 'border-blue-500 bg-blue-800',
     B: 'border-green-500 bg-green-800',
     C: 'border-yellow-500 bg-yellow-700',
