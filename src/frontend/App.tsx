@@ -8,27 +8,10 @@ import {
   useRunningState,
   SessionProvider,
 } from '@irdashies/context';
-import { Input } from './components/Input';
-import { Standings } from './components/Standings/Standings';
 import { Settings } from './components/Settings/Settings';
-import { Relative } from './components/Standings/Relative';
-import { Weather } from './components/Weather';
-import { TrackMap } from './components/TrackMap/TrackMap';
-import { FasterCarsFromBehind } from './components/FasterCarsFromBehind/FasterCarsFromBehind';
 import { EditMode } from './components/EditMode/EditMode';
 import { ThemeManager } from './components/ThemeManager/ThemeManager';
-
-// TODO: type this better, right now the config comes from settings
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const WIDGET_MAP: Record<string, (config: any) => React.JSX.Element> = {
-  standings: Standings,
-  input: Input,
-  relative: Relative,
-  settings: Settings,
-  map: TrackMap,
-  weather: Weather,
-  fastercarsfrombehind: FasterCarsFromBehind,
-};
+import { WIDGET_MAP } from './WidgetIndex';
 
 const AppRoutes = () => {
   const { currentDashboard } = useDashboard();
