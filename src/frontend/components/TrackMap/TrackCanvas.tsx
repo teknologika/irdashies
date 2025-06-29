@@ -35,8 +35,7 @@ export interface TrackDrawing {
 // currently its a bit messy with the turns, so we disable them for now
 const ENABLE_TURNS = false;
 
-// Optimized update intervals - reduce from 2fps to 10fps for smoother updates
-const POSITION_UPDATE_INTERVAL = 100; // 10fps instead of 2fps
+const POSITION_UPDATE_INTERVAL = 100;
 const RENDER_THROTTLE_MS = 16; // ~60fps for rendering
 
 const TRACK_DRAWING_WIDTH = 1920;

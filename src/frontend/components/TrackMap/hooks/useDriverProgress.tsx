@@ -13,7 +13,7 @@ export const useDriverProgress = () => {
   const drivers = useSessionDrivers();
   const driversLapDist = useTelemetryValuesMapped<number[]>(
     'CarIdxLapDistPct',
-    (val) => Math.round(val * 100) / 100 // Reduce precision to 2 decimal places to minimize unnecessary updates
+    (val) => Math.round(val * 1000) / 1000 // Reduce precision to 2 decimal places to minimize unnecessary updates
   );
 
   // Throttled state to reduce update frequency
