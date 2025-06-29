@@ -35,11 +35,18 @@ export interface TrackDrawing {
 // currently its a bit messy with the turns, so we disable them for now
 const ENABLE_TURNS = false;
 
-// Throttle position updates to 2fps (500ms interval)
-const POSITION_UPDATE_INTERVAL = 500;
+// Optimized update intervals - reduce from 2fps to 10fps for smoother updates
+const POSITION_UPDATE_INTERVAL = 100; // 10fps instead of 2fps
+const RENDER_THROTTLE_MS = 16; // ~60fps for rendering
 
 const TRACK_DRAWING_WIDTH = 1920;
 const TRACK_DRAWING_HEIGHT = 1080;
+
+// Threshold for position changes to trigger redraw
+const POSITION_CHANGE_THRESHOLD = 0.5; // pixels
+
+// Add a cache for getPointAtLength results
+const pointAtLengthCache = new Map<string, { x: number; y: number }>();
 
 export const TrackCanvas = ({ trackId, drivers }: TrackProps) => {
   const [positions, setPositions] = useState<
@@ -53,7 +60,9 @@ export const TrackCanvas = ({ trackId, drivers }: TrackProps) => {
     Record<number, TrackDriver & { position: { x: number; y: number } }>
   >({});
   const lastUpdateTimeRef = useRef<number>(0);
+  const lastRenderTimeRef = useRef<number>(0);
   const pendingDriversRef = useRef<TrackDriver[]>([]);
+  const needsRedrawRef = useRef<boolean>(false);
 
   // Memoize the SVG path element
   const line = useMemo(() => {
@@ -81,7 +90,7 @@ export const TrackCanvas = ({ trackId, drivers }: TrackProps) => {
     };
   }, [trackDrawing?.active?.inside, trackDrawing?.startFinish?.line]);
 
-  // Memoize color calculations
+  // Memoize color calculations - only recalculate when drivers change
   const driverColors = useMemo(() => {
     const colors: Record<number, { fill: string; text: string }> = {};
 
@@ -112,25 +121,37 @@ export const TrackCanvas = ({ trackId, drivers }: TrackProps) => {
     trackDrawing?.startFinish?.point?.length,
   ]);
 
-  // Optimized position calculation
+  // Helper to quantize progress
+  const quantizeProgress = (progress: number) => Math.round(progress * 500) / 500; // 0.002 steps
+
+  // Optimized position calculation with caching
   const updateCarPosition = useCallback(
     (percent: number) => {
       if (!trackConstants) return { x: 0, y: 0 };
+      if (!line) return { x: 0, y: 0 };
 
       const { direction, intersectionLength, totalLength } = trackConstants;
-      const adjustedLength = (totalLength * percent) % totalLength;
+      const quantized = quantizeProgress(percent);
+      const cacheKey = `${trackId}:${quantized}`;
+      if (pointAtLengthCache.has(cacheKey)) {
+        const cached = pointAtLengthCache.get(cacheKey);
+        if (cached) return cached;
+      }
+
+      const adjustedLength = (totalLength * quantized) % totalLength;
       const length =
         direction === 'anticlockwise'
           ? (intersectionLength + adjustedLength) % totalLength
           : (intersectionLength - adjustedLength + totalLength) % totalLength;
-      const point = line?.getPointAtLength(length);
-
-      return { x: point?.x || 0, y: point?.y || 0 };
+      const point = line.getPointAtLength(length);
+      const result = { x: point?.x || 0, y: point?.y || 0 };
+      pointAtLengthCache.set(cacheKey, result);
+      return result;
     },
-    [trackConstants, line]
+    [trackConstants, line, trackId]
   );
 
-  // Check if drivers have actually changed
+  // Optimized driver change detection - only check essential properties
   const driversChanged = useMemo(() => {
     if (drivers.length !== lastDriversRef.current.length) return true;
 
@@ -145,7 +166,7 @@ export const TrackCanvas = ({ trackId, drivers }: TrackProps) => {
     });
   }, [drivers]);
 
-  // Throttled position update effect
+  // Optimized position update effect - reduce frequency and batch updates
   useEffect(() => {
     if (!trackConstants || !drivers?.length) return;
 
@@ -172,34 +193,12 @@ export const TrackCanvas = ({ trackId, drivers }: TrackProps) => {
       lastDriversRef.current = drivers;
       lastPositionsRef.current = updatedPositions;
       lastUpdateTimeRef.current = now;
+      needsRedrawRef.current = true; // Mark that we need to redraw
     }
   }, [drivers, trackConstants, updateCarPosition, driversChanged]);
 
-  // Set up a timer for periodic position updates
-  useEffect(() => {
-    if (!trackConstants) return;
-
-    const intervalId = setInterval(() => {
-      const pendingDrivers = pendingDriversRef.current;
-      if (!pendingDrivers?.length) return;
-
-      const updatedPositions = pendingDrivers.reduce(
-        (acc, { driver, progress, isPlayer }) => {
-          const position = updateCarPosition(progress);
-          return {
-            ...acc,
-            [driver.CarIdx]: { position, driver, isPlayer, progress },
-          };
-        },
-        {} as Record<number, TrackDriver & { position: { x: number; y: number } }>
-      );
-
-      setPositions(updatedPositions);
-      lastPositionsRef.current = updatedPositions;
-    }, POSITION_UPDATE_INTERVAL);
-
-    return () => clearInterval(intervalId);
-  }, [trackConstants, updateCarPosition]);
+  // Remove the separate interval - we'll handle updates in the render loop
+  // This eliminates the competing timers that were blocking the event loop
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d');
@@ -314,7 +313,7 @@ export const TrackCanvas = ({ trackId, drivers }: TrackProps) => {
       ctx.restore();
     };
 
-    // Check if positions have actually changed
+    // Optimized position change detection
     const positionsChanged = () => {
       const currentPositions = Object.keys(positions);
       const lastPositions = Object.keys(lastPositionsRef.current);
@@ -329,20 +328,27 @@ export const TrackCanvas = ({ trackId, drivers }: TrackProps) => {
         if (!current || !last) return true;
         
         return (
-          Math.abs(current.position.x - last.position.x) > 0.1 ||
-          Math.abs(current.position.y - last.position.y) > 0.1 ||
+          Math.abs(current.position.x - last.position.x) > POSITION_CHANGE_THRESHOLD ||
+          Math.abs(current.position.y - last.position.y) > POSITION_CHANGE_THRESHOLD ||
           current.isPlayer !== last.isPlayer ||
           current.driver.CarNumber !== last.driver.CarNumber
         );
       });
     };
 
-    // Only animate if positions have changed
+    // Optimized animation loop with throttling
     const animate = () => {
-      if (positionsChanged()) {
+      const now = Date.now();
+      const timeSinceLastRender = now - lastRenderTimeRef.current;
+
+      // Only redraw if enough time has passed AND we have changes
+      if (timeSinceLastRender >= RENDER_THROTTLE_MS && (needsRedrawRef.current || positionsChanged())) {
         draw();
         lastPositionsRef.current = { ...positions };
+        lastRenderTimeRef.current = now;
+        needsRedrawRef.current = false;
       }
+
       animationFrameIdRef.current = requestAnimationFrame(animate);
     };
 
