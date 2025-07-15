@@ -2,6 +2,7 @@ import { Meta, StoryObj } from '@storybook/react-vite';
 import { TrackCanvas, TrackDriver } from './TrackCanvas';
 import { useEffect, useState } from 'react';
 import tracks from './tracks/tracks.json';
+import { BROKEN_TRACKS } from './tracks/broken-tracks';
 
 export default {
   component: TrackCanvas,
@@ -284,6 +285,48 @@ export const Primary: Story = {
   },
 };
 
+export const SingleDriver: Story = {
+  argTypes: {
+    progress: {
+      control: { type: 'range', min: 0, max: 1, step: 0.01 },
+      description: 'Driver progress around the track (0-1)',
+    },
+    carNumber: {
+      control: { type: 'text' },
+      description: 'Driver car number',
+    },
+    isPlayer: {
+      control: { type: 'boolean' },
+    },
+    carClassColor: {
+      control: { type: 'number' },
+      description: 'Driver car class color',
+    },
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  render: (args: any) => {
+    const drivers = [{
+      driver: {
+        CarIdx: 39,
+        CarNumber: args.carNumber || '29',
+        CarClassColor: args.carClassColor || 11430911,
+        CarClassEstLapTime: 126.2284,
+      },
+      progress: args.progress || 0,
+      isPlayer: args.isPlayer || false,
+    }] as TrackDriver[];
+
+    return <TrackCanvas trackId={args.trackId} drivers={drivers} />;
+  },
+  args: {
+    trackId: 1,
+    progress: 0,
+    carNumber: '29',
+    isPlayer: true,
+    carClassColor: 11430911,
+  },
+} as Story;
+
 export const CirclingAround: Story = {
   render: (args) => {
     const [drivers, setDrivers] = useState(args.drivers);
@@ -343,6 +386,46 @@ export const AllTracksGrid: Story = {
               <div className="w-full h-full">
                 <TrackCanvas 
                   trackId={trackId} 
+                  drivers={sampleData} 
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  },
+};
+
+export const BrokenTracksGrid: Story = {
+  render: () => {
+    const trackSize = 200;
+
+    return (
+      <div className="p-4 bg-gray-900 min-h-screen font-sans">
+        <h1 className="text-white text-center mb-6 text-2xl">
+          Broken Tracks ({BROKEN_TRACKS.length} total)
+        </h1>
+        <p className="text-gray-400 text-center mb-6">
+          These tracks are broken and will be hidden in production but available for debugging in development/storybook.
+        </p>
+        <div 
+          className="grid gap-4 justify-center mx-auto"
+          style={{
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            maxWidth: '100%',
+            width: '100%'
+          }}
+        >
+          {BROKEN_TRACKS.map((brokenTrack) => (
+            <div 
+              key={brokenTrack.id} 
+              className="border border-red-600 rounded-lg overflow-hidden bg-gray-800 relative aspect-square"
+              style={{ maxWidth: trackSize, maxHeight: trackSize }}
+            >
+              <div className="w-full h-full">
+                <TrackCanvas 
+                  trackId={brokenTrack.id} 
                   drivers={sampleData} 
                 />
               </div>
