@@ -1,0 +1,22 @@
+{
+  "spectator-mode-competitors": {
+    "created_at": "2025-07-19T17:10:39.435034",
+    "updated_at": "2025-07-19T18:25:51.020139",
+    "current_phase": "complete",
+    "initial_idea": "Add comprehensive spectator mode support to irdashies that allows users to view meaningful dashboard data when spectating other drivers or watching replays. This includes reading competitors data structure, using camera car index to determine focus, and building relative standings from opponents data rather than just the player's perspective.",
+    "has_requirements": true,
+    "has_design": true,
+    "has_tasks": true,
+    "last_phase_advancement": "2025-07-19T18:19:19.572417"
+  },
+  "obs-widget-integration": {
+    "created_at": "2025-07-19T18:59:15.827443",
+    "updated_at": "2025-07-22T08:21:06.795866",
+    "current_phase": "requirements",
+    "initial_idea": "Add OBS integration to irdashies by exposing each dashboard widget as individual HTTP URLs that streamers can use as browser sources in OBS. This allows streamers to add real-time iRacing data widgets to their stream overlays with complete flexibility in positioning and sizing.",
+    "has_requirements": true,
+    "has_design": false,
+    "has_tasks": false,
+    "last_phase_advancement": "2025-07-19T19:08:35.395317"
+  }
+}
