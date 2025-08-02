@@ -41,7 +41,7 @@ export interface TrackMapWidgetSettings extends BaseWidgetSettings {
 
 export interface SteerWidgetSettings extends BaseWidgetSettings {
   config: {
-    style: 'formula' | 'lmp' | 'nascar' | 'round' | 'ushape' | 'default';
+    style: 'formula' | 'lmp' | 'nascar' | 'ushape' | 'default';
     color: 'dark' | 'light';
   };
 }
@@ -65,9 +65,4 @@ export interface InputWidgetSettings extends BaseWidgetSettings {
     };
     steer: SteerWidgetSettings;
   };
-}
-
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-export interface AdvancedSettings extends BaseWidgetSettings {
-  // Add specific advanced settings here
 }
