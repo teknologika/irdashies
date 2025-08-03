@@ -6,6 +6,7 @@ import type {
   DashboardBridge,
   DashboardLayout,
 } from '@irdashies/types';
+import type { HttpServerBridge } from './httpServerBridge';
 
 export function exposeBridge() {
   contextBridge.exposeInMainWorld('irsdkBridge', {
@@ -58,4 +59,28 @@ export function exposeBridge() {
       ipcRenderer.send('toggleDemoMode', value);
     },
   } as DashboardBridge);
+
+  contextBridge.exposeInMainWorld('httpServerBridge', {
+    startServer: () => {
+      return ipcRenderer.invoke('httpServer:start');
+    },
+    stopServer: () => {
+      return ipcRenderer.invoke('httpServer:stop');
+    },
+    getServerStatus: () => {
+      return ipcRenderer.invoke('httpServer:getStatus');
+    },
+    onServerStatusChanged: (callback: (status: {
+      isRunning: boolean;
+      port: number | null;
+      error?: string;
+    }) => void) => {
+      ipcRenderer.on('httpServer:statusChanged', (_, status) => {
+        callback(status);
+      });
+    },
+    removeAllListeners: () => {
+      ipcRenderer.removeAllListeners('httpServer:statusChanged');
+    },
+  } as HttpServerBridge);
 }

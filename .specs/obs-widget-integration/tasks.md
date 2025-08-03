@@ -155,11 +155,11 @@
 
 ## Phase 3: Settings Integration
 
-- [ ] 25. Create OBS Integration settings section component
-  - [ ] 25.1. Create src/frontend/components/Settings/sections/OBSIntegrationSettings.tsx
-  - [ ] 25.2. Follow existing settings section patterns
-  - [ ] 25.3. Include server status display
-  - [ ] 25.4. Add widget URL listing section
+- [X] 25. Create OBS Integration settings section component
+  - [x] 25.1. Create src/frontend/components/Settings/sections/OBSIntegrationSettings.tsx
+  - [x] 25.2. Follow existing settings section patterns
+  - [x] 25.3. Include server status display
+  - [x] 25.4. Add widget URL listing section
 
 - [ ] 26. Add server status indicator
   - [ ] 26.1. Show green/red status indicator
@@ -185,12 +185,12 @@
   - [ ] 29.3. Show loading state during operations
   - [ ] 29.4. Display error messages for failures
 
-- [ ] 30. Create IPC bridge for server control
-  - [ ] 30.1. Create src/app/bridge/httpServerBridge.ts
-  - [ ] 30.2. Expose server control methods to renderer
-  - [ ] 30.3. Handle server status queries
-  - [ ] 30.4. Provide real-time status updates
-  - [ ] 30.5. Follow existing bridge patterns
+- [X] 30. Create IPC bridge for server control
+  - [x] 30.1. Create src/app/bridge/httpServerBridge.ts
+  - [x] 30.2. Expose server control methods to renderer
+  - [x] 30.3. Handle server status queries
+  - [x] 30.4. Provide real-time status updates
+  - [x] 30.5. Follow existing bridge patterns
 
 - [ ] 31. Add server configuration storage
   - [ ] 31.1. Create src/app/storage/httpServerSettings.ts

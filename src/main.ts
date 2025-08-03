@@ -3,6 +3,7 @@ import { iRacingSDKSetup } from './app/bridge/iracingSdk/setup';
 import { getOrCreateDefaultDashboard } from './app/storage/dashboards';
 import { setupTaskbar } from './app';
 import { publishDashboardUpdates } from './app/bridge/dashboard/dashboardBridge';
+import { setupHttpServerBridge } from './app/bridge/httpServerBridge';
 import { TelemetrySink } from './app/bridge/iracingSdk/telemetrySink';
 import { OverlayManager } from './app/overlayManager';
 import { HttpWidgetServer } from './app';
@@ -72,6 +73,9 @@ app.on('ready', async () => {
   setupTaskbar(telemetrySink, overlayManager);
   iRacingSDKSetup(telemetrySink, overlayManager);
   publishDashboardUpdates(overlayManager);
+  
+  // Setup HTTP server IPC bridge for settings integration
+  setupHttpServerBridge(httpWidgetServer);
 
   // Start HTTP widget server for OBS integration with graceful error handling
   console.log('Starting HTTP widget server for OBS integration...');
