@@ -1,0 +1,62 @@
+/**
+ * Widget-specific CSS for OBS Browser Source compatibility
+ * This file provides transparent backgrounds and OBS-optimized styling
+ */
+
+/* Set body background to transparent for OBS overlay compatibility */
+body {
+  background-color: transparent !important;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Ensure html and root elements also have transparent backgrounds */
+html {
+  background-color: transparent !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* Widget root container styling */
+#widget-root {
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Ensure all containers maintain transparency */
+#widget-container {
+  background-color: transparent !important;
+}
+
+/* Override any theme backgrounds that might interfere with transparency */
+* {
+  box-sizing: border-box;
+}
+
+/* Ensure widget content area maintains transparency */
+.widget-content {
+  background-color: transparent !important;
+}
+
+/* Ensure all possible widget wrapper containers maintain transparency */
+.widget-wrapper,
+.widget-inner,
+.dashboard-wrapper,
+.component-wrapper {
+  background-color: transparent !important;
+}
+
+/* Override any theme or component backgrounds that might interfere */
+[data-widget-type] {
+  background-color: transparent !important;
+}
+
+/* Ensure React error boundary containers maintain transparency */
+.widget-error-boundary {
+  background-color: transparent !important;
+}

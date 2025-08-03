@@ -37,15 +37,48 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
+      input: {
+        renderer: path.resolve(__dirname, 'src/renderer.ts'),
+        widget: path.resolve(__dirname, 'src/widget.tsx'),
+      },
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-d3': ['d3'],
-          'vendor-icons': ['@phosphor-icons/react'],
-          'vendor-utils': ['zustand', 'use-sync-external-store'],
+        manualChunks: (id) => {
+          // For widget entry, extract vendor libraries to separate chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
+              return 'vendor-react';
+            }
+            if (id.includes('d3')) {
+              return 'vendor-d3';
+            }
+            if (id.includes('@phosphor-icons/react')) {
+              return 'vendor-icons';
+            }
+            if (id.includes('zustand') || id.includes('use-sync-external-store')) {
+              return 'vendor-utils';
+            }
+            // Other node_modules dependencies go to vendor-misc
+            return 'vendor-misc';
+          }
+          // Application code stays in entry chunks
+          return null;
         },
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: (chunkInfo) => {
+          // Vendor chunks get consistent names for better caching
+          if (chunkInfo.name && chunkInfo.name.startsWith('vendor-')) {
+            return 'assets/[name]-[hash].js';
+          }
+          // Other chunks use hash for cache busting
+          return 'assets/[name]-[hash].js';
+        },
+        entryFileNames: (chunkInfo) => {
+          // Widget entry should have consistent name for HTTP server
+          if (chunkInfo.name === 'widget') {
+            return 'widget.js';
+          }
+          // Other entries use hash for cache busting
+          return 'assets/[name]-[hash].js';
+        },
         assetFileNames: 'assets/[name]-[hash].[ext]',
       },
     },

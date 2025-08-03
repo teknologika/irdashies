@@ -49,183 +49,177 @@
   - [x] 8.3. Return appropriate error responses for invalid types
   - [x] 8.4. Add unit tests for widget type validation
 
-- [ ] 9. Create basic widget HTML template
-  - [-] 9.1. Create minimal HTML structure with transparent background CSS
+- [x] 9. Create basic widget HTML template
+  - [x] 9.1. Create minimal HTML structure with transparent background CSS
   - [x] 9.2. Add meta tags for OBS Browser Source compatibility
   - [x] 9.3. Add script tag to load widget.js bundle
   - [x] 9.4. Include title and viewport meta tags
 
-- [ ] 10. Implement widget endpoint handler
-  - [ ] 10.1. Create Express route handler for `/widget` endpoint
-  - [ ] 10.2. Extract and validate `type` query parameter
-  - [ ] 10.3. Generate appropriate HTML response
-  - [ ] 10.4. Handle invalid widget types with error pages
-  - [ ] 10.5. Set appropriate content-type headers
+- [x] 10. Implement widget endpoint handler
+  - [x] 10.1. Create Express route handler for `/widget` endpoint
+  - [x] 10.2. Extract and validate `type` query parameter
+  - [x] 10.3. Generate appropriate HTML response
+  - [x] 10.4. Handle invalid widget types with error pages
+  - [x] 10.5. Set appropriate content-type headers
 
-- [ ] 11. Add server lifecycle management
-  - [ ] 11.1. Create HttpWidgetServer class
-  - [ ] 11.2. Implement start(), stop(), isRunning(), getCurrentPort() methods
-  - [ ] 11.3. Track server state internally
-  - [ ] 11.4. Provide getWidgetUrl() method for URL generation
-  - [ ] 11.5. Export class for use in main process
+- [x] 11. Add server lifecycle management
+  - [x] 11.1. Create HttpWidgetServer class
+  - [x] 11.2. Implement start(), stop(), isRunning(), getCurrentPort() methods
+  - [x] 11.3. Track server state internally
+  - [x] 11.4. Provide getWidgetUrl() method for URL generation
+  - [x] 11.5. Export class for use in main process
 
-- [ ] 12. Add error page generation
-  - [ ] 12.1. Generate HTML error page with helpful message
-  - [ ] 12.2. Maintain transparent background for OBS compatibility
-  - [ ] 12.3. Include list of valid widget types
-  - [ ] 12.4. Log errors to console
+- [x] 12. Add error page generation
+  - [x] 12.1. Generate HTML error page with helpful message
+  - [x] 12.2. Maintain transparent background for OBS compatibility
+  - [x] 12.3. Include list of valid widget types
+  - [x] 12.4. Log errors to console
 
-- [ ] 13. Add development vs production asset serving
-  - [ ] 13.1. Detect development vs production environment
-  - [ ] 13.2. In development: proxy to Vite dev server
-  - [ ] 13.3. In production: serve from built dist directory
-  - [ ] 13.4. Handle asset path resolution correctly
+- [x] 13. Add development vs production asset serving
+  - [x] 13.1. Detect development vs production environment
+  - [x] 13.2. In development: proxy to Vite dev server
+  - [x] 13.3. In production: serve from built dist directory
+  - [x] 13.4. Handle asset path resolution correctly
 
-- [ ] 14. Integrate server with main Electron process
-  - [ ] 14.1. Import HttpWidgetServer class in src/app/index.ts
-  - [ ] 14.2. Start server when Electron app is ready
-  - [ ] 14.3. Stop server when Electron app is quitting
-  - [ ] 14.4. Handle server startup failures gracefully
+- [x] 14. Integrate server with main Electron process
+  - [x] 14.1. Import HttpWidgetServer class in src/app/index.ts
+  - [x] 14.2. Start server when Electron app is ready
+  - [x] 14.3. Stop server when Electron app is quitting
+  - [x] 14.4. Handle server startup failures gracefully
 
-- [ ] 15. Add HTTP server logging
-  - [ ] 15.1. Log server start/stop events with port information
-  - [ ] 15.2. Log widget requests with timestamp and type
-  - [ ] 15.3. Log errors with context information
-  - [ ] 15.4. Use appropriate log levels
+- [x] 15. Add HTTP server logging
+  - [x] 15.1. Log server start/stop events with port information
+  - [x] 15.2. Log widget requests with timestamp and type
+  - [x] 15.3. Log errors with context information
+  - [x] 15.4. Use appropriate log levels
 
 ## Phase 2: Widget Entry Point
 
-- [ ] 16. Configure Vite for widget entry point
-  - [ ] 16.1. Add widget entry to build.rollupOptions.input in vite.renderer.config.ts
-  - [ ] 16.2. Configure output naming for widget bundle
-  - [ ] 16.3. Ensure proper chunk splitting
-  - [ ] 16.4. Maintain existing renderer entry point
-  - [ ] 16.5. Verify Vite builds separate widget.js bundle
+- [x] 16. Configure Vite for widget entry point
+  - [x] 16.1. Add widget entry to build.rollupOptions.input in vite.renderer.config.ts
+  - [x] 16.2. Configure output naming for widget bundle
+  - [x] 16.3. Ensure proper chunk splitting
+  - [x] 16.4. Maintain existing renderer entry point
+  - [x] 16.5. Verify Vite builds separate widget.js bundle
 
-- [ ] 17. Create widget component mapping
-  - [ ] 17.1. Create src/widget.tsx with WIDGET_COMPONENTS mapping
-  - [ ] 17.2. Map 'standings' to Standings component
-  - [ ] 17.3. Map 'trackmap' to TrackMap component
-  - [ ] 17.4. Map 'weather' to Weather component
-  - [ ] 17.5. Map 'input' to Input component
-  - [ ] 17.6. Map 'relative' to Relative component
-  - [ ] 17.7. Map 'fastercars' to FasterCarsFromBehind component
+- [x] 17. Create widget component mapping
+  - [x] 17.1. Create src/widget.tsx with WIDGET_COMPONENTS mapping
+  - [x] 17.2. Map 'standings' to Standings component
+  - [x] 17.3. Map 'trackmap' to TrackMap component
+  - [x] 17.4. Map 'weather' to Weather component
+  - [x] 17.5. Map 'input' to Input component
+  - [x] 17.6. Map 'relative' to Relative component
+  - [x] 17.7. Map 'fastercars' to FasterCarsFromBehind component
 
-- [ ] 18. Implement widget type parameter extraction
-  - [ ] 18.1. Use URLSearchParams to extract 'type' parameter
-  - [ ] 18.2. Validate extracted type against component mapping
-  - [ ] 18.3. Handle missing or invalid type parameters
-  - [ ] 18.4. Default to error state for invalid types
+- [x] 18. Implement widget type parameter extraction
+  - [x] 18.1. Use URLSearchParams to extract 'type' parameter
+  - [x] 18.2. Validate extracted type against component mapping
+  - [x] 18.3. Handle missing or invalid type parameters
+  - [x] 18.4. Default to error state for invalid types
 
-- [ ] 19. Create widget app component
-  - [ ] 19.1. Create main WidgetApp component that accepts widget type
-  - [ ] 19.2. Render appropriate widget component based on type
-  - [ ] 19.3. Handle component loading errors
-  - [ ] 19.4. Apply transparent background styling
+- [x] 19. Create widget app component
+  - [x] 19.1. Create main WidgetApp component that accepts widget type
+  - [x] 19.2. Render appropriate widget component based on type
+  - [x] 19.3. Handle component loading errors
+  - [x] 19.4. Apply transparent background styling
 
-- [ ] 20. Set up provider context for widgets
-  - [ ] 20.1. Import all existing providers (SessionStore, TelemetryStore, etc.)
-  - [ ] 20.2. Wrap widget component with same provider hierarchy as main app
-  - [ ] 20.3. Ensure IPC bridge connection works for widgets
-  - [ ] 20.4. Handle provider initialization errors
+- [x] 20. Set up provider context for widgets
+  - [x] 20.1. Import all existing providers (SessionStore, TelemetryStore, etc.)
+  - [x] 20.2. Wrap widget component with same provider hierarchy as main app
+  - [x] 20.3. Ensure IPC bridge connection works for widgets
+  - [x] 20.4. Handle provider initialization errors
 
-- [ ] 21. Add transparent background CSS
-  - [ ] 21.1. Set body background to transparent
-  - [ ] 21.2. Remove default margins and padding
-  - [ ] 21.3. Ensure widget containers have transparent backgrounds
-  - [ ] 21.4. Test transparency with OBS Browser Source
+- [x] 21. Add transparent background CSS
+  - [x] 21.1. Set body background to transparent
+  - [x] 21.2. Remove default margins and padding
+  - [x] 21.3. Ensure widget containers have transparent backgrounds
+  - [x] 21.4. Test transparency with OBS Browser Source
 
-- [ ] 22. Implement widget error boundary
-  - [ ] 22.1. Create error boundary component for widget rendering
-  - [ ] 22.2. Display error message with transparent background
-  - [ ] 22.3. Log component errors to console
-  - [ ] 22.4. Provide fallback UI for failed widgets
+- [x] 22. Implement widget error boundary
+  - [x] 22.1. Create error boundary component for widget rendering
+  - [x] 22.2. Display error message with transparent background
+  - [x] 22.3. Log component errors to console
+  - [x] 22.4. Provide fallback UI for failed widgets
 
-- [ ] 23. Add widget meta information
-  - [ ] 23.1. Add data attributes to identify widget type
-  - [ ] 23.2. Include version information in DOM
-  - [ ] 23.3. Add accessibility labels for screen readers
-  - [ ] 23.4. Set appropriate page title based on widget type
+- [x] 23. Add widget meta information
+  - [x] 23.1. Add data attributes to identify widget type
+  - [x] 23.2. Include version information in DOM
+  - [x] 23.3. Add accessibility labels for screen readers
+  - [x] 23.4. Set appropriate page title based on widget type
 
-- [ ] 24. Handle widget-specific optimizations
-  - [ ] 24.1. Optimize font sizes for streaming/OBS viewing
-  - [ ] 24.2. Remove unnecessary animations for performance
-  - [ ] 24.3. Apply appropriate contrast for streaming
-  - [ ] 24.4. Handle different widget aspect ratios
-
-- [ ] 25. Create widget entry point build script
-  - [ ] 25.1. Import React and ReactDOM
-  - [ ] 25.2. Create root element rendering
-  - [ ] 25.3. Handle DOM ready state
-  - [ ] 25.4. Add proper error handling for rendering
+- [x] 24. Create widget entry point build script
+  - [x] 24.1. Import React and ReactDOM
+  - [x] 24.2. Create root element rendering
+  - [x] 24.3. Handle DOM ready state
+  - [x] 24.4. Add proper error handling for rendering
 
 ## Phase 3: Settings Integration
 
-- [ ] 26. Create OBS Integration settings section component
-  - [ ] 26.1. Create src/frontend/components/Settings/sections/OBSIntegrationSettings.tsx
-  - [ ] 26.2. Follow existing settings section patterns
-  - [ ] 26.3. Include server status display
-  - [ ] 26.4. Add widget URL listing section
+- [ ] 25. Create OBS Integration settings section component
+  - [ ] 25.1. Create src/frontend/components/Settings/sections/OBSIntegrationSettings.tsx
+  - [ ] 25.2. Follow existing settings section patterns
+  - [ ] 25.3. Include server status display
+  - [ ] 25.4. Add widget URL listing section
 
-- [ ] 27. Add server status indicator
-  - [ ] 27.1. Show green/red status indicator
-  - [ ] 27.2. Display current port when server is running
-  - [ ] 27.3. Show error message when server fails to start
-  - [ ] 27.4. Update status in real-time
+- [ ] 26. Add server status indicator
+  - [ ] 26.1. Show green/red status indicator
+  - [ ] 26.2. Display current port when server is running
+  - [ ] 26.3. Show error message when server fails to start
+  - [ ] 26.4. Update status in real-time
 
-- [ ] 28. Implement widget URL list display
-  - [ ] 28.1. Display URL for each widget type
-  - [ ] 28.2. Include friendly name and description
-  - [ ] 28.3. Show actual port being used
-  - [ ] 28.4. Format URLs for easy reading
+- [ ] 27. Implement widget URL list display
+  - [ ] 27.1. Display URL for each widget type
+  - [ ] 27.2. Include friendly name and description
+  - [ ] 27.3. Show actual port being used
+  - [ ] 27.4. Format URLs for easy reading
 
-- [ ] 29. Add copy-to-clipboard functionality
-  - [ ] 29.1. Add copy button next to each URL
-  - [ ] 29.2. Use Clipboard API for copying
-  - [ ] 29.3. Show success/failure feedback
-  - [ ] 29.4. Handle clipboard permissions
+- [ ] 28. Add copy-to-clipboard functionality
+  - [ ] 28.1. Add copy button next to each URL
+  - [ ] 28.2. Use Clipboard API for copying
+  - [ ] 28.3. Show success/failure feedback
+  - [ ] 28.4. Handle clipboard permissions
 
-- [ ] 30. Add server toggle control
-  - [ ] 30.1. Add toggle switch for server control
-  - [ ] 30.2. Handle start/stop operations
-  - [ ] 30.3. Show loading state during operations
-  - [ ] 30.4. Display error messages for failures
+- [ ] 29. Add server toggle control
+  - [ ] 29.1. Add toggle switch for server control
+  - [ ] 29.2. Handle start/stop operations
+  - [ ] 29.3. Show loading state during operations
+  - [ ] 29.4. Display error messages for failures
 
-- [ ] 31. Create IPC bridge for server control
-  - [ ] 31.1. Create src/app/bridge/httpServerBridge.ts
-  - [ ] 31.2. Expose server control methods to renderer
-  - [ ] 31.3. Handle server status queries
-  - [ ] 31.4. Provide real-time status updates
-  - [ ] 31.5. Follow existing bridge patterns
+- [ ] 30. Create IPC bridge for server control
+  - [ ] 30.1. Create src/app/bridge/httpServerBridge.ts
+  - [ ] 30.2. Expose server control methods to renderer
+  - [ ] 30.3. Handle server status queries
+  - [ ] 30.4. Provide real-time status updates
+  - [ ] 30.5. Follow existing bridge patterns
 
-- [ ] 32. Add server configuration storage
-  - [ ] 32.1. Create src/app/storage/httpServerSettings.ts
-  - [ ] 32.2. Store server enabled/disabled preference
-  - [ ] 32.3. Remember custom port configurations
-  - [ ] 32.4. Use existing storage patterns
-  - [ ] 32.5. Handle settings migration
+- [ ] 31. Add server configuration storage
+  - [ ] 31.1. Create src/app/storage/httpServerSettings.ts
+  - [ ] 31.2. Store server enabled/disabled preference
+  - [ ] 31.3. Remember custom port configurations
+  - [ ] 31.4. Use existing storage patterns
+  - [ ] 31.5. Handle settings migration
 
-- [ ] 33. Integrate OBS settings into main settings
-  - [ ] 33.1. Import OBSIntegrationSettings component in Settings.tsx
-  - [ ] 33.2. Add to settings navigation/sections
-  - [ ] 33.3. Follow existing settings integration patterns
-  - [ ] 33.4. Ensure proper spacing and layout
+- [ ] 32. Integrate OBS settings into main settings
+  - [ ] 32.1. Import OBSIntegrationSettings component in Settings.tsx
+  - [ ] 32.2. Add to settings navigation/sections
+  - [ ] 32.3. Follow existing settings integration patterns
+  - [ ] 32.4. Ensure proper spacing and layout
 
-- [ ] 34. Add settings help text and documentation
-  - [ ] 34.1. Add step-by-step OBS Browser Source setup instructions
-  - [ ] 34.2. Include troubleshooting tips
-  - [ ] 34.3. Link to OBS documentation if helpful
-  - [ ] 34.4. Use collapsible help sections
+- [ ] 33. Add settings help text and documentation
+  - [ ] 33.1. Add step-by-step OBS Browser Source setup instructions
+  - [ ] 33.2. Include troubleshooting tips
+  - [ ] 33.3. Link to OBS documentation if helpful
+  - [ ] 33.4. Use collapsible help sections
 
-- [ ] 35. Handle settings UI responsive design
-  - [ ] 35.1. Test URL display on smaller screens
-  - [ ] 35.2. Ensure copy buttons remain accessible
-  - [ ] 35.3. Handle long URLs gracefully
-  - [ ] 35.4. Maintain consistent spacing
+- [ ] 34. Handle settings UI responsive design
+  - [ ] 34.1. Test URL display on smaller screens
+  - [ ] 34.2. Ensure copy buttons remain accessible
+  - [ ] 34.3. Handle long URLs gracefully
+  - [ ] 34.4. Maintain consistent spacing
 
 ## Phase 4: Testing & Polish
 
-- [ ] 36. Create HTTP server unit tests
+- [ ] 35. Create HTTP server unit tests
   - [ ] 36.1. Create src/app/httpServer.spec.ts
   - [ ] 36.2. Test port selection strategy
   - [ ] 36.3. Test server start/stop methods
