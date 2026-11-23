@@ -584,6 +584,9 @@ export async function publishIRacingSDKEvents(
       stop,
       changeCameraNumber: (carNumber, group, camera) =>
         sdk.changeCameraNumber(carNumber, group, camera),
+      changeCameraPosition: (position, group, camera) =>
+        sdk.changeCameraPosition(position, group, camera),
+      changeCameraState: (state) => sdk.changeCameraState(state),
       changeReplayPosition: (position, frame) =>
         sdk.changeReplayPosition(position, frame),
       changeReplaySpeed: (speed, slowMotion) =>

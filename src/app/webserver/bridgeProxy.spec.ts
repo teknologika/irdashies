@@ -84,6 +84,8 @@ function makeSource() {
     }),
     stop: vi.fn(),
     changeCameraNumber: vi.fn(),
+    changeCameraPosition: vi.fn(),
+    changeCameraState: vi.fn(),
     changeReplaySpeed: vi.fn(),
     changeReplayPosition: vi.fn(),
     triggerReplaySessionSearch: vi.fn(),

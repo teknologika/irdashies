@@ -50,7 +50,11 @@ import {
   createSubscriptionBridgeClient,
   defineBridge,
 } from './defineBridge';
-import type { TapeReplayBridge, ReplayDirectorBridge } from '@irdashies/types';
+import type {
+  TapeReplayBridge,
+  ReplayDirectorBridge,
+  BroadcastCameraBridge,
+} from '@irdashies/types';
 // The module itself, not the barrel: preload needs this one list, not every
 // default the types package exports.
 import { RENDERER_PERF_MEASURE_NAMES } from '../../types/performance';
@@ -548,5 +552,11 @@ export function exposeBridge() {
     backToProgram: () => ipcRenderer.invoke('replayDirector:backToProgram'),
     resumeAtCut: () => ipcRenderer.invoke('replayDirector:resumeAtCut'),
     stayHere: () => ipcRenderer.invoke('replayDirector:stayHere'),
+  });
+  defineBridge<BroadcastCameraBridge>('broadcastCameraBridge', {
+    switchCamera: (focus, groupNumber) =>
+      ipcRenderer.invoke('broadcastCamera:switch', focus, groupNumber),
+    setStateFlags: (flags) =>
+      ipcRenderer.invoke('broadcastCamera:setStateFlags', flags),
   });
 }

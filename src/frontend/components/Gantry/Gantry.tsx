@@ -18,12 +18,14 @@ import { useHeld } from './hooks/useGantrySessionHold';
 import { GantrySessionDataProvider } from './hooks/useGantrySessionData';
 import {
   useActiveSimulator,
+  useCameraStateUpdater,
   useRaceControlBridge,
   useReplayContextUpdater,
   useReplayTimecodeUpdater,
   useRunningState,
   useSessionDrivers,
 } from '@irdashies/context';
+import { GantryCameraBarContainer } from './components/GantryCameraBar/GantryCameraBar';
 import type { LapGraphMode } from '@irdashies/domain';
 import { simulatorDisplayName, type LapGraphAxisFit } from '@irdashies/types';
 
@@ -69,6 +71,7 @@ const GantryInner = memo(({ dock, standings }: GantryProps) => {
 
   useReplayContextUpdater();
   useReplayTimecodeUpdater();
+  useCameraStateUpdater();
   useRaceControlBridge(); // subscribe to incidents on mount
 
   const activeSimulator = useActiveSimulator();
@@ -107,6 +110,7 @@ const GantryInner = memo(({ dock, standings }: GantryProps) => {
         onAlwaysOnTopChange={setAlwaysOnTop}
       />
       <GantryProgramBarContainer />
+      <GantryCameraBarContainer drivers={drivers} />
       <GantryReplayNotice />
       <GantrySessionEndedNotice />
       {/* Above the tab switch, so both tabs' data keeps being collected and

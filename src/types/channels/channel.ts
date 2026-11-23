@@ -6,6 +6,7 @@ import type {
   StreamChatEmotesSnapshot,
   StreamChatMessagesSnapshot,
 } from '../streamChat';
+import type { CameraStateSnapshot } from './camera';
 import type { ReplayContextSnapshot } from './replayContext';
 import type { ReplayTimecodeSnapshot } from './replayTimecode';
 import type { RacePlanProgressSnapshot } from './racePlanProgress';
@@ -52,6 +53,7 @@ export interface ChannelPayloads {
   'streamchat.emotes': StreamChatEmotesSnapshot;
   'race-plan.progress': RacePlanProgressSnapshot;
   'pit-stops.snapshot': PitStopsSnapshot;
+  'camera.state': CameraStateSnapshot;
 }
 
 export interface TrackStateSnapshot {
@@ -854,6 +856,12 @@ export const channelRegistry = {
     kind: 'snapshot',
     defaultRateHz: 2,
     maxRateHz: 4,
+  },
+  // Camera focus and group change at broadcast-director pace; 5 Hz is plenty.
+  'camera.state': {
+    kind: 'snapshot',
+    defaultRateHz: 5,
+    maxRateHz: 10,
   },
 } as const satisfies ChannelRegistry;
 

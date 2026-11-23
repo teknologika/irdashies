@@ -103,6 +103,7 @@ import {
 import { ReplayContextRuntime } from './app/processors/replayContextRuntime';
 import { ReplayDirectorRuntime } from './app/processors/replayDirectorRuntime';
 import { setupReplayDirectorBridge } from './app/bridge/replayDirectorBridge';
+import { setupBroadcastCameraBridge } from './app/bridge/broadcastCameraBridge';
 import { setupTapeReplayBridge } from './app/bridge/tapeReplayBridge';
 import { createTapeReplayWindow } from './app/tapeReplayWindow';
 import type { ArchiveIndex } from './app/processors/ReplayContextProcessor';
@@ -559,6 +560,7 @@ void app.whenReady().then(async () => {
     () => getCurrentBridge()?.getTapeReplayStatus?.() ?? null
   );
   setupReplayDirectorBridge(replayDirectorRuntimeHandle);
+  setupBroadcastCameraBridge();
   setupRaceControlBridge(incidents, dashboard, replayContextRuntime, () =>
     replayDirectorRuntimeHandle?.cut()
   );

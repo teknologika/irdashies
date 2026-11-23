@@ -64,6 +64,7 @@ const SNAPSHOT_CHANNELS = [
   'track-state.snapshot',
   'lap-trace.sample',
   'race-plan.progress',
+  'camera.state',
 ] as const satisfies readonly SnapshotChannelName[];
 
 type SnapshotChannel = (typeof SNAPSHOT_CHANNELS)[number];

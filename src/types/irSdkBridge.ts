@@ -47,6 +47,12 @@ export interface IrSdkSourceBridge extends IrSdkBridge {
     group: number,
     camera: number
   ) => void;
+  changeCameraPosition: (
+    position: number,
+    group: number,
+    camera: number
+  ) => void;
+  changeCameraState: (state: number) => void;
   changeReplayPosition: (
     position: ReplayPositionCommand,
     frame: number

@@ -46,5 +46,6 @@ declare global {
     /** Absent outside the Electron preload, e.g. the browser server. */
     racePlanBridge?: import('./types/racePlan').RacePlanBridge;
     replayDirectorBridge?: import('./types/replayDirector').ReplayDirectorBridge;
+    broadcastCameraBridge?: import('./types/broadcastCamera').BroadcastCameraBridge;
   }
 }

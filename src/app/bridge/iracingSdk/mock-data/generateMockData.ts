@@ -426,6 +426,10 @@ export function generateMockData(sessionData?: {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     changeCameraNumber: () => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function
+    changeCameraPosition: () => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    changeCameraState: () => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     changeReplaySpeed: () => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     changeReplayPosition: () => {},
