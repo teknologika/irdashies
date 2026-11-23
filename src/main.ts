@@ -101,6 +101,7 @@ import {
   sealLapHistorySession,
 } from './app/storage/lapHistoryStorage';
 import { ReplayContextRuntime } from './app/processors/replayContextRuntime';
+import { setupBroadcastCameraBridge } from './app/bridge/broadcastCameraBridge';
 import { setupTapeReplayBridge } from './app/bridge/tapeReplayBridge';
 import { createTapeReplayWindow } from './app/tapeReplayWindow';
 import type { ArchiveIndex } from './app/processors/ReplayContextProcessor';
@@ -550,6 +551,7 @@ void app.whenReady().then(async () => {
   replayContextRuntime.onChange((context) =>
     incidents.updateReplayPaused(context.mode === 'replayFile')
   );
+  setupBroadcastCameraBridge();
   setupRaceControlBridge(incidents, dashboard, replayContextRuntime);
   setupLapHistoryRuntime(dashboard, replayContextRuntime);
   setupPitStopRuntime(dashboard, replayContextRuntime);

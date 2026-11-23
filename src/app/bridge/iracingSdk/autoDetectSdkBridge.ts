@@ -359,6 +359,9 @@ export async function publishAutoDetectedSdkEvents(
       runningStateCallbacks.clear();
     },
     changeCameraNumber: (...args) => activeBridge?.changeCameraNumber(...args),
+    changeCameraPosition: (...args) =>
+      activeBridge?.changeCameraPosition(...args),
+    changeCameraState: (...args) => activeBridge?.changeCameraState(...args),
     changeReplayPosition: (...args) =>
       activeBridge?.changeReplayPosition(...args),
     triggerReplaySessionSearch: (...args) =>

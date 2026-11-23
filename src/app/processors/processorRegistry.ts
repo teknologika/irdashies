@@ -38,6 +38,7 @@ import { CarDynamicsProcessor } from './CarDynamicsProcessor';
 import { SessionTimingProcessor } from './SessionTimingProcessor';
 import { StandingsProcessor } from './StandingsProcessor';
 import { TrackStateProcessor } from './TrackStateProcessor';
+import { CameraStateProcessor } from './CameraStateProcessor';
 import type { PoleSideSettings } from '@irdashies/types';
 
 interface ProcessorRegistryOptions {
@@ -200,6 +201,14 @@ export const createProcessorDefinitions = ({
     channel: 'lap-log.snapshot',
     metricsPrefix: 'lapLog',
     create: () => new LapLogProcessor(),
+  }),
+  defineProcessor({
+    channel: 'camera.state',
+    metricsPrefix: 'cameraState',
+    // The Gantry needs camera state even while minimised so the bar stays
+    // accurate when the operator returns.
+    processWhileHidden: true,
+    create: () => new CameraStateProcessor(),
   }),
   defineProcessor({
     channel: 'race-plan.progress',

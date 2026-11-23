@@ -63,6 +63,8 @@ const createFakeSource = () => {
     // Broadcast commands added for the Gantry's race-control features; the
     // preview never drives the replay, so they are inert here.
     changeCameraNumber: () => undefined,
+    changeCameraPosition: () => undefined,
+    changeCameraState: () => undefined,
     changeReplayPosition: () => undefined,
     triggerReplaySessionSearch: () => undefined,
     stop: () => undefined,

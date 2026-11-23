@@ -35,6 +35,8 @@ function fakeSim(id: ActiveSimulator, priority: number) {
     },
     stop: vi.fn(),
     changeCameraNumber: () => undefined,
+    changeCameraPosition: () => undefined,
+    changeCameraState: () => undefined,
     changeReplayPosition: () => undefined,
     triggerReplaySessionSearch: () => undefined,
   };
