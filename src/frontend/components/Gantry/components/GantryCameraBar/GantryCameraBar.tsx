@@ -1,5 +1,5 @@
-import { memo, useState, useCallback } from 'react';
-import { Monitor } from '@phosphor-icons/react';
+import { memo, useState, useCallback, useRef, useEffect } from 'react';
+import { CaretDown } from '@phosphor-icons/react';
 import {
   useCameraStateSnapshot,
   useSessionCameraGroups,
@@ -14,23 +14,53 @@ export interface GantryCameraBarDriver {
   name: string;
 }
 
+/** Which autonomous mode the FOLLOWING row's buttons are in. */
+export type CameraFollowMode = 'driver' | 'crashes' | 'leader' | 'exiting';
+
 export interface GantryCameraBarProps {
   drivers: GantryCameraBarDriver[];
+  stagedCarIdx: number | null;
+  onStageChange: (carIdx: number | null) => void;
+  followMode: CameraFollowMode;
+  onFollowModeChange: (mode: CameraFollowMode) => void;
   onSwitchCamera: (focus: CameraFocusMode, groupNumber: number) => void;
   onSetStateFlags: (flags: number) => void;
   cameraGroups: CameraGroup[] | undefined;
   activeCamGroupNumber: number;
+  activeCamCarIdx: number;
   activeCamState: number;
 }
 
-const FOCUS_BUTTONS: {
-  mode: Exclude<CameraFocusMode, { type: 'driver' }>;
-  label: string;
-}[] = [
-  { mode: { type: 'crashes' }, label: 'Crashes' },
-  { mode: { type: 'leader' }, label: 'Leader' },
-  { mode: { type: 'exiting' }, label: 'Exiting' },
+export interface GantryCameraBarContainerProps {
+  drivers: GantryCameraBarDriver[];
+  stagedCarIdx: number | null;
+  onStageChange: (carIdx: number | null) => void;
+  followMode: CameraFollowMode;
+  onFollowModeChange: (mode: CameraFollowMode) => void;
+}
+
+const FOLLOW_MODES: { mode: CameraFollowMode; label: string }[] = [
+  { mode: 'driver', label: 'Driver' },
+  { mode: 'crashes', label: 'Crashes' },
+  { mode: 'leader', label: 'Leader' },
+  { mode: 'exiting', label: 'Most exciting' },
 ];
+
+function toFocusMode(
+  mode: CameraFollowMode,
+  carNumber?: string
+): CameraFocusMode {
+  switch (mode) {
+    case 'driver':
+      return { type: 'driver', carNumber: carNumber ?? '' };
+    case 'crashes':
+      return { type: 'crashes' };
+    case 'leader':
+      return { type: 'leader' };
+    case 'exiting':
+      return { type: 'exiting' };
+  }
+}
 
 function isBroadcastGroup(groupName: string): boolean {
   const lower = groupName.toLowerCase();
@@ -64,43 +94,78 @@ function categoriseGroups(groups: CameraGroup[]): {
 export const GantryCameraBar = memo(
   ({
     drivers,
+    stagedCarIdx,
+    onStageChange,
+    followMode,
+    onFollowModeChange,
     onSwitchCamera,
     onSetStateFlags,
     cameraGroups,
     activeCamGroupNumber,
+    activeCamCarIdx,
     activeCamState,
   }: GantryCameraBarProps) => {
-    const [stagedCarIdx, setStagedCarIdx] = useState<number | null>(null);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const isUiHidden = (activeCamState & CAM_STATE_UI_HIDDEN) !== 0;
     const groups = cameraGroups ?? [];
     const { onboard, broadcast } = categoriseGroups(groups);
+    const broadcastShortcuts = broadcast.slice(0, 5);
 
-    const handleFollowDriver = useCallback(
-      (carIdx: number) => {
-        const driver = drivers.find((d) => d.carIdx === carIdx);
-        if (!driver) return;
-        onSwitchCamera(
-          { type: 'driver', carNumber: driver.carNumber },
-          activeCamGroupNumber
-        );
-      },
-      [drivers, onSwitchCamera, activeCamGroupNumber]
-    );
+    const activeGroup = groups.find((g) => g.GroupNum === activeCamGroupNumber);
+    const activeGroupName =
+      activeGroup?.GroupName ??
+      (groups.length === 0 ? '—' : `Group ${activeCamGroupNumber}`);
 
-    const handleFollowMode = useCallback(
-      (mode: Exclude<CameraFocusMode, { type: 'driver' }>) => {
-        onSwitchCamera(mode, activeCamGroupNumber);
+    const stagedDriver =
+      stagedCarIdx !== null
+        ? drivers.find((d) => d.carIdx === stagedCarIdx)
+        : null;
+
+    useEffect(() => {
+      if (!dropdownOpen) return;
+      const handleClickOutside = (e: MouseEvent) => {
+        if (
+          dropdownRef.current &&
+          !dropdownRef.current.contains(e.target as Node)
+        ) {
+          setDropdownOpen(false);
+        }
+      };
+      document.addEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
+    }, [dropdownOpen]);
+
+    const handleFollowModeClick = useCallback(
+      (mode: CameraFollowMode) => {
+        onFollowModeChange(mode);
+        if (mode !== 'driver') {
+          onSwitchCamera(toFocusMode(mode), activeCamGroupNumber);
+        }
       },
-      [onSwitchCamera, activeCamGroupNumber]
+      [onFollowModeChange, onSwitchCamera, activeCamGroupNumber]
     );
 
     const handleGroupChange = useCallback(
       (groupNumber: number) => {
-        const snap = { type: 'crashes' } as CameraFocusMode;
-        onSwitchCamera(snap, groupNumber);
+        setDropdownOpen(false);
+        if (followMode === 'driver') {
+          const driver = drivers.find((d) => d.carIdx === activeCamCarIdx);
+          if (driver) {
+            onSwitchCamera(
+              { type: 'driver', carNumber: driver.carNumber },
+              groupNumber
+            );
+            return;
+          }
+          onSwitchCamera({ type: 'crashes' }, groupNumber);
+          return;
+        }
+        onSwitchCamera(toFocusMode(followMode), groupNumber);
       },
-      [onSwitchCamera]
+      [followMode, drivers, activeCamCarIdx, onSwitchCamera]
     );
 
     const handleCut = useCallback(() => {
@@ -111,7 +176,16 @@ export const GantryCameraBar = memo(
         { type: 'driver', carNumber: driver.carNumber },
         activeCamGroupNumber
       );
-    }, [stagedCarIdx, drivers, onSwitchCamera, activeCamGroupNumber]);
+      onFollowModeChange('driver');
+      onStageChange(null);
+    }, [
+      stagedCarIdx,
+      drivers,
+      onSwitchCamera,
+      activeCamGroupNumber,
+      onFollowModeChange,
+      onStageChange,
+    ]);
 
     const handleHideUiToggle = useCallback(() => {
       const next = isUiHidden
@@ -120,116 +194,192 @@ export const GantryCameraBar = memo(
       onSetStateFlags(next);
     }, [isUiHidden, activeCamState, onSetStateFlags]);
 
-    const quickDrivers = drivers.slice(0, 5);
-
     return (
       <div
         role="toolbar"
         aria-label="Camera controls"
-        className="settings-shell shrink-0 flex flex-col gap-0 border-b border-slate-700 bg-slate-900 text-white text-xs"
+        className="settings-shell shrink-0 flex flex-col border-b border-slate-700 bg-slate-900 text-white text-xs"
       >
-        {/* Row 1 — following mode + camera group + hide UI */}
+        {/* Row 1 — FOLLOWING mode + NEXT + CUT */}
         <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-slate-800">
-          <span className="text-slate-500 shrink-0 mr-0.5">Follow</span>
-          {FOCUS_BUTTONS.map(({ mode, label }) => (
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 shrink-0 mr-1">
+            Following
+          </span>
+
+          {FOLLOW_MODES.map(({ mode, label }) => (
             <button
-              key={mode.type}
+              key={mode}
               type="button"
-              onClick={() => handleFollowMode(mode)}
-              className="inline-flex items-center px-2 h-6 rounded text-slate-300 transition-colors hover:bg-slate-700 hover:text-white shrink-0"
+              onClick={() => handleFollowModeClick(mode)}
+              className={[
+                'inline-flex items-center px-2.5 h-6 rounded text-xs font-medium transition-colors shrink-0',
+                mode === followMode
+                  ? 'bg-red-900/40 border border-red-700 text-red-400'
+                  : 'text-slate-400 border border-transparent hover:border-slate-600 hover:text-slate-200',
+              ].join(' ')}
             >
               {label}
             </button>
           ))}
-          <span
-            aria-hidden="true"
-            className="h-4 w-px bg-slate-700 mx-0.5 shrink-0"
-          />
-          {groups.length > 0 && (
-            <select
-              aria-label="Camera group"
-              value={activeCamGroupNumber}
-              onChange={(e) => handleGroupChange(Number(e.target.value))}
-              className="settings-field h-6 py-0 text-xs min-w-0 w-36"
-            >
-              {onboard.length > 0 && (
-                <optgroup label="Onboard">
-                  {onboard.map((g) => (
-                    <option key={g.GroupNum} value={g.GroupNum}>
-                      {g.GroupName}
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-              {broadcast.length > 0 && (
-                <optgroup label="Broadcast">
-                  {broadcast.map((g) => (
-                    <option key={g.GroupNum} value={g.GroupNum}>
-                      {g.GroupName}
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-            </select>
-          )}
-          <div className="flex-1" />
-          <button
-            type="button"
-            aria-label="Hide iRacing UI"
-            aria-pressed={isUiHidden}
-            onClick={handleHideUiToggle}
-            className="inline-flex items-center gap-1 px-2 h-6 rounded text-slate-400 transition-colors hover:bg-slate-700 hover:text-white aria-pressed:bg-slate-700 aria-pressed:text-white shrink-0"
-          >
-            <Monitor size={13} />
-            Hide UI
-          </button>
-        </div>
 
-        {/* Row 2 — stage + CUT + quick driver buttons */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5">
-          <span className="text-slate-500 shrink-0 mr-0.5">Next</span>
-          <select
-            aria-label="Stage driver"
-            value={stagedCarIdx ?? ''}
-            onChange={(e) =>
-              setStagedCarIdx(e.target.value ? Number(e.target.value) : null)
-            }
-            className="settings-field h-6 py-0 text-xs w-40 min-w-0"
+          <div className="flex-1" />
+
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 mr-1">
+            Next
+          </span>
+          <div
+            className={[
+              'inline-flex items-center px-2.5 h-6 rounded min-w-[80px] max-w-[140px] text-xs transition-all truncate',
+              stagedDriver
+                ? 'border border-amber-500 text-amber-300 bg-amber-900/15'
+                : 'border border-dashed border-slate-600 text-slate-500',
+            ].join(' ')}
           >
-            <option value="">— select driver —</option>
-            {drivers.map((d) => (
-              <option key={d.carIdx} value={d.carIdx}>
-                #{d.carNumber} {d.name}
-              </option>
-            ))}
-          </select>
+            {stagedDriver ? stagedDriver.name : '—'}
+          </div>
           <button
             type="button"
             disabled={stagedCarIdx === null}
             onClick={handleCut}
-            className="inline-flex items-center px-3 h-6 rounded text-xs font-semibold text-slate-900 bg-red-500 transition-colors hover:bg-red-400 disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+            className="inline-flex items-center px-3 h-6 rounded text-xs font-semibold text-slate-900 bg-amber-500 transition-colors hover:bg-amber-400 disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
           >
             CUT
           </button>
-          {quickDrivers.length > 0 && (
-            <>
-              <span
-                aria-hidden="true"
-                className="h-4 w-px bg-slate-700 mx-0.5 shrink-0"
-              />
-              {quickDrivers.map((d) => (
-                <button
-                  key={d.carIdx}
-                  type="button"
-                  onClick={() => handleFollowDriver(d.carIdx)}
-                  className="inline-flex items-center px-2 h-6 rounded font-mono text-slate-300 transition-colors hover:bg-slate-700 hover:text-white shrink-0"
-                  title={d.name}
+        </div>
+
+        {/* Row 2 — CAMERA group dropdown + shortcuts + Hide UI toggle */}
+        <div className="flex items-center gap-1.5 px-3 py-1.5">
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 shrink-0 mr-1">
+            Camera
+          </span>
+
+          {groups.length > 0 && (
+            <div ref={dropdownRef} className="relative">
+              <button
+                type="button"
+                aria-label={`Camera group: ${activeGroupName}`}
+                aria-expanded={dropdownOpen}
+                aria-haspopup="listbox"
+                onClick={() => setDropdownOpen((prev) => !prev)}
+                className={[
+                  'inline-flex items-center gap-1 px-2.5 h-6 rounded text-xs transition-colors shrink-0',
+                  dropdownOpen
+                    ? 'border border-slate-500 text-white bg-slate-700'
+                    : 'border border-slate-600 text-slate-300 hover:border-slate-500 hover:text-white hover:bg-slate-800',
+                ].join(' ')}
+              >
+                <span className="max-w-[90px] truncate">{activeGroupName}</span>
+                <CaretDown
+                  size={10}
+                  className={`shrink-0 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+
+              {dropdownOpen && (
+                <div
+                  role="listbox"
+                  aria-label="Camera group"
+                  className="absolute top-full left-0 mt-1 z-50 bg-slate-800 border border-slate-600 rounded shadow-xl min-w-[160px] max-h-64 overflow-y-auto py-1"
                 >
-                  #{d.carNumber}
-                </button>
-              ))}
-            </>
+                  {onboard.length > 0 && (
+                    <>
+                      <div className="px-2.5 pt-1.5 pb-0.5 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+                        Onboard
+                      </div>
+                      {onboard.map((g) => (
+                        <button
+                          key={g.GroupNum}
+                          type="button"
+                          role="option"
+                          aria-selected={g.GroupNum === activeCamGroupNumber}
+                          onClick={() => handleGroupChange(g.GroupNum)}
+                          className={[
+                            'w-full text-left px-3 py-1 text-xs hover:bg-slate-700 transition-colors',
+                            g.GroupNum === activeCamGroupNumber
+                              ? 'text-red-400 bg-red-900/20'
+                              : 'text-slate-300',
+                          ].join(' ')}
+                        >
+                          {g.GroupName}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                  {broadcast.length > 0 && (
+                    <>
+                      <div className="px-2.5 pt-1.5 pb-0.5 text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+                        Broadcast
+                      </div>
+                      {broadcast.map((g) => (
+                        <button
+                          key={g.GroupNum}
+                          type="button"
+                          role="option"
+                          aria-selected={g.GroupNum === activeCamGroupNumber}
+                          onClick={() => handleGroupChange(g.GroupNum)}
+                          className={[
+                            'w-full text-left px-3 py-1 text-xs hover:bg-slate-700 transition-colors',
+                            g.GroupNum === activeCamGroupNumber
+                              ? 'text-red-400 bg-red-900/20'
+                              : 'text-slate-300',
+                          ].join(' ')}
+                        >
+                          {g.GroupName}
+                        </button>
+                      ))}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           )}
+
+          {broadcastShortcuts.length > 0 && (
+            <span
+              aria-hidden="true"
+              className="h-4 w-px bg-slate-700 mx-0.5 shrink-0"
+            />
+          )}
+
+          {broadcastShortcuts.map((g) => (
+            <button
+              key={g.GroupNum}
+              type="button"
+              onClick={() => handleGroupChange(g.GroupNum)}
+              className={[
+                'inline-flex items-center px-2.5 h-6 rounded text-xs transition-colors shrink-0',
+                g.GroupNum === activeCamGroupNumber
+                  ? 'bg-red-900/40 border border-red-700 text-red-400'
+                  : 'text-slate-400 border border-transparent hover:border-slate-600 hover:text-slate-200',
+              ].join(' ')}
+            >
+              {g.GroupName}
+            </button>
+          ))}
+
+          <div className="flex-1" />
+
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 mr-1.5">
+            Hide UI
+          </span>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={isUiHidden}
+            aria-label="Hide iRacing UI overlay"
+            onClick={handleHideUiToggle}
+            className={[
+              'relative w-8 h-4 rounded-full transition-colors shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-400',
+              isUiHidden ? 'bg-red-600' : 'bg-slate-600',
+            ].join(' ')}
+          >
+            <span
+              className={[
+                'absolute top-[1px] left-[1px] w-3.5 h-3.5 rounded-full bg-white shadow transition-transform',
+                isUiHidden ? 'translate-x-4' : 'translate-x-0',
+              ].join(' ')}
+            />
+          </button>
         </div>
       </div>
     );
@@ -238,7 +388,13 @@ export const GantryCameraBar = memo(
 GantryCameraBar.displayName = 'GantryCameraBar';
 
 export const GantryCameraBarContainer = memo(
-  ({ drivers }: { drivers: GantryCameraBarDriver[] }) => {
+  ({
+    drivers,
+    stagedCarIdx,
+    onStageChange,
+    followMode,
+    onFollowModeChange,
+  }: GantryCameraBarContainerProps) => {
     const snap = useCameraStateSnapshot();
     const cameraGroups = useSessionCameraGroups();
 
@@ -256,10 +412,15 @@ export const GantryCameraBarContainer = memo(
     return (
       <GantryCameraBar
         drivers={drivers}
+        stagedCarIdx={stagedCarIdx}
+        onStageChange={onStageChange}
+        followMode={followMode}
+        onFollowModeChange={onFollowModeChange}
         onSwitchCamera={handleSwitchCamera}
         onSetStateFlags={handleSetStateFlags}
         cameraGroups={cameraGroups}
         activeCamGroupNumber={snap.camGroupNumber}
+        activeCamCarIdx={snap.camCarIdx}
         activeCamState={snap.camCameraState}
       />
     );

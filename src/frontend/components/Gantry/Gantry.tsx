@@ -1,4 +1,10 @@
-import React, { memo, useMemo, useState, type ReactNode } from 'react';
+import React, {
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import { GantryTabBar } from './components/GantryTabBar/GantryTabBar';
 import { GantryStandings } from './components/GantryStandings/GantryStandings';
 import { GantryIncidents } from './components/GantryIncidents/GantryIncidents';
@@ -17,13 +23,17 @@ import { useHeld } from './hooks/useGantrySessionHold';
 import { GantrySessionDataProvider } from './hooks/useGantrySessionData';
 import {
   useActiveSimulator,
+  useCameraStateSnapshot,
   useCameraStateUpdater,
   useRaceControlBridge,
   useReplayContextUpdater,
   useRunningState,
   useSessionDrivers,
 } from '@irdashies/context';
-import { GantryCameraBarContainer } from './components/GantryCameraBar/GantryCameraBar';
+import {
+  GantryCameraBarContainer,
+  type CameraFollowMode,
+} from './components/GantryCameraBar/GantryCameraBar';
 import type { LapGraphMode } from '@irdashies/domain';
 import { simulatorDisplayName, type LapGraphAxisFit } from '@irdashies/types';
 
@@ -52,6 +62,8 @@ const GantryInner = memo(({ dock, standings }: GantryProps) => {
   );
   const [followedCarIdx, setFollowedCarIdx] = useState<number | null>(null);
   const [alwaysOnTop, setAlwaysOnTop] = useGantryAlwaysOnTop();
+  const [stagedCarIdx, setStagedCarIdx] = useState<number | null>(null);
+  const [followMode, setFollowMode] = useState<CameraFollowMode>('driver');
 
   // The lap graph unmounts when the other tab is showing, so its choices live
   // here. null means "follow the saved setting"; the view decides what that is.
@@ -92,6 +104,22 @@ const GantryInner = memo(({ dock, standings }: GantryProps) => {
     [sessionDrivers]
   );
 
+  const camSnap = useCameraStateSnapshot();
+
+  const handleDriverCut = useCallback(
+    (carIdx: number) => {
+      const driver = drivers.find((d) => d.carIdx === carIdx);
+      if (!driver) return;
+      void window.broadcastCameraBridge?.switchCamera(
+        { type: 'driver', carNumber: driver.carNumber },
+        camSnap.camGroupNumber
+      );
+      setStagedCarIdx(null);
+      setFollowMode('driver');
+    },
+    [drivers, camSnap.camGroupNumber]
+  );
+
   return (
     <div className="w-full h-full flex flex-col bg-settings-page text-white overflow-hidden">
       <GantryTabBar
@@ -106,7 +134,13 @@ const GantryInner = memo(({ dock, standings }: GantryProps) => {
         alwaysOnTop={alwaysOnTop}
         onAlwaysOnTopChange={setAlwaysOnTop}
       />
-      <GantryCameraBarContainer drivers={drivers} />
+      <GantryCameraBarContainer
+        drivers={drivers}
+        stagedCarIdx={stagedCarIdx}
+        onStageChange={setStagedCarIdx}
+        followMode={followMode}
+        onFollowModeChange={setFollowMode}
+      />
       <GantryReplayNotice />
       <GantrySessionEndedNotice />
       {/* Above the tab switch, so both tabs' data keeps being collected and
@@ -123,7 +157,13 @@ const GantryInner = memo(({ dock, standings }: GantryProps) => {
                     {standings(followedCarIdx)}
                   </GantryPanel>
                 ) : (
-                  <GantryStandings followedCarIdx={followedCarIdx} />
+                  <GantryStandings
+                    followedCarIdx={followedCarIdx}
+                    stagedCarIdx={stagedCarIdx}
+                    onCamCarIdx={camSnap.camCarIdx}
+                    onDriverStage={setStagedCarIdx}
+                    onDriverCut={handleDriverCut}
+                  />
                 )
               }
               right={

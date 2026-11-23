@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useMemo } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { getTailwindStyle } from '@irdashies/utils/colors';
 import { formatTime } from '@irdashies/utils/time';
 import { Compound } from '../../../shared/Compound/Compound';
@@ -21,6 +21,10 @@ import type { NameFormat } from '@irdashies/types';
 
 interface Props {
   followedCarIdx: number | null;
+  stagedCarIdx?: number | null;
+  onCamCarIdx?: number;
+  onDriverStage?: (carIdx: number | null) => void;
+  onDriverCut?: (carIdx: number) => void;
 }
 
 const DELTA_TOOLTIPS = [
@@ -55,7 +59,7 @@ HeaderCell.displayName = 'HeaderCell';
 const COL = {
   position: 'w-7 shrink-0 text-center',
   carNumber: 'w-11 shrink-0 text-center border-l-2',
-  name: 'flex-1 min-w-[120px] truncate pl-1.5',
+  name: 'flex-1 min-w-[120px] pl-1.5',
   compound: 'w-6 shrink-0',
   rating: 'w-[52px] shrink-0',
   pit: 'w-8 shrink-0 text-center',
@@ -80,7 +84,7 @@ const StandingsHeader = memo(() => (
     />
     <HeaderCell
       label="Driver"
-      tip="Driver name, in the format set on the Gantry options tab. Click any row to point the sim camera at that car — this only does anything in a replay or while spectating."
+      tip="Driver name. Click to stage as next camera target · Double-click to cut immediately."
       className={`${COL.name} text-left`}
     />
     <HeaderCell
@@ -151,88 +155,100 @@ const formatInterval = (
   return interval.toFixed(1);
 };
 
-export const GantryStandings = memo(({ followedCarIdx }: Props) => {
-  // Resolved here and passed down, so the rows stay driven by props rather
-  // than reaching into context themselves.
-  const simulator = useActiveSimulator();
-  const showRatings = simulatorHasDriverRatings(simulator);
-  const nameFormat = useGantrySettings()?.driverNameFormat ?? 'surname';
-  const { standingsByClass } = useGantrySessionData();
-  const followedRef = useRef<HTMLDivElement | null>(null);
+export const GantryStandings = memo(
+  ({
+    followedCarIdx,
+    stagedCarIdx,
+    onCamCarIdx,
+    onDriverStage,
+    onDriverCut,
+  }: Props) => {
+    const simulator = useActiveSimulator();
+    const showRatings = simulatorHasDriverRatings(simulator);
+    const nameFormat = useGantrySettings()?.driverNameFormat ?? 'surname';
+    const { standingsByClass } = useGantrySessionData();
+    const followedRef = useRef<HTMLDivElement | null>(null);
 
-  // Clicking a row points the sim's camera at that car.
-  const handleFocusDriver = useFocusDriver();
-  const highlightColor = useHighlightColor();
-  const highlightColorHex = `#${highlightColor.toString(16).padStart(6, '0')}`;
+    const handleFocusDriver = useFocusDriver();
+    const highlightColor = useHighlightColor();
+    const highlightColorHex = `#${highlightColor.toString(16).padStart(6, '0')}`;
 
-  useEffect(() => {
-    followedRef.current?.scrollIntoView({
-      block: 'nearest',
-      behavior: 'smooth',
-    });
-  }, [followedCarIdx]);
+    useEffect(() => {
+      followedRef.current?.scrollIntoView({
+        block: 'nearest',
+        behavior: 'smooth',
+      });
+    }, [followedCarIdx]);
 
-  const isMultiClass = standingsByClass.length > 1;
+    const isMultiClass = standingsByClass.length > 1;
 
-  return (
-    <GantryPanel title="Standings">
-      {/* One scroller for the header and the rows. A narrow window scrolls both
-          together instead of shrinking the columns out of line. */}
-      <div className="flex-1 min-h-0 overflow-auto scroll-pt-[26px]">
-        <div className="min-w-min">
-          <StandingsHeader />
-          {standingsByClass.map(([classId, classDrivers]) => {
-            const firstDriver = classDrivers[0];
-            const carClass = firstDriver?.carClass;
-            const classColorHex =
-              carClass?.color !== undefined
-                ? `#${carClass.color.toString(16).padStart(6, '0')}`
-                : '#94a3b8';
-            return (
-              <div key={classId}>
-                {/* Class header */}
-                <div
-                  className="flex h-[26px] items-center gap-2 border-b border-slate-700 bg-slate-900 px-2"
-                  style={{
-                    borderLeftColor: classColorHex,
-                    borderLeftWidth: 2,
-                  }}
-                >
-                  <Tooltip
-                    content="Car class group. Position, gap and interval are all worked out within the class, not against the whole field."
-                    placement="bottom"
+    return (
+      <GantryPanel title="Standings">
+        <div className="flex-1 min-h-0 overflow-auto scroll-pt-[26px]">
+          <div className="min-w-min">
+            <StandingsHeader />
+            {standingsByClass.map(([classId, classDrivers]) => {
+              const firstDriver = classDrivers[0];
+              const carClass = firstDriver?.carClass;
+              const classColorHex =
+                carClass?.color !== undefined
+                  ? `#${carClass.color.toString(16).padStart(6, '0')}`
+                  : '#94a3b8';
+              return (
+                <div key={classId}>
+                  <div
+                    className="flex h-[26px] items-center gap-2 border-b border-slate-700 bg-slate-900 px-2"
+                    style={{
+                      borderLeftColor: classColorHex,
+                      borderLeftWidth: 2,
+                    }}
                   >
-                    <span
-                      tabIndex={0}
-                      className="cursor-help text-xs font-semibold uppercase tracking-[0.06em] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent-400"
-                      style={{ color: classColorHex }}
+                    <Tooltip
+                      content="Car class group. Position, gap and interval are all worked out within the class, not against the whole field."
+                      placement="bottom"
                     >
-                      {carClass?.name}
-                    </span>
-                  </Tooltip>
+                      <span
+                        tabIndex={0}
+                        className="cursor-help text-xs font-semibold uppercase tracking-[0.06em] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent-400"
+                        style={{ color: classColorHex }}
+                      >
+                        {carClass?.name}
+                      </span>
+                    </Tooltip>
+                  </div>
+                  {classDrivers.map((driver) => (
+                    <GantryDriverRow
+                      key={driver.carIdx}
+                      driver={driver}
+                      followedCarIdx={followedCarIdx}
+                      followedRef={followedRef}
+                      isMultiClass={isMultiClass}
+                      highlightColorHex={highlightColorHex}
+                      nameFormat={nameFormat}
+                      onFocusDriver={handleFocusDriver}
+                      showRatings={showRatings}
+                      isOnCam={
+                        onCamCarIdx !== undefined &&
+                        driver.carIdx === onCamCarIdx
+                      }
+                      isStaged={
+                        stagedCarIdx !== undefined &&
+                        stagedCarIdx !== null &&
+                        driver.carIdx === stagedCarIdx
+                      }
+                      onStage={onDriverStage}
+                      onCut={onDriverCut}
+                    />
+                  ))}
                 </div>
-                {/* Driver rows */}
-                {classDrivers.map((driver) => (
-                  <GantryDriverRow
-                    key={driver.carIdx}
-                    driver={driver}
-                    followedCarIdx={followedCarIdx}
-                    followedRef={followedRef}
-                    isMultiClass={isMultiClass}
-                    highlightColorHex={highlightColorHex}
-                    nameFormat={nameFormat}
-                    onFocusDriver={handleFocusDriver}
-                    showRatings={showRatings}
-                  />
-                ))}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </GantryPanel>
-  );
-});
+      </GantryPanel>
+    );
+  }
+);
 GantryStandings.displayName = 'GantryStandings';
 
 interface GantryDriverRowProps {
@@ -243,8 +259,11 @@ interface GantryDriverRowProps {
   highlightColorHex: string;
   nameFormat: NameFormat;
   onFocusDriver: (carNumber: string) => void;
-  /** False when the running simulator has no driver-rating system. */
   showRatings: boolean;
+  isOnCam?: boolean;
+  isStaged?: boolean;
+  onStage?: (carIdx: number | null) => void;
+  onCut?: (carIdx: number) => void;
 }
 
 const GantryDriverRow = memo(
@@ -257,9 +276,14 @@ const GantryDriverRow = memo(
     nameFormat,
     onFocusDriver,
     showRatings,
+    isOnCam,
+    isStaged,
+    onStage,
+    onCut,
   }: GantryDriverRowProps) => {
     const isPlayer = driver.isPlayer;
     const isFollowed = driver.carIdx === followedCarIdx;
+    const hasStaging = onStage !== undefined || onCut !== undefined;
 
     const tailwindStyles = useMemo(
       () => getTailwindStyle(driver.carClass.color, undefined, isMultiClass),
@@ -275,7 +299,6 @@ const GantryDriverRow = memo(
     const lastTimeStr = formatTime(driver.lastTime);
 
     const lapDeltas = driver.lapTimeDeltas;
-    // Show the last 3 deltas (most recent last) — map to L-3, L-2, L-1
     const numDeltas = 3;
     const deltaSlots = Array.from({ length: numDeltas }, (_, i) => {
       if (!lapDeltas || lapDeltas.length === 0) return undefined;
@@ -285,19 +308,85 @@ const GantryDriverRow = memo(
 
     const pitLabel = driver.onPitRoad ? 'PIT' : driver.dnf ? 'DNF' : '';
 
+    // Double-click detection: first click sets a timer; a second click within
+    // 200 ms cancels the timer and lets onDoubleClick handle the action.
+    const isStagedRef = useRef(isStaged);
+    isStagedRef.current = isStaged;
+    const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const handleClick = useCallback(() => {
+      if (!hasStaging) {
+        onFocusDriver(driver.driver.carNum);
+        return;
+      }
+      if (clickTimerRef.current !== null) {
+        clearTimeout(clickTimerRef.current);
+        clickTimerRef.current = null;
+        return;
+      }
+      clickTimerRef.current = setTimeout(() => {
+        clickTimerRef.current = null;
+        if (isStagedRef.current) {
+          onStage?.(null);
+        } else {
+          onStage?.(driver.carIdx);
+        }
+      }, 200);
+    }, [
+      hasStaging,
+      onFocusDriver,
+      driver.driver.carNum,
+      driver.carIdx,
+      onStage,
+    ]);
+
+    const handleDoubleClick = useCallback(() => {
+      if (!hasStaging) return;
+      if (clickTimerRef.current !== null) {
+        clearTimeout(clickTimerRef.current);
+        clickTimerRef.current = null;
+      }
+      onCut?.(driver.carIdx);
+    }, [hasStaging, onCut, driver.carIdx]);
+
+    const handleKeyDown = useCallback(
+      (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (hasStaging) {
+            if (isStaged) {
+              onStage?.(null);
+            } else {
+              onStage?.(driver.carIdx);
+            }
+          } else {
+            onFocusDriver(driver.driver.carNum);
+          }
+        }
+      },
+      [
+        hasStaging,
+        isStaged,
+        onStage,
+        onFocusDriver,
+        driver.carIdx,
+        driver.driver.carNum,
+      ]
+    );
+
+    const rowTitle = hasStaging
+      ? `Click to stage as next · Double-click to cut to ${driver.driver.name}`
+      : `Click to point the sim camera at ${driver.driver.name} (works in a replay or while spectating)`;
+
     return (
       <div
         ref={isFollowed ? followedRef : undefined}
         role="button"
         tabIndex={0}
-        title={`Click to point the sim camera at ${driver.driver.name} (works in a replay or while spectating)`}
-        onClick={() => onFocusDriver(driver.driver.carNum)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onFocusDriver(driver.driver.carNum);
-          }
-        }}
+        title={rowTitle}
+        onClick={handleClick}
+        onDoubleClick={handleDoubleClick}
+        onKeyDown={handleKeyDown}
         style={
           isFollowed
             ? ({ '--tw-ring-color': highlightColorHex } as React.CSSProperties)
@@ -306,9 +395,13 @@ const GantryDriverRow = memo(
         className={[
           'flex h-6 items-center border-b border-slate-700/55 px-2 text-sm tabular-nums transition-opacity duration-150',
           'cursor-pointer focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent-400',
-          isPlayer
-            ? 'bg-yellow-500/20 text-amber-300 hover:bg-yellow-500/30'
-            : 'hover:bg-slate-800',
+          isOnCam
+            ? 'bg-red-900/20 hover:bg-red-900/30'
+            : isStaged
+              ? 'bg-amber-900/20 hover:bg-amber-900/30'
+              : isPlayer
+                ? 'bg-yellow-500/20 text-amber-300 hover:bg-yellow-500/30'
+                : 'hover:bg-slate-800',
           isFollowed ? 'ring-1 relative z-10' : '',
           followedCarIdx !== null && !isFollowed ? 'opacity-40' : '',
           followedCarIdx === null && !driver.onTrack ? 'opacity-60' : '',
@@ -328,16 +421,29 @@ const GantryDriverRow = memo(
         >
           #{driver.driver.carNum}
         </span>
-        {/* Driver Name */}
-        <span className={COL.name}>{displayName}</span>
+        {/* Driver Name + badges */}
+        <span
+          className={`${COL.name} flex items-center gap-1.5 overflow-hidden`}
+        >
+          <span className="truncate">{displayName}</span>
+          {isOnCam && (
+            <span className="shrink-0 px-1 rounded border border-red-700 text-red-400 text-[9px] font-semibold uppercase tracking-wide leading-4">
+              On cam
+            </span>
+          )}
+          {isStaged && (
+            <span className="shrink-0 px-1 rounded border border-amber-500 text-amber-400 text-[9px] font-semibold uppercase tracking-wide leading-4">
+              Next
+            </span>
+          )}
+        </span>
         {/* Tyre */}
         <span className={`${COL.compound} flex items-center justify-center`}>
           {driver.tireCompound !== undefined && driver.carId !== undefined && (
             <Compound tireCompound={driver.tireCompound} />
           )}
         </span>
-        {/* iR -- empty under a sim with no rating system; the column keeps
-            its width so the rows below stay aligned. */}
+        {/* iR */}
         <span
           className={`${COL.rating} flex items-center justify-end text-xs text-slate-300`}
         >
