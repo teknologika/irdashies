@@ -11,6 +11,7 @@ import type { ReplayContextSnapshot } from './replayContext';
 import type { ReplayTimecodeSnapshot } from './replayTimecode';
 import type { RacePlanProgressSnapshot } from './racePlanProgress';
 import type { PitStopsSnapshot } from './pitStops';
+import type { ReplayRebuildSnapshot } from './replayRebuild';
 import type { PitLaneCalibration } from '../pitLane';
 
 export type SessionLifecycleEvent =
@@ -54,6 +55,7 @@ export interface ChannelPayloads {
   'race-plan.progress': RacePlanProgressSnapshot;
   'pit-stops.snapshot': PitStopsSnapshot;
   'camera.state': CameraStateSnapshot;
+  'replay.rebuild': ReplayRebuildSnapshot;
 }
 
 export interface TrackStateSnapshot {
@@ -862,6 +864,12 @@ export const channelRegistry = {
     kind: 'snapshot',
     defaultRateHz: 5,
     maxRateHz: 10,
+  },
+  // Rebuild progress published at ~2 Hz; idle state has negligible traffic.
+  'replay.rebuild': {
+    kind: 'snapshot',
+    defaultRateHz: 2,
+    maxRateHz: 4,
   },
 } as const satisfies ChannelRegistry;
 

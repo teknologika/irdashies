@@ -43,4 +43,5 @@ export * from './TrackTemperatureStore/TrackTemperatureStoreUpdater';
 
 export { useNativeWindowVisibility } from './shared/useNativeWindowVisibility';
 export * from './ReplayTimecodeStore';
+export * from './ReplayRebuildStore';
 export * from './CameraStateStore';

@@ -11,9 +11,10 @@ export type ReplayMode = 'live' | 'spectating' | 'replayFile';
  * - `archived`: irDashies recorded this event on this PC.
  * - `localNotArchived`: this PC's user recorded it, but nothing was archived.
  * - `foreign`: the replay came from another computer.
+ * - `reconstructed`: the event log was rebuilt from this replay file.
  */
 export type ReplayProvenance =
-  'none' | 'archived' | 'localNotArchived' | 'foreign';
+  'none' | 'archived' | 'localNotArchived' | 'foreign' | 'reconstructed';
 
 export interface ReplayContextSnapshot {
   mode: ReplayMode;

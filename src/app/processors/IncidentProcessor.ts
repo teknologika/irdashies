@@ -13,7 +13,7 @@ function parseTrackLengthM(str: string): number {
   return parseFloat(str) * 1000;
 }
 
-const defaultThresholds: IncidentThresholds = {
+export const defaultIncidentThresholds: IncidentThresholds = {
   slowSpeedThreshold: 15,
   slowDurationSeconds: 1,
   impactDecelKmhPerSec: 150,
@@ -23,9 +23,15 @@ const defaultThresholds: IncidentThresholds = {
   cooldownSeconds: 5,
 };
 
+const defaultThresholds = defaultIncidentThresholds;
+
 export interface IncidentProcessorOptions {
   thresholds?: IncidentThresholds;
   isDev?: boolean;
+  /** Pass true for pass-1 rebuild sweeps: skip position-derived deceleration
+   *  detection, which needs ~30 samples per race-second and is unreliable at
+   *  speeds above 2x. SuspicionScanner finds the windows; pass 2 confirms. */
+  skipImpactDetection?: boolean;
 }
 
 export class IncidentProcessor implements TelemetryProcessor<Incident[]> {
@@ -44,10 +50,13 @@ export class IncidentProcessor implements TelemetryProcessor<Incident[]> {
   private rewound = false;
 
   constructor(options: IncidentProcessorOptions = {}) {
-    this.detector = new IncidentDetector(
-      options.thresholds ?? defaultThresholds,
-      options.isDev ?? false
-    );
+    const thresholds = options.skipImpactDetection
+      ? {
+          ...(options.thresholds ?? defaultThresholds),
+          impactDecelKmhPerSec: Infinity,
+        }
+      : (options.thresholds ?? defaultThresholds);
+    this.detector = new IncidentDetector(thresholds, options.isDev ?? false);
     this.detector.onIncident((incident) => {
       this.emittedThisFrame.push(incident);
     });

@@ -14,6 +14,11 @@ export interface ArchiveIndex {
   has(subSessionId: string): Promise<number[]>;
 }
 
+export interface RebuildIndex {
+  /** True when a completed rebuild record exists for the SubSessionID. */
+  has(subSessionId: string): Promise<boolean>;
+}
+
 export interface KnownUserIds {
   has(userId: number): boolean;
 }
@@ -88,6 +93,7 @@ export class ReplayContextProcessor implements TelemetryProcessor<
   private subSessionId = '';
   private userId: number | null = null;
   private archived: number[] = [];
+  private rebuilt = false;
   private lookupPending = false;
   /** Bumped per identity change so a late lookup cannot land on a new replay. */
   private lookupToken = 0;
@@ -98,7 +104,8 @@ export class ReplayContextProcessor implements TelemetryProcessor<
 
   constructor(
     private readonly archive: ArchiveIndex,
-    private readonly knownUserIds: KnownUserIds
+    private readonly knownUserIds: KnownUserIds,
+    private readonly rebuildIndex?: RebuildIndex
   ) {}
 
   init(session: Session): void {
@@ -128,6 +135,7 @@ export class ReplayContextProcessor implements TelemetryProcessor<
     this.subSessionId = '';
     this.userId = null;
     this.archived = [];
+    this.rebuilt = false;
     this.lookupPending = false;
     this.lookupToken += 1;
     this.update();
@@ -157,32 +165,41 @@ export class ReplayContextProcessor implements TelemetryProcessor<
   private startLookup(): void {
     this.lookupToken += 1;
     this.archived = [];
+    this.rebuilt = false;
     this.lookupPending = false;
     if (this.mode() !== 'replayFile') return;
     if (!isArchivableSubSessionId(this.subSessionId)) return;
 
     const token = this.lookupToken;
     this.lookupPending = true;
-    this.archive
-      .has(this.subSessionId)
-      .catch((err: unknown) => {
+    const rebuildIndex = this.rebuildIndex;
+    Promise.all([
+      this.archive.has(this.subSessionId).catch((err: unknown) => {
         logger.warn('[ReplayContext] Archive lookup failed:', err);
         return [] as number[];
-      })
-      .then((sessionNums) => {
-        if (token !== this.lookupToken) return;
-        this.lookupPending = false;
-        this.archived = toSessionNums(
-          Array.isArray(sessionNums) ? sessionNums : []
-        );
-        this.update();
-      });
+      }),
+      rebuildIndex
+        ? rebuildIndex.has(this.subSessionId).catch((err: unknown) => {
+            logger.warn('[ReplayContext] Rebuild lookup failed:', err);
+            return false;
+          })
+        : Promise.resolve(false),
+    ]).then(([sessionNums, rebuilt]) => {
+      if (token !== this.lookupToken) return;
+      this.lookupPending = false;
+      this.archived = toSessionNums(
+        Array.isArray(sessionNums) ? sessionNums : []
+      );
+      this.rebuilt = rebuilt;
+      this.update();
+    });
   }
 
   private provenance(mode: ReplayMode): ReplayProvenance {
     if (mode !== 'replayFile') return 'none';
     if (this.lookupPending) return 'none';
     if (this.archived.length > 0) return 'archived';
+    if (this.rebuilt) return 'reconstructed';
     return this.userId !== null && this.knownUserIds.has(this.userId)
       ? 'localNotArchived'
       : 'foreign';

@@ -47,5 +47,6 @@ declare global {
     racePlanBridge?: import('./types/racePlan').RacePlanBridge;
     replayDirectorBridge?: import('./types/replayDirector').ReplayDirectorBridge;
     broadcastCameraBridge?: import('./types/broadcastCamera').BroadcastCameraBridge;
+    replayRebuildBridge?: import('./types/replayRebuild').ReplayRebuildBridge;
   }
 }

@@ -21,6 +21,7 @@ import {
   useCameraStateUpdater,
   useRaceControlBridge,
   useReplayContextUpdater,
+  useReplayRebuildUpdater,
   useReplayTimecodeUpdater,
   useRunningState,
   useSessionDrivers,
@@ -71,6 +72,7 @@ const GantryInner = memo(({ dock, standings }: GantryProps) => {
 
   useReplayContextUpdater();
   useReplayTimecodeUpdater();
+  useReplayRebuildUpdater();
   useCameraStateUpdater();
   useRaceControlBridge(); // subscribe to incidents on mount
 

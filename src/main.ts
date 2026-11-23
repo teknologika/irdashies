@@ -104,9 +104,18 @@ import { ReplayContextRuntime } from './app/processors/replayContextRuntime';
 import { ReplayDirectorRuntime } from './app/processors/replayDirectorRuntime';
 import { setupReplayDirectorBridge } from './app/bridge/replayDirectorBridge';
 import { setupBroadcastCameraBridge } from './app/bridge/broadcastCameraBridge';
+import { ReplayRebuildRuntime } from './app/processors/replayRebuildRuntime';
+import { setupReplayRebuildBridge } from './app/bridge/replayRebuildBridge';
+import {
+  saveRebuildRecord,
+  createRebuildIndex,
+} from './app/storage/replayRebuilds';
 import { setupTapeReplayBridge } from './app/bridge/tapeReplayBridge';
 import { createTapeReplayWindow } from './app/tapeReplayWindow';
-import type { ArchiveIndex } from './app/processors/ReplayContextProcessor';
+import type {
+  ArchiveIndex,
+  RebuildIndex,
+} from './app/processors/ReplayContextProcessor';
 import { flushRadarPoleSideOverrides } from './app/storage/radarPoleSideOverrides';
 import { createKnownLocalUserIdStore } from './app/storage/knownLocalUserIds';
 import { setupLapHistoryBridge } from './app/bridge/lapHistoryBridge';
@@ -378,7 +387,8 @@ function setupPitStopRuntime(
  * ids are remembered.
  */
 function setupReplayContextRuntime(
-  initialDashboard: DashboardLayout
+  initialDashboard: DashboardLayout,
+  rebuildIndex?: RebuildIndex
 ): ReplayContextRuntime {
   const runtime = new ReplayContextRuntime(
     channelBus,
@@ -392,7 +402,8 @@ function setupReplayContextRuntime(
         !process.env.IRDASHIES_TELEMETRY_REPLAY &&
         !process.env.IRDASHIES_LMU_REPLAY &&
         process.env.IRDASHIES_IRSDK_REPLAY !== '1',
-    }
+    },
+    rebuildIndex
   );
 
   let readFrames = false;
@@ -541,7 +552,11 @@ void app.whenReady().then(async () => {
   setupChromiumFlagsBridge();
   racePlan = setupRacePlanBridge();
   ipcMain.handle('widgetVisibility:getHidden', () => getHiddenWidgets());
-  const replayContextRuntime = setupReplayContextRuntime(dashboard);
+  const rebuildIndex = createRebuildIndex();
+  const replayContextRuntime = setupReplayContextRuntime(
+    dashboard,
+    rebuildIndex
+  );
   const incidents = new IncidentRuntime(
     channelBus,
     getSessionLifecycle(),
@@ -566,6 +581,22 @@ void app.whenReady().then(async () => {
   );
   setupLapHistoryRuntime(dashboard, replayContextRuntime);
   setupPitStopRuntime(dashboard, replayContextRuntime);
+  const replayRebuildRuntime = new ReplayRebuildRuntime(
+    channelBus,
+    () => getCurrentBridge(),
+    incidentPersistence,
+    lapHistoryPersistence,
+    pitStopPersistence,
+    async (record) => {
+      await saveRebuildRecord(record);
+    },
+    () => replayContextRuntime.refresh()
+  );
+  followTelemetrySource(
+    (session) => replayRebuildRuntime.onSession(session),
+    (telemetry) => replayRebuildRuntime.onFrame(telemetry)
+  );
+  setupReplayRebuildBridge(replayRebuildRuntime);
   disposeStreamChat = setupStreamChat(channelBus, listDashboards);
   // Returns false when the Gantry widget is disabled, so Settings can explain
   // why the button did nothing instead of appearing to be broken.

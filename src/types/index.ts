@@ -48,6 +48,7 @@ export * from './releaseNotesFixture';
 export * from './tapeReplay';
 export * from './radarPoleSideSettings';
 export * from './streamChat';
+export * from './replayRebuild';
 export * from './storageStatus';
 export * from './racePlan';
 export * from './timecode';

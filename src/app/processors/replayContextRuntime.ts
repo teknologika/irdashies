@@ -10,6 +10,7 @@ import {
   detectReplayMode,
   type ArchiveIndex,
   type KnownUserIds,
+  type RebuildIndex,
 } from './ReplayContextProcessor';
 import logger from '../logger';
 import type { PerformanceSections } from '../perfMetrics';
@@ -49,9 +50,14 @@ export class ReplayContextRuntime {
     private readonly metrics: PerformanceSections,
     archive: ArchiveIndex,
     private readonly knownUserIds: KnownUserIdRecorder,
-    private readonly options: ReplayContextRuntimeOptions
+    private readonly options: ReplayContextRuntimeOptions,
+    rebuildIndex?: RebuildIndex
   ) {
-    this.processor = new ReplayContextProcessor(archive, knownUserIds);
+    this.processor = new ReplayContextProcessor(
+      archive,
+      knownUserIds,
+      rebuildIndex
+    );
     this.disconnects = [
       this.processor.onChange((snapshot) => this.onChanged(snapshot)),
       lifecycle.onEnter((event) =>
@@ -97,11 +103,20 @@ export class ReplayContextRuntime {
   /** False while a replay file is loaded that irDashies did not record. */
   canReadArchive(): boolean {
     const { mode, provenance } = this.processor.snapshot();
-    return mode !== 'replayFile' || provenance === 'archived';
+    return (
+      mode !== 'replayFile' ||
+      provenance === 'archived' ||
+      provenance === 'reconstructed'
+    );
   }
 
   isReplayFile(): boolean {
     return this.processor.snapshot().mode === 'replayFile';
+  }
+
+  /** Re-evaluates provenance, e.g. after a rebuild record is written. */
+  refresh(): void {
+    this.processor.refresh();
   }
 
   onChange(cb: (snapshot: ReplayContextSnapshot) => void): () => void {

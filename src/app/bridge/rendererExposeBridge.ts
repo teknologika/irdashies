@@ -54,6 +54,7 @@ import type {
   TapeReplayBridge,
   ReplayDirectorBridge,
   BroadcastCameraBridge,
+  ReplayRebuildBridge,
 } from '@irdashies/types';
 // The module itself, not the barrel: preload needs this one list, not every
 // default the types package exports.
@@ -558,5 +559,11 @@ export function exposeBridge() {
       ipcRenderer.invoke('broadcastCamera:switch', focus, groupNumber),
     setStateFlags: (flags) =>
       ipcRenderer.invoke('broadcastCamera:setStateFlags', flags),
+  });
+  defineBridge<ReplayRebuildBridge>('replayRebuildBridge', {
+    start: (sessionNums: number[]) =>
+      ipcRenderer.invoke('replayRebuild:start', sessionNums),
+    resume: () => ipcRenderer.invoke('replayRebuild:resume'),
+    cancel: () => ipcRenderer.invoke('replayRebuild:cancel'),
   });
 }

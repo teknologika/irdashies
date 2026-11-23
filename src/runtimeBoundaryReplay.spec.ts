@@ -36,6 +36,7 @@ type RuntimeOwnedChannelName =
   | 'pit-stops.snapshot'
   | 'replay.context'
   | 'replay.timecode'
+  | 'replay.rebuild'
   | 'streamchat.messages'
   | 'streamchat.emotes';
 type SnapshotChannelName = Exclude<
